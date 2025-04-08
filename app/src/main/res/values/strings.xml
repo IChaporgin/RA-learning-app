@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">RA learning app</string>
-    <string name="button_category">категории</string>
-    <string name="favorite_button">избранное</string>
+    <string name="category_text">категории</string>
+    <string name="favorite_text">избранное</string>
 </resources>
