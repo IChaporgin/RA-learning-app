@@ -23,7 +23,7 @@
         <Button
             android:id="@+id/btnCategory"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             style="@style/StyleNavButton"
             android:backgroundTint="@color/category_button_color"
@@ -36,7 +36,7 @@
         <Button
             android:id="@+id/btnFavorite"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/favorite_button_color"
             style="@style/StyleNavButton"
