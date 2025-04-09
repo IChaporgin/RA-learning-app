@@ -24,6 +24,8 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
         android:layout_marginStart="@dimen/main_margin"
         android:layout_marginEnd="@dimen/main_margin"
         android:layout_marginBottom="@dimen/main_margin_half"
@@ -34,34 +36,28 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/button_category"
-            style="@style/StyleNavButton"
+            android:id="@+id/btnCategory"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:minHeight="48dp"
-            android:autoSizeTextType="uniform"
-            android:autoSizeMinTextSize="10sp"
-            android:autoSizeMaxTextSize="18sp"
-            android:autoSizeStepGranularity="1sp"
-            android:backgroundTint="@color/blue_button"
-            android:text="@string/button_category" />
+            style="@style/StyleNavButton"
+            android:backgroundTint="@color/category_button_color"
+            android:text="@string/category_text"/>
+
+        <Space
+            android:layout_width="4dp"
+            android:layout_height="match_parent"/>
 
         <Button
-            android:id="@+id/button_favorite"
-            style="@style/StyleNavButton"
+            android:id="@+id/btnFavorite"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/main_margin_half"
             android:layout_weight="1"
-            android:minHeight="48dp"
-            android:autoSizeTextType="uniform"
-            android:autoSizeMinTextSize="10sp"
-            android:autoSizeMaxTextSize="18sp"
-            android:autoSizeStepGranularity="1sp"
-            android:backgroundTint="@color/red_button"
-            android:text="@string/favorite_button"
+            android:backgroundTint="@color/favorite_button_color"
+            style="@style/StyleNavButton"
+            android:text="@string/favorite_text"
             app:icon="@drawable/ic_heart_empty"
-            app:iconGravity="textEnd" />
+            app:iconGravity="textEnd"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
