@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import ru.ichaporgin.ralearningapp.databinding.FragmentListCategoriesBinding
 import ru.ichaporgin.ralearningapp.databinding.FragmentListFavoritesBinding
 
 class FavoritesListFragment: Fragment() {
