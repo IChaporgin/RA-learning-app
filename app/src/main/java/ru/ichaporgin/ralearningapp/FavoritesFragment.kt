@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import ru.ichaporgin.ralearningapp.databinding.FragmentListFavoritesBinding
+import ru.ichaporgin.ralearningapp.databinding.FragmentFavoritesBinding
 
-class FavoritesListFragment: Fragment() {
-    private var _binding : FragmentListFavoritesBinding? = null
+class FavoritesFragment: Fragment() {
+    private var _binding : FragmentFavoritesBinding? = null
     private val binding
         get() = _binding ?: throw IllegalStateException("Binding for ActivityMainBinding must not to be null")
 
@@ -17,7 +17,7 @@ class FavoritesListFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentListFavoritesBinding.inflate(inflater, container, false)
+        _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
         return binding.root
     }
     override fun onDestroyView() {

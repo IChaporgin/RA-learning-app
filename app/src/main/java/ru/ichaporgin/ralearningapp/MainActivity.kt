@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnFavorite.setOnClickListener {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.mainContainer, FavoritesListFragment())
+                .replace(R.id.mainContainer, FavoritesFragment())
                 .commit()
         }
 
