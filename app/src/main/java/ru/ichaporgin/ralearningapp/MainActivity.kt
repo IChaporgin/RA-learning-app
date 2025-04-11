@@ -23,6 +23,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        binding.btnCategory.setOnClickListener {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.mainContainer, CategoriesListFragment())
+                .commit()
+        }
+
         binding.btnFavorite.setOnClickListener {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.mainContainer, FavoritesListFragment())
