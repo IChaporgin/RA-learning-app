@@ -9,10 +9,26 @@
     android:background="@color/background_color"
     tools:systemBars="true">
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/mainContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/main_margin_half"
+        android:layout_marginStart="@dimen/main_margin"
+        android:layout_marginEnd="@dimen/main_margin"
+        android:layout_marginTop="@dimen/main_margin"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:weightSum="2"
         android:layout_marginStart="@dimen/main_margin"
         android:layout_marginEnd="@dimen/main_margin"
         android:layout_marginBottom="@dimen/main_margin_half"
@@ -37,6 +53,7 @@
             android:id="@+id/btnFavorite"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/main_margin_half"
             android:layout_weight="1"
             android:backgroundTint="@color/favorite_button_color"
             style="@style/StyleNavButton"
