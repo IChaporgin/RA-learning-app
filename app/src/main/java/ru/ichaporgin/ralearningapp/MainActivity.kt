@@ -1,22 +1,28 @@
 package ru.ichaporgin.ralearningapp
 
 import android.os.Bundle
+import android.widget.FrameLayout
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
+import androidx.fragment.app.commit
 import ru.ichaporgin.ralearningapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+    private var _binding : ActivityMainBinding? = null
+    private val binding
+        get() = _binding ?: throw IllegalStateException("Binding for ActivityMainBinding must not to be null")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnCategory.setOnClickListener {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.mainContainer, CategoriesFragment())
-                .commit()
+        if (savedInstanceState == null) {
+            supportFragmentManager.commit {
+                add(R.id.mainContainer, CategoriesListFragment())
+            }
         }
 
         binding.btnFavorite.setOnClickListener {
