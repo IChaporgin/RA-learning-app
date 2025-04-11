@@ -23,6 +23,19 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        binding.btnCategory.setOnClickListener {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.mainContainer, CategoriesListFragment())
+                .commit()
+        }
+
+        binding.btnFavorite.setOnClickListener {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.mainContainer, FavoritesFragment())
+                .commit()
+        }
+
+
         WindowCompat.setDecorFitsSystemWindows(window, true)
         window.statusBarColor = ContextCompat.getColor(this, R.color.background_color)
         window.navigationBarColor = ContextCompat.getColor(this, R.color.background_color)
