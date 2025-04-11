@@ -1,8 +1,6 @@
 package ru.ichaporgin.ralearningapp
 
 import android.os.Bundle
-import android.widget.FrameLayout
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
@@ -27,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnFavorite.setOnClickListener {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.mainContainer, FavoritesFragment())
+                .replace(R.id.mainContainer, FavoritesListFragment())
                 .commit()
         }
 
