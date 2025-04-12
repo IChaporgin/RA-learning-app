@@ -10,7 +10,7 @@ import ru.ichaporgin.ralearningapp.databinding.FragmentListCategoriesBinding
 class CategoriesListFragment: Fragment() {
     private var _binding : FragmentListCategoriesBinding? = null
     private val binding
-        get() = _binding ?: throw IllegalStateException("Binding for ActivityMainBinding must not to be null")
+        get() = _binding ?: throw IllegalStateException("Binding for FragmentListCategoriesBinding must not to be null")
 
     override fun onCreateView(
         inflater: LayoutInflater,

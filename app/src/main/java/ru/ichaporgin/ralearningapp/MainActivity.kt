@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import ru.ichaporgin.ralearningapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -20,19 +21,22 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
                 add(R.id.mainContainer, CategoriesListFragment())
+                setReorderingAllowed(true)
             }
         }
 
         binding.btnCategory.setOnClickListener {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.mainContainer, CategoriesListFragment())
-                .commit()
+            supportFragmentManager.commit {
+                replace<CategoriesListFragment>(R.id.mainContainer)
+                setReorderingAllowed(true)
+            }
         }
 
         binding.btnFavorite.setOnClickListener {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.mainContainer, FavoritesFragment())
-                .commit()
+            supportFragmentManager.commit {
+                replace<FavoritesFragment>(R.id.mainContainer)
+                setReorderingAllowed(true)
+            }
         }
 
 

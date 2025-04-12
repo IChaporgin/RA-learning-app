@@ -10,7 +10,7 @@ import ru.ichaporgin.ralearningapp.databinding.FragmentFavoritesBinding
 class FavoritesFragment: Fragment() {
     private var _binding : FragmentFavoritesBinding? = null
     private val binding
-        get() = _binding ?: throw IllegalStateException("Binding for ActivityMainBinding must not to be null")
+        get() = _binding ?: throw IllegalStateException("Binding for FragmentFavoritesBinding must not to be null")
 
     override fun onCreateView(
         inflater: LayoutInflater,
