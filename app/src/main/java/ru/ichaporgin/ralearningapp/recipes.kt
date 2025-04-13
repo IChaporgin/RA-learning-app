@@ -40,5 +40,5 @@ object STUB {
         )
     )
 
-    fun getCategories(): List<Category> = categories.toList()
+    fun getCategories(): List<Category> = categories
 }

@@ -20,6 +20,12 @@ class CategoriesListFragment: Fragment() {
         _binding = FragmentListCategoriesBinding.inflate(inflater, container, false)
         return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
