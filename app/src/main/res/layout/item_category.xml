@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cardItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_constraintStart_toStartOf="parent"
+    app:cardCornerRadius="@dimen/corner_radius"
+    android:layout_marginStart="@dimen/main_margin"
+    android:layout_marginTop="@dimen/main_margin"
+    android:layout_marginEnd="@dimen/main_margin"
+    android:clickable="true"
+    android:background="?attr/selectableItemBackgroundBorderless"
+    android:layout_marginHorizontal="@dimen/main_margin_half"
+    android:layout_marginVertical="@dimen/main_margin">
+
+</androidx.cardview.widget.CardView>
