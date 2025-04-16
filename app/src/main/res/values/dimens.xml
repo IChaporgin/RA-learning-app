@@ -6,4 +6,9 @@
     <dimen name="button_text_size">14sp</dimen>
     <dimen name="header_text_size">20sp</dimen>
     <dimen name="header_image_height">224dp</dimen>
+    <dimen name="description_item_text_size">12sp</dimen>
+    <dimen name="item_category_height">220dp</dimen>
+    <dimen name="item_category_width">156dp</dimen>
+    <dimen name="header_text_width">149dp</dimen>
+    <dimen name="header_text_height">44dp</dimen>
 </resources>
