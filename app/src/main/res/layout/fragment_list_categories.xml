@@ -5,7 +5,7 @@
     android:id="@+id/list_category"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color"
+    android:backgroundTint="@color/background_color"
     android:contentDescription="@string/category_list"
     android:orientation="vertical">
 
@@ -25,8 +25,8 @@
 
         <TextView
             style="@style/HeaderTextStyle"
-            android:layout_width="@dimen/header_text_width"
-            android:layout_height="@dimen/header_text_height"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/main_margin"
             android:layout_marginBottom="@dimen/main_margin"
             android:background="@drawable/shape_header_title"
@@ -46,5 +46,6 @@
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
         tools:itemCount="6"
-        tools:listitem="@layout/item_category" />
+        tools:listitem="@layout/item_category"
+        android:contentDescription="@string/category_list"/>
 </LinearLayout>

@@ -4,52 +4,47 @@
     android:id="@+id/cardItem"
     android:layout_width="@dimen/item_category_width"
     android:layout_height="@dimen/item_category_height"
-    app:cardCornerRadius="@dimen/corner_radius"
+    android:layout_marginHorizontal="@dimen/main_margin_half"
+    android:layout_marginVertical="@dimen/main_margin_half"
     android:clickable="true"
+    android:contentDescription="@string/category_list"
+    app:cardCornerRadius="@dimen/corner_radius"
     app:layout_constraintStart_toStartOf="parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/shape_item_category">
+        android:background="@drawable/shape_item_category"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/imgItemCategory"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_weight="1"
             android:contentDescription="@string/category_list"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toTopOf="@+id/textItemCategoryName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/burger" />
 
         <TextView
             android:id="@+id/textItemCategoryName"
             style="@style/HeaderTextStyle"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/main_margin_half"
+            android:layout_marginHorizontal="@dimen/main_margin_half"
             android:layout_marginTop="@dimen/main_margin_half"
-            android:layout_marginEnd="@dimen/main_margin_half"
-            app:layout_constraintBottom_toTopOf="@+id/textItemCategoryDescription"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imgItemCategory"
             tools:text="Бургеры" />
 
         <TextView
             android:id="@+id/textItemCategoryDescription"
             style="@style/StyleItemCategoryDescription"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/main_margin_half"
-            android:layout_marginBottom="@dimen/main_margin_half"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginVertical="@dimen/main_margin_half"
             tools:text="Рецепты всех популярных видов бургеров" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>
