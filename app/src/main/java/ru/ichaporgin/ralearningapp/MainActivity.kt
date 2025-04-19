@@ -9,9 +9,10 @@ import androidx.fragment.app.replace
 import ru.ichaporgin.ralearningapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    private var _binding : ActivityMainBinding? = null
+    private var _binding: ActivityMainBinding? = null
     private val binding
-        get() = _binding ?: throw IllegalStateException("Binding for ActivityMainBinding must not to be null")
+        get() = _binding
+            ?: throw IllegalStateException("Binding for ActivityMainBinding must not to be null")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
