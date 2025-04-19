@@ -2,13 +2,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardItem"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="@dimen/item_category_height"
     android:layout_marginHorizontal="@dimen/main_margin_half"
     android:layout_marginTop="@dimen/main_margin"
     android:clickable="true"
     android:contentDescription="@string/category_list"
+    android:contextClickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
     app:cardCornerRadius="@dimen/corner_radius"
+    app:cardElevation="4dp"
     app:layout_constraintStart_toStartOf="parent">
 
     <LinearLayout
@@ -21,6 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:contentDescription="@string/category_image"
             android:scaleType="centerCrop"
             tools:src="@drawable/burger" />
 
