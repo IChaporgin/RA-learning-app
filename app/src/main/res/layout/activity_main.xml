@@ -6,14 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
+    android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/mainContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="@dimen/main_margin"
-        android:layout_marginEnd="@dimen/main_margin"
         android:layout_marginBottom="@dimen/main_margin_half"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
