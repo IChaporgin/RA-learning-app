@@ -2,4 +2,6 @@
     <string name="app_name">RA learning app</string>
     <string name="category_text">категории</string>
     <string name="favorite_text">избранное</string>
+    <string name="category_list">список категорий</string>
+    <string name="category_image">изображение списка категорий</string>
 </resources>

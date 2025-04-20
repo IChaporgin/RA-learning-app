@@ -1,0 +1,50 @@
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardItem"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/item_category_height"
+    android:layout_marginHorizontal="@dimen/main_margin_half"
+    android:layout_marginTop="@dimen/main_margin"
+    android:clickable="true"
+    android:contentDescription="@string/category_list"
+    app:cardCornerRadius="@dimen/corner_radius"
+    app:layout_constraintStart_toStartOf="parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imgItemCategory"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/burger"
+            android:contentDescription="@string/category_image"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/main_margin_half">
+
+            <TextView
+                android:id="@+id/textItemCategoryName"
+                style="@style/HeaderTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Бургеры" />
+
+            <TextView
+                android:id="@+id/textItemCategoryDescription"
+                style="@style/StyleItemCategoryDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Рецепты всех популярных видов бургеров" />
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
