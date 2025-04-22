@@ -13,6 +13,12 @@
         <item name="fontFamily">@font/montserrat_medium</item>
         <item name="android:textColor">@color/item_category_description</item>
     </style>
+    <style name="StyleItemCategoryTitle" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/montserrat_alternates_semibold</item>
+        <item name="android:textSize">@dimen/title_item_text_size</item>
+        <item name="android:textColor">@color/header_text_color</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
 
 
     <style name="StyleNavButton" parent="Widget.Material3.Button">

@@ -1,39 +1,45 @@
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ru.ichaporgin.ralearningapp.Category
 import ru.ichaporgin.ralearningapp.R
+import ru.ichaporgin.ralearningapp.databinding.ItemCategoryBinding
 import java.io.InputStream
 
 class CategoriesListAdapter(private val dataSet: List<Category>) :
     RecyclerView.Adapter<CategoriesListAdapter.ViewHolder>() {
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var imageView: ImageView = view.findViewById(R.id.imgItemCategory)
-        var textItemView: TextView = view.findViewById(R.id.textItemCategoryName)
-        var descriptionItemView: TextView = view.findViewById(R.id.textItemCategoryDescription)
-    }
+    class ViewHolder(var binding: ItemCategoryBinding) : RecyclerView.ViewHolder(binding.root)
 
     // Create new views (invoked by the layout manager)
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        val inflater = LayoutInflater.from(viewGroup.context)
-        val view = inflater.inflate(R.layout.item_category, viewGroup, false)
-        return ViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val binding =
+            ItemCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
     }
 
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        val category: Category = dataSet[position]
-        viewHolder.textItemView.text = category.title
-        viewHolder.descriptionItemView.text = category.description
-        val inputStream: InputStream = viewHolder.imageView.context.assets.open(category.imageUrl)
-        val drawable = Drawable.createFromStream(inputStream, null)
-        viewHolder.imageView.setImageDrawable(drawable)
-
+        try {
+            val category: Category = dataSet[position]
+            with(viewHolder.binding) {
+                textItemCategoryName.text = category.title
+                textItemCategoryDescription.text = category.description
+                try {
+                    val inputStream: InputStream = root.context.assets.open(category.imageUrl)
+                    val drawable = Drawable.createFromStream(inputStream, null)
+                    imgItemCategory.setImageDrawable(drawable)
+                    imgItemCategory.contentDescription = viewHolder.itemView.context.getString(R.string.category_image_description, category.title)
+                } catch (e: Exception) {
+                    Log.e("!!!", "Load image error ${category.imageUrl}", e)
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("!!!", "File error!!!", e)
+        }
+        viewHolder.binding.imgItemCategory
     }
 
     override fun getItemCount() = dataSet.size
