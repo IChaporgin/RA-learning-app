@@ -2,12 +2,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardItem"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="@dimen/item_category_height"
     android:layout_marginHorizontal="@dimen/main_margin_half"
     android:layout_marginTop="@dimen/main_margin"
     android:clickable="true"
-    android:contentDescription="@string/category_list"
+    android:focusable="true"
+    android:foreground="?selectableItemBackground"
     app:cardCornerRadius="@dimen/corner_radius"
     app:layout_constraintStart_toStartOf="parent">
 
@@ -20,31 +21,28 @@
             android:id="@+id/imgItemCategory"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="0.6"
+            android:contentDescription="@string/category_image_description"
             android:scaleType="centerCrop"
-            tools:src="@drawable/burger"
-            android:contentDescription="@string/category_image"/>
+            tools:src="@drawable/burger" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/textItemCategoryName"
+            style="@style/StyleItemCategoryTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/main_margin_half">
+            android:paddingHorizontal="@dimen/main_margin_half"
+            android:paddingTop="@dimen/main_margin_half"
+            tools:text="Бургеры" />
 
-            <TextView
-                android:id="@+id/textItemCategoryName"
-                style="@style/HeaderTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:text="Бургеры" />
-
-            <TextView
-                android:id="@+id/textItemCategoryDescription"
-                style="@style/StyleItemCategoryDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:text="Рецепты всех популярных видов бургеров" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/textItemCategoryDescription"
+            style="@style/StyleItemCategoryDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/main_margin_half"
+            android:paddingVertical="@dimen/main_margin_half"
+            tools:text="Рецепты всех популярных видов бургеров" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

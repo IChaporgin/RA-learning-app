@@ -11,4 +11,5 @@
     <dimen name="item_category_width">156dp</dimen>
     <dimen name="header_text_width">149dp</dimen>
     <dimen name="header_text_height">44dp</dimen>
+    <dimen name="title_item_text_size">16sp</dimen>
 </resources>
