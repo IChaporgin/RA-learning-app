@@ -27,21 +27,31 @@ class CategoriesListAdapter(private val dataSet: List<Category>) :
             with(viewHolder.binding) {
                 textItemCategoryName.text = category.title
                 textItemCategoryDescription.text = category.description
-                try {
-                    val inputStream: InputStream = root.context.assets.open(category.imageUrl)
-                    val drawable = Drawable.createFromStream(inputStream, null)
-                    imgItemCategory.setImageDrawable(drawable)
-                    imgItemCategory.contentDescription = viewHolder.itemView.context.getString(R.string.category_image_description, category.title)
-                } catch (e: Exception) {
-                    Log.e("!!!", "Load image error ${category.imageUrl}", e)
-                }
+                loadCategoryImage(category.imageUrl, viewHolder)
+                imgItemCategory.contentDescription =
+                    viewHolder.itemView.context.getString(
+                        R.string.category_image_description,
+                        category.title
+                    )
             }
         } catch (e: Exception) {
             Log.e("!!!", "File error!!!", e)
         }
+
         viewHolder.binding.imgItemCategory
+
     }
 
     override fun getItemCount() = dataSet.size
-
+    private fun loadCategoryImage(imageUrl: String, viewHolder: ViewHolder) {
+        try {
+            val inputStream: InputStream = viewHolder.itemView.context.assets.open(imageUrl)
+            val drawable = Drawable.createFromStream(inputStream, null)
+            with(viewHolder.binding) {
+                imgItemCategory.setImageDrawable(drawable)
+            }
+        } catch (e: Exception) {
+            Log.e("!!!", "Load image error: $imageUrl", e)
+        }
+    }
 }
