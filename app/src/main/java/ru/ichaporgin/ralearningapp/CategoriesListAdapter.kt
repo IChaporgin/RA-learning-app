@@ -10,8 +10,16 @@ import java.io.InputStream
 
 class CategoriesListAdapter(private val dataSet: List<Category>) :
     RecyclerView.Adapter<CategoriesListAdapter.ViewHolder>() {
+    interface OnItemClickListener {
+        fun onItemClick(category: Category)
+    }
 
-    class ViewHolder(var binding: ItemCategoryBinding) : RecyclerView.ViewHolder(binding.root)
+    private var itemClickListener: OnItemClickListener? = null
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        itemClickListener = listener
+    }
+
+    class ViewHolder(val binding: ItemCategoryBinding) : RecyclerView.ViewHolder(binding.root)
 
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,16 +41,17 @@ class CategoriesListAdapter(private val dataSet: List<Category>) :
                         R.string.category_image_description,
                         category.title
                     )
+                root.setOnClickListener { itemClickListener?.onItemClick(category) }
             }
         } catch (e: Exception) {
             Log.e("!!!", "File error!!!", e)
         }
-
         viewHolder.binding.imgItemCategory
-
     }
 
     override fun getItemCount() = dataSet.size
+
+
     private fun loadCategoryImage(imageUrl: String, viewHolder: ViewHolder) {
         try {
             val inputStream: InputStream = viewHolder.itemView.context.assets.open(imageUrl)

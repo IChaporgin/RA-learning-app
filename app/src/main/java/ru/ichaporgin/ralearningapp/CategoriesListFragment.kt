@@ -18,9 +18,7 @@ class CategoriesListFragment : Fragment() {
             ?: throw IllegalStateException("Binding for FragmentListCategoriesBinding must not to be null")
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentListCategoriesBinding.inflate(inflater, container, false)
         return binding.root
@@ -54,5 +52,16 @@ class CategoriesListFragment : Fragment() {
         binding.rvCategories.layoutManager = GridLayoutManager(requireContext(), 2)
         val categoriesAdapter = CategoriesListAdapter(STUB.getCategories())
         binding.rvCategories.adapter = categoriesAdapter
+        categoriesAdapter.setOnItemClickListener(object :
+            CategoriesListAdapter.OnItemClickListener {
+            override fun onItemClick(category: Category) {
+                openRecipesByCategoryId()
+            }
+        })
+    }
+
+    private fun openRecipesByCategoryId() {
+        parentFragmentManager.beginTransaction().replace(R.id.mainContainer, RecipesListFragment())
+            .addToBackStack(null).commit()
     }
 }
