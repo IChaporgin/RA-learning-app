@@ -21,7 +21,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/burger"/>
+            tools:src="@drawable/burger" />
 
         <TextView
             style="@style/HeaderTextStyle"
@@ -30,9 +30,9 @@
             android:layout_marginStart="@dimen/main_margin"
             android:layout_marginBottom="@dimen/main_margin"
             android:background="@drawable/shape_header_title"
+            android:gravity="center"
             android:paddingHorizontal="@dimen/main_margin_half"
             android:paddingVertical="@dimen/main_margin_half"
-            android:gravity="center"
             android:text="бургеры"
             app:layout_constraintBottom_toBottomOf="@+id/imgRecipes"
             app:layout_constraintStart_toStartOf="parent" />
@@ -45,6 +45,5 @@
         android:layout_marginHorizontal="@dimen/main_margin_half"
         android:layout_weight="1"
         tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_category"
-        android:contentDescription="@string/category_list"/>
+        tools:listitem="@layout/item_category" />
 </LinearLayout>

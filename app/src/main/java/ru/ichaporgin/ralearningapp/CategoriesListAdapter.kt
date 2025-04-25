@@ -19,7 +19,7 @@ class CategoriesListAdapter(private val dataSet: List<Category>) :
         itemClickListener = listener
     }
 
-    class ViewHolder(var binding: ItemCategoryBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(val binding: ItemCategoryBinding) : RecyclerView.ViewHolder(binding.root)
 
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -41,9 +41,7 @@ class CategoriesListAdapter(private val dataSet: List<Category>) :
                         R.string.category_image_description,
                         category.title
                     )
-
                 root.setOnClickListener { itemClickListener?.onItemClick(category) }
-
             }
         } catch (e: Exception) {
             Log.e("!!!", "File error!!!", e)
