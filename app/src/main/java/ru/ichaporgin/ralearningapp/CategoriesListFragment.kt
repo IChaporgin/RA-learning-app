@@ -54,14 +54,29 @@ class CategoriesListFragment : Fragment() {
         binding.rvCategories.adapter = categoriesAdapter
         categoriesAdapter.setOnItemClickListener(object :
             CategoriesListAdapter.OnItemClickListener {
-            override fun onItemClick(category: Category) {
-                openRecipesByCategoryId()
+            override fun onItemClick(categoryId: Int) {
+                openRecipesByCategoryId(categoryId)
             }
         })
     }
 
-    private fun openRecipesByCategoryId() {
-        parentFragmentManager.beginTransaction().replace(R.id.mainContainer, RecipesListFragment())
-            .addToBackStack(null).commit()
+    private fun openRecipesByCategoryId(categoryId: Int) {
+        val categoryName = STUB.getCategories()[categoryId].title
+        val categoryImageUrl = STUB.getCategories()[categoryId].imageUrl
+        val bundle = Bundle().apply {
+            putInt(ARG_CATEGORY_ID, categoryId)
+            putString(ARG_CATEGORY_NAME, categoryName)
+            putString(ARG_CATEGORY_IMAGE_URL, categoryImageUrl)
+        }
+        val fragment = RecipesListFragment()
+        fragment.arguments = bundle
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.mainContainer, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 }
+
+const val ARG_CATEGORY_ID = "category_id"
+const val ARG_CATEGORY_NAME = "category_name"
+const val ARG_CATEGORY_IMAGE_URL = "category_image_url"

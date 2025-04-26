@@ -14,6 +14,10 @@ class RecipesListFragment : Fragment() {
     private val binding
         get() = _binding
             ?: throw IllegalStateException("Binding for FragmentRecipesListBinding must not to be null")
+    private var categoryId: Int? = null
+    private var categoryTitle: String? = null
+    private var categoryImage: String? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,9 +30,16 @@ class RecipesListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        arguments?.let { bundle ->
+            categoryId = bundle.getInt(ARG_CATEGORY_ID)
+            categoryTitle = bundle.getString(ARG_CATEGORY_NAME)
+            categoryImage = bundle.getString(ARG_CATEGORY_IMAGE_URL)
+        }
+        binding.txTitleRecipes.text = view.context.getString(R.string.recipes_title_text, categoryTitle)
+
         try {
             val assetManager = requireContext().assets
-            val inputStream = assetManager.open("burger.png")
+            val inputStream = assetManager.open(categoryImage.toString())
             val drawable = Drawable.createFromStream(inputStream, null)
             if (drawable != null) {
                 binding.imgRecipes.setImageDrawable(drawable)
