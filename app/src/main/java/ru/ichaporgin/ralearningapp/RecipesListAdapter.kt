@@ -35,7 +35,7 @@ class RecipesListAdapter(private val dataSet: List<Recipe>) : RecyclerView.Adapt
                 loadCategoryImage(recipe.imageUrl, holder)
                 imgItemRecipe.contentDescription =
                     holder.itemView.context.getString(
-                        ru.ichaporgin.ralearningapp.R.string.category_image_description,
+                        R.string.category_image_description,
                         recipe.title
                     )
                 root.setOnClickListener { itemClickListener?.onItemClick(recipe.id) }
