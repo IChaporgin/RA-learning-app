@@ -12,4 +12,5 @@
     <dimen name="header_text_width">149dp</dimen>
     <dimen name="header_text_height">44dp</dimen>
     <dimen name="title_item_text_size">16sp</dimen>
+    <dimen name="item_recipes_height">132dp</dimen>
 </resources>
