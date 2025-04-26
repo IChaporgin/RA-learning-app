@@ -44,12 +44,12 @@ class RecipesListFragment : Fragment() {
             val drawable = Drawable.createFromStream(inputStream, null)
             if (drawable != null) {
                 binding.imgRecipes.setImageDrawable(drawable)
-                Log.d("CategoriesListFragment", "Картинка успешно загружена")
+                Log.d("RecipesListFragment", "Картинка успешно загружена")
             } else {
-                Log.e("CategoriesListFragment", "Drawable == null")
+                Log.e("RecipesiesListFragment", "Drawable == null")
             }
         } catch (e: Exception) {
-            Log.e("CategoriesListFragment", "Ошибка загрузки картинки", e)
+            Log.e("RecipesListFragment", "Ошибка загрузки картинки", e)
         }
         initRecycler()
     }
@@ -60,13 +60,22 @@ class RecipesListFragment : Fragment() {
     }
 
     private fun initRecycler() {
-        Log.d("CategoriesListFragment", "initRecycler called")
+        Log.d("RecipesListFragment", "initRecycler called")
         binding.rvRecipes.layoutManager = LinearLayoutManager(requireContext())
         val categoriesAdapter = RecipesListAdapter(STUB.getRecipesByCategoryId(categoryId ?: 0))
         binding.rvRecipes.adapter = categoriesAdapter
-//        categoriesAdapter.setOnItemClickListener(object :
-//            RecipesListAdapter.OnItemClickListener {
-//        })
+        categoriesAdapter.setOnItemClickListener(object :
+            RecipesListAdapter.OnItemClickListener {
+            override fun onItemClick(recipeId: Int) {
+                openRecipeByRecipeId(recipeId)
+            }
+        })
     }
-
+    private fun openRecipeByRecipeId(categoryId: Int) {
+        val fragment = RecipeFragment()
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.mainContainer, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
 }
