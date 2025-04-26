@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import ru.ichaporgin.ralearningapp.databinding.FragmentRecipesListBinding
 
 class RecipesListFragment : Fragment() {
@@ -50,11 +52,22 @@ class RecipesListFragment : Fragment() {
         } catch (e: Exception) {
             Log.e("CategoriesListFragment", "Ошибка загрузки картинки", e)
         }
+        initRecycler()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun initRecycler() {
+        Log.d("CategoriesListFragment", "initRecycler called")
+        binding.rvRecipes.layoutManager = LinearLayoutManager(requireContext())
+        val categoriesAdapter = RecipesListAdapter(STUB.getRecipesByCategoryId(categoryId ?: 0))
+        binding.rvRecipes.adapter = categoriesAdapter
+//        categoriesAdapter.setOnItemClickListener(object :
+//            RecipesListAdapter.OnItemClickListener {
+//        })
     }
 
 }
