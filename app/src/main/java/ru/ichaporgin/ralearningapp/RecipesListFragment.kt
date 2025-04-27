@@ -71,7 +71,7 @@ class RecipesListFragment : Fragment() {
             }
         })
     }
-    private fun openRecipeByRecipeId(categoryId: Int) {
+    private fun openRecipeByRecipeId(recipeId: Int) {
         val fragment = RecipeFragment()
         parentFragmentManager.beginTransaction()
             .replace(R.id.mainContainer, fragment)
