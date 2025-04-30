@@ -31,11 +31,7 @@ class RecipesListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        arguments?.let { bundle ->
-            categoryId = bundle.getInt(ARG_CATEGORY_ID)
-            categoryTitle = bundle.getString(ARG_CATEGORY_NAME)
-            categoryImage = bundle.getString(ARG_CATEGORY_IMAGE_URL)
-        }
+        initBundleData()
         binding.txTitleRecipes.text = view.context.getString(R.string.recipes_title_text, categoryTitle)
 
         try {
@@ -57,6 +53,14 @@ class RecipesListFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun initBundleData() {
+        arguments?.let { bundle ->
+            categoryId = bundle.getInt(NavigationArgs.ARG_CATEGORY_ID)
+            categoryTitle = bundle.getString(NavigationArgs.ARG_CATEGORY_NAME)
+            categoryImage = bundle.getString(NavigationArgs.ARG_CATEGORY_IMAGE_URL)
+        }
     }
 
     private fun initRecycler() {
