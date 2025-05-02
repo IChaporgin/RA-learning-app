@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.ichaporgin.ralearningapp.databinding.FragmentRecipesListBinding
 
@@ -76,10 +78,10 @@ class RecipesListFragment : Fragment() {
         })
     }
     private fun openRecipeByRecipeId(recipeId: Int) {
-        val fragment = RecipeFragment()
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.mainContainer, fragment)
-            .addToBackStack(null)
-            .commit()
+        parentFragmentManager.commit {
+            setReorderingAllowed(false)
+            replace<RecipesListFragment>(R.id.mainContainer)
+            addToBackStack(null)
+        }
     }
 }

@@ -47,5 +47,5 @@
         android:layout_marginHorizontal="@dimen/main_margin_half"
         android:layout_weight="1"
         tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_category" />
+        tools:listitem="@layout/item_recipes" />
 </LinearLayout>
