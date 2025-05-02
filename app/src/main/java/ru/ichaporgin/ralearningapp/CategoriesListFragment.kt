@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.recyclerview.widget.GridLayoutManager
 import ru.ichaporgin.ralearningapp.databinding.FragmentListCategoriesBinding
 
@@ -68,12 +69,14 @@ class CategoriesListFragment : Fragment() {
             Log.e("!!!", "Category $categoryId not found")
             return
         }
-        val bundle = bundleOf(NavigationArgs.ARG_CATEGORY_ID to categoryId, NavigationArgs.ARG_CATEGORY_NAME to category.title, NavigationArgs.ARG_CATEGORY_IMAGE_URL to category.imageUrl)
-        val fragment = RecipesListFragment()
-        fragment.arguments = bundle
+        val bundle = bundleOf(
+            NavigationArgs.ARG_CATEGORY_ID to categoryId,
+            NavigationArgs.ARG_CATEGORY_NAME to category.title,
+            NavigationArgs.ARG_CATEGORY_IMAGE_URL to category.imageUrl)
+
         parentFragmentManager.commit {
             setReorderingAllowed(false)
-            replace(R.id.mainContainer, fragment)
+            replace<RecipesListFragment>(R.id.mainContainer, args = bundle)
             addToBackStack(null)
         }
     }
