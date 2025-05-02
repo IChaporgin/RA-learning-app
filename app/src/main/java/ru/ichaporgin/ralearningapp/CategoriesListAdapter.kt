@@ -11,7 +11,7 @@ import java.io.InputStream
 class CategoriesListAdapter(private val dataSet: List<Category>) :
     RecyclerView.Adapter<CategoriesListAdapter.ViewHolder>() {
     interface OnItemClickListener {
-        fun onItemClick(category: Category)
+        fun onItemClick(categoryId: Int)
     }
 
     private var itemClickListener: OnItemClickListener? = null
@@ -41,7 +41,8 @@ class CategoriesListAdapter(private val dataSet: List<Category>) :
                         R.string.category_image_description,
                         category.title
                     )
-                root.setOnClickListener { itemClickListener?.onItemClick(category) }
+                root.setOnClickListener { itemClickListener?.onItemClick(category.id) }
+
             }
         } catch (e: Exception) {
             Log.e("!!!", "File error!!!", e)
