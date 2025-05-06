@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.ichaporgin.ralearningapp.databinding.FragmentRecipesListBinding
 
@@ -31,11 +33,7 @@ class RecipesListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        arguments?.let { bundle ->
-            categoryId = bundle.getInt(ARG_CATEGORY_ID)
-            categoryTitle = bundle.getString(ARG_CATEGORY_NAME)
-            categoryImage = bundle.getString(ARG_CATEGORY_IMAGE_URL)
-        }
+        initBundleData()
         binding.txTitleRecipes.text = view.context.getString(R.string.recipes_title_text, categoryTitle)
 
         try {
@@ -59,6 +57,14 @@ class RecipesListFragment : Fragment() {
         _binding = null
     }
 
+    private fun initBundleData() {
+        arguments?.let { bundle ->
+            categoryId = bundle.getInt(NavigationArgs.ARG_CATEGORY_ID)
+            categoryTitle = bundle.getString(NavigationArgs.ARG_CATEGORY_NAME)
+            categoryImage = bundle.getString(NavigationArgs.ARG_CATEGORY_IMAGE_URL)
+        }
+    }
+
     private fun initRecycler() {
         Log.d("RecipesListFragment", "initRecycler called")
         binding.rvRecipes.layoutManager = LinearLayoutManager(requireContext())
@@ -72,10 +78,10 @@ class RecipesListFragment : Fragment() {
         })
     }
     private fun openRecipeByRecipeId(recipeId: Int) {
-        val fragment = RecipeFragment()
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.mainContainer, fragment)
-            .addToBackStack(null)
-            .commit()
+        parentFragmentManager.commit {
+            setReorderingAllowed(false)
+            replace<RecipesListFragment>(R.id.mainContainer)
+            addToBackStack(null)
+        }
     }
 }

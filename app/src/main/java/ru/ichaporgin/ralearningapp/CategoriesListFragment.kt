@@ -7,7 +7,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.recyclerview.widget.GridLayoutManager
 import ru.ichaporgin.ralearningapp.databinding.FragmentListCategoriesBinding
 
@@ -61,22 +64,20 @@ class CategoriesListFragment : Fragment() {
     }
 
     private fun openRecipesByCategoryId(categoryId: Int) {
-        val categoryName = STUB.getCategories()[categoryId].title
-        val categoryImageUrl = STUB.getCategories()[categoryId].imageUrl
-        val bundle = Bundle().apply {
-            putInt(ARG_CATEGORY_ID, categoryId)
-            putString(ARG_CATEGORY_NAME, categoryName)
-            putString(ARG_CATEGORY_IMAGE_URL, categoryImageUrl)
+        val category = STUB.getCategories().find { it.id == categoryId }
+        if (category == null) {
+            Log.e("!!!", "Category $categoryId not found")
+            return
         }
-        val fragment = RecipesListFragment()
-        fragment.arguments = bundle
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.mainContainer, fragment)
-            .addToBackStack(null)
-            .commit()
+        val bundle = bundleOf(
+            NavigationArgs.ARG_CATEGORY_ID to categoryId,
+            NavigationArgs.ARG_CATEGORY_NAME to category.title,
+            NavigationArgs.ARG_CATEGORY_IMAGE_URL to category.imageUrl)
+
+        parentFragmentManager.commit {
+            setReorderingAllowed(false)
+            replace<RecipesListFragment>(R.id.mainContainer, args = bundle)
+            addToBackStack(null)
+        }
     }
 }
-
-const val ARG_CATEGORY_ID = "category_id"
-const val ARG_CATEGORY_NAME = "category_name"
-const val ARG_CATEGORY_IMAGE_URL = "category_image_url"

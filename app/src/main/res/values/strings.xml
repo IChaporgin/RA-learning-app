@@ -5,6 +5,6 @@
     <string name="category_list">список категорий</string>
     <string name="burger_recipes_category">Бургеры</string>
     <string name="category_image">изображение списка категорий</string>
-    <string name="category_image_description">Изображение категории %1$s</string>
+    <string name="recipe_image_description">Изображение рецепта %1$s</string>
     <string name="recipes_title_text">%1$s</string>
 </resources>

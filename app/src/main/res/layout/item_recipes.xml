@@ -10,7 +10,8 @@
     android:focusable="true"
     android:foreground="?selectableItemBackground"
     app:cardCornerRadius="@dimen/corner_radius"
-    app:layout_constraintStart_toStartOf="parent">
+    app:layout_constraintStart_toStartOf="parent"
+    android:contentDescription="">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.6"
-            android:contentDescription="@string/category_image_description"
+            android:contentDescription="@string/recipe_image_description"
             android:scaleType="centerCrop"
             tools:src="@drawable/burger" />
 

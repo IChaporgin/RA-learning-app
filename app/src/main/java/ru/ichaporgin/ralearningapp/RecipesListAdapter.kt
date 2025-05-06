@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.ichaporgin.ralearningapp.databinding.ItemRecipesBinding
 import java.io.InputStream
 
-class RecipesListAdapter(private val dataSet: List<Recipe>) : RecyclerView.Adapter<RecipesListAdapter.ViewHolder>() {
+class RecipesListAdapter(private val dataSet: List<Recipe>) :
+    RecyclerView.Adapter<RecipesListAdapter.ViewHolder>() {
     interface OnItemClickListener {
         fun onItemClick(categoryId: Int)
     }
@@ -18,7 +19,7 @@ class RecipesListAdapter(private val dataSet: List<Recipe>) : RecyclerView.Adapt
         itemClickListener = listener
     }
 
-    class ViewHolder (val binding: ItemRecipesBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(val binding: ItemRecipesBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemRecipesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -28,24 +29,20 @@ class RecipesListAdapter(private val dataSet: List<Recipe>) : RecyclerView.Adapt
     override fun getItemCount() = dataSet.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        try {
-            val recipe: Recipe = dataSet[position]
-            with(holder.binding) {
-                textItemRecipeName.text = recipe.title
-                loadCategoryImage(recipe.imageUrl, holder)
-                imgItemRecipe.contentDescription =
-                    holder.itemView.context.getString(
-                        R.string.category_image_description,
-                        recipe.title
-                    )
-                root.setOnClickListener { itemClickListener?.onItemClick(recipe.id) }
-
-            }
-        } catch (e: Exception) {
-            Log.e("!!!", "File error!!!", e)
+        val recipe: Recipe = dataSet[position]
+        with(holder.binding) {
+            textItemRecipeName.text = recipe.title
+            loadCategoryImage(recipe.imageUrl, holder)
+            imgItemRecipe.contentDescription =
+                holder.itemView.context.getString(
+                    R.string.recipe_image_description,
+                    recipe.title
+                )
+            root.setOnClickListener { itemClickListener?.onItemClick(recipe.id) }
         }
         holder.binding.imgItemRecipe
     }
+
     private fun loadCategoryImage(imageUrl: String, viewHolder: ViewHolder) {
         try {
             val inputStream: InputStream = viewHolder.itemView.context.assets.open(imageUrl)
