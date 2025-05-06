@@ -35,7 +35,7 @@ class RecipesListAdapter(private val dataSet: List<Recipe>) :
             loadCategoryImage(recipe.imageUrl, holder)
             imgItemRecipe.contentDescription =
                 holder.itemView.context.getString(
-                    R.string.category_image_description,
+                    R.string.recipe_image_description,
                     recipe.title
                 )
             root.setOnClickListener { itemClickListener?.onItemClick(recipe.id) }
