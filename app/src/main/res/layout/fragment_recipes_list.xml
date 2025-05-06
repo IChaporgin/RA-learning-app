@@ -35,6 +35,7 @@
             android:paddingHorizontal="@dimen/main_margin_half"
             android:paddingVertical="@dimen/main_margin_half"
             android:text="@string/recipes_title_text"
+            tools:text="Бургеры"
             app:layout_constraintBottom_toBottomOf="@+id/imgRecipes"
             app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -46,5 +47,5 @@
         android:layout_marginHorizontal="@dimen/main_margin_half"
         android:layout_weight="1"
         tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_category" />
+        tools:listitem="@layout/item_recipes" />
 </LinearLayout>

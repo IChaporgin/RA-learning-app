@@ -7,6 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
+import androidx.recyclerview.widget.LinearLayoutManager
 import ru.ichaporgin.ralearningapp.databinding.FragmentRecipesListBinding
 
 class RecipesListFragment : Fragment() {
@@ -39,13 +42,14 @@ class RecipesListFragment : Fragment() {
             val drawable = Drawable.createFromStream(inputStream, null)
             if (drawable != null) {
                 binding.imgRecipes.setImageDrawable(drawable)
-                Log.d("CategoriesListFragment", "Картинка успешно загружена")
+                Log.d("RecipesListFragment", "Картинка успешно загружена")
             } else {
-                Log.e("CategoriesListFragment", "Drawable == null")
+                Log.e("RecipesiesListFragment", "Drawable == null")
             }
         } catch (e: Exception) {
-            Log.e("CategoriesListFragment", "Ошибка загрузки картинки", e)
+            Log.e("RecipesListFragment", "Ошибка загрузки картинки", e)
         }
+        initRecycler()
     }
 
     override fun onDestroyView() {
@@ -61,4 +65,23 @@ class RecipesListFragment : Fragment() {
         }
     }
 
+    private fun initRecycler() {
+        Log.d("RecipesListFragment", "initRecycler called")
+        binding.rvRecipes.layoutManager = LinearLayoutManager(requireContext())
+        val categoriesAdapter = RecipesListAdapter(STUB.getRecipesByCategoryId(categoryId ?: 0))
+        binding.rvRecipes.adapter = categoriesAdapter
+        categoriesAdapter.setOnItemClickListener(object :
+            RecipesListAdapter.OnItemClickListener {
+            override fun onItemClick(recipeId: Int) {
+                openRecipeByRecipeId(recipeId)
+            }
+        })
+    }
+    private fun openRecipeByRecipeId(recipeId: Int) {
+        parentFragmentManager.commit {
+            setReorderingAllowed(false)
+            replace<RecipesListFragment>(R.id.mainContainer)
+            addToBackStack(null)
+        }
+    }
 }
