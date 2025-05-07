@@ -72,7 +72,8 @@ class CategoriesListFragment : Fragment() {
         val bundle = bundleOf(
             NavigationArgs.ARG_CATEGORY_ID to categoryId,
             NavigationArgs.ARG_CATEGORY_NAME to category.title,
-            NavigationArgs.ARG_CATEGORY_IMAGE_URL to category.imageUrl)
+            NavigationArgs.ARG_CATEGORY_IMAGE_URL to category.imageUrl
+        )
 
         parentFragmentManager.commit {
             setReorderingAllowed(false)

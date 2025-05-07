@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -34,7 +35,8 @@ class RecipesListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initBundleData()
-        binding.txTitleRecipes.text = view.context.getString(R.string.recipes_title_text, categoryTitle)
+        binding.txTitleRecipes.text =
+            view.context.getString(R.string.recipes_title_text, categoryTitle)
 
         try {
             val assetManager = requireContext().assets
@@ -77,10 +79,17 @@ class RecipesListFragment : Fragment() {
             }
         })
     }
+
     private fun openRecipeByRecipeId(recipeId: Int) {
+        val recipe = STUB.getRecipeById(recipeId)
+        if (recipe == null) {
+            Log.e("!!!", "Recipe $recipeId not found")
+            return
+        }
+        val bundle = bundleOf(NavigationArgs.ARG_RECIPE to recipe)
         parentFragmentManager.commit {
             setReorderingAllowed(false)
-            replace<RecipesListFragment>(R.id.mainContainer)
+            replace<RecipeFragment>(R.id.mainContainer, args = bundle)
             addToBackStack(null)
         }
     }
