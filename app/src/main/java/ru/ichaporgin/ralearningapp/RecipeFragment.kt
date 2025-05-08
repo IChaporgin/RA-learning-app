@@ -23,12 +23,13 @@ class RecipeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        @Suppress("DEPRECATION")
         val recipe = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             arguments?.getParcelable(NavigationArgs.ARG_RECIPE, Recipe::class.java)
         } else {
             arguments?.getParcelable(NavigationArgs.ARG_RECIPE)
         }
-
         recipe?.let {
             binding.txRecipe.text = it.title
         }
