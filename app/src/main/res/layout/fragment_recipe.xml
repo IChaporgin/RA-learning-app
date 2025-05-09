@@ -3,37 +3,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:background="@color/background_color">
+    android:background="@color/background_color"
+    android:fillViewport="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/imgRecipe"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/header_image_height"
-            android:scaleType="centerCrop"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/burger" />
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/txTitleRecipe"
-            style="@style/HeaderTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/main_margin"
-            android:layout_marginBottom="@dimen/main_margin"
-            android:background="@drawable/shape_header_title"
-            android:gravity="center"
-            android:paddingHorizontal="@dimen/main_margin_half"
-            android:paddingVertical="@dimen/main_margin_half"
-            android:text="@string/recipes_title_text"
-            app:layout_constraintBottom_toBottomOf="@+id/imgRecipe"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:text="Бургеры" />
+            <ImageView
+                android:id="@+id/imgRecipe"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/header_image_height"
+                android:scaleType="centerCrop"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/burger" />
+
+            <TextView
+                android:id="@+id/txTitleRecipe"
+                style="@style/HeaderTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/main_margin"
+                android:layout_marginBottom="@dimen/main_margin"
+                android:background="@drawable/shape_header_title"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/main_margin_half"
+                android:paddingVertical="@dimen/main_margin_half"
+                android:text="@string/recipes_title_text"
+                app:layout_constraintBottom_toBottomOf="@+id/imgRecipe"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="Бургеры" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/textView"
@@ -48,11 +54,11 @@
 
         <TextView
             android:id="@+id/textView2"
+            style="@style/ItemRecipe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/main_margin"
             android:layout_marginTop="@dimen/recipe_text_margin"
-            style="@style/ItemRecipe"
             android:text="Порции:"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -61,8 +67,32 @@
             android:id="@+id/seekBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/main_margin"
+            android:layout_marginTop="@dimen/recipe_text_margin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvIngredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/main_margin"
+            android:layout_marginTop="@dimen/main_margin"/>
+
+        <TextView
+            style="@style/HeaderTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/main_margin"
+            android:layout_marginTop="@dimen/main_margin"
+            android:text="способ приготовления" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMethod"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/main_margin"
+            android:layout_marginTop="@dimen/main_margin" />
+    </LinearLayout>
 </androidx.core.widget.NestedScrollView>
