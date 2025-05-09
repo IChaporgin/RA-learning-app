@@ -40,4 +40,10 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="ItemRecipe" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/title_item_text_size</item>
+        <item name="fontFamily">@font/montserrat_semibold</item>
+        <item name="android:textColor">@color/item_recipe_count</item>
+    </style>
+
 </resources>

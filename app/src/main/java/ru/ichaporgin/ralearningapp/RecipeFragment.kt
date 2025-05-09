@@ -1,7 +1,9 @@
 package ru.ichaporgin.ralearningapp
 
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +15,7 @@ class RecipeFragment : Fragment() {
     private val binding
         get() = _binding
             ?: throw IllegalStateException("Binding for FragmentRecipeBinding must not to be null")
+    private var recipeImage: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -31,7 +34,20 @@ class RecipeFragment : Fragment() {
             arguments?.getParcelable(NavigationArgs.ARG_RECIPE)
         }
         recipe?.let {
-            binding.txRecipe.text = it.title
+            binding.txTitleRecipe.text = it.title
+        }
+        try {
+            val assetManager = requireContext().assets
+            val inputStream = assetManager.open(recipe?.imageUrl.toString())
+            val drawable = Drawable.createFromStream(inputStream, null)
+            if (drawable != null) {
+                binding.imgRecipe.setImageDrawable(drawable)
+                Log.d("RecipesListFragment", "Картинка успешно загружена")
+            } else {
+                Log.e("RecipesiesListFragment", "Drawable == null")
+            }
+        } catch (e: Exception) {
+            Log.e("RecipesListFragment", "Ошибка загрузки картинки", e)
         }
 
     }
