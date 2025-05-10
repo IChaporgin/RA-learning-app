@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.divider.MaterialDividerItemDecoration
 import ru.ichaporgin.ralearningapp.databinding.FragmentRecipeBinding
 
 class RecipeFragment : Fragment() {
@@ -15,7 +17,7 @@ class RecipeFragment : Fragment() {
     private val binding
         get() = _binding
             ?: throw IllegalStateException("Binding for FragmentRecipeBinding must not to be null")
-    private var recipeImage: String? = null
+    private var recipeId: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -34,14 +36,44 @@ class RecipeFragment : Fragment() {
             arguments?.getParcelable(NavigationArgs.ARG_RECIPE)
         }
         recipe?.let {
-            binding.txTitleRecipe.text = it.title
+            recipeId = it.id
+            initRecycler(it)
+            initUI(it)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun initRecycler(recipe: Recipe) {
+        val context = requireContext()
+        val ingredientsLayoutManager = LinearLayoutManager(context)
+        val decoration = MaterialDividerItemDecoration(context, ingredientsLayoutManager.orientation).apply {
+            isLastItemDecorated = false
+            dividerInsetStart = resources.getDimensionPixelSize(R.dimen.ingredient_margin)
+            dividerInsetEnd = resources.getDimensionPixelSize(R.dimen.ingredient_margin)
+        }
+
+        binding.rvIngredients.layoutManager = LinearLayoutManager(context)
+        binding.rvIngredients.adapter = IngredientsAdapter(recipe.ingredients)
+        binding.rvIngredients.addItemDecoration(decoration)
+
+        binding.rvMethod.layoutManager = LinearLayoutManager(context)
+        binding.rvMethod.adapter = MethodAdapter(recipe.method)
+        binding.rvMethod.addItemDecoration(decoration)
+    }
+
+    private fun initUI(recipe: Recipe) {
+        binding.txTitleRecipe.text = recipe.title
         try {
             val assetManager = requireContext().assets
-            val inputStream = assetManager.open(recipe?.imageUrl.toString())
+            val inputStream = assetManager.open(recipe.imageUrl.toString())
             val drawable = Drawable.createFromStream(inputStream, null)
             if (drawable != null) {
                 binding.imgRecipe.setImageDrawable(drawable)
+                binding.imgRecipe.contentDescription = recipe.title
                 Log.d("RecipesListFragment", "Картинка успешно загружена")
             } else {
                 Log.e("RecipesiesListFragment", "Drawable == null")
@@ -49,11 +81,5 @@ class RecipeFragment : Fragment() {
         } catch (e: Exception) {
             Log.e("RecipesListFragment", "Ошибка загрузки картинки", e)
         }
-
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
