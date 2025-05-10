@@ -54,7 +54,7 @@
             app:layout_constraintTop_toBottomOf="@+id/imgRecipe" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/portions"
             style="@style/ItemRecipe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -70,9 +70,12 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/main_margin"
             android:layout_marginTop="@dimen/recipe_text_margin"
+            android:max="10"
+            android:min="1"
+            android:progress="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+            app:layout_constraintTop_toBottomOf="@+id/portions" />
 
         <androidx.cardview.widget.CardView
             style="@style/IngredientItemStyle"

@@ -5,7 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.ichaporgin.ralearningapp.databinding.ItemIngredientBinding
 
-class IngredientsAdapter(private val dataset: List<Ingredient>) :
+class IngredientsAdapter(
+    private val dataset: List<Ingredient>,
+    private var portions: Int = 1
+) :
     RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() {
     class ViewHolder(val binding: ItemIngredientBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -20,13 +23,25 @@ class IngredientsAdapter(private val dataset: List<Ingredient>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val ingredient = dataset[position]
+        val amount = ingredient.quantity.toDoubleOrNull()
+        val newPortions = if (amount != null) {
+            (amount * portions).toString().removeSuffix(".0")
+        } else {
+            ingredient.quantity
+        }
+//        val newPortions = ingredient.quantity.toInt() * portions
         with(holder.binding) {
             tvIngredientName.text = ingredient.description
-            tvIngredientAmount.text = ingredient.quantity
+            tvIngredientAmount.text = newPortions.toString()
             tvIngredientUnit.text = ingredient.unitOfMeasure
         }
     }
 
     override fun getItemCount() = dataset.size
+
+    fun updatePortions(newPortions: Int) {
+        portions = newPortions
+        notifyDataSetChanged()
+    }
 
 }
