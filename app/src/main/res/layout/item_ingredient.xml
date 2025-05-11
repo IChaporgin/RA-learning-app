@@ -10,9 +10,11 @@
     <TextView
         android:id="@+id/tvIngredientName"
         style="@style/IngredientTextStyle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:gravity="left"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tvIngredientAmount"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Яблоко" />
@@ -22,7 +24,7 @@
         style="@style/IngredientTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/ingredient_half_margin"
+        android:layout_marginHorizontal="@dimen/ingredient_half_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tvIngredientUnit"
         app:layout_constraintTop_toTopOf="parent"
