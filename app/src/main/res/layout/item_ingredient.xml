@@ -12,7 +12,7 @@
         style="@style/IngredientTextStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="left"
+        android:gravity="start"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tvIngredientAmount"
         app:layout_constraintStart_toStartOf="parent"

@@ -17,4 +17,9 @@
     <dimen name="ingredient_margin">12dp</dimen>
     <dimen name="ingredient_half_margin">6dp</dimen>
     <dimen name="ingredient_text_size">14sp</dimen>
+    <dimen name="seekbar_progress_radius">4dp</dimen>
+    <dimen name="seekbar_thumb_radius">2dp</dimen>
+    <dimen name="seekbar_progress_height">16dp</dimen>
+    <dimen name="seekbar_thump_height">30dp</dimen>
+    <dimen name="seekbar_thump_width">8dp</dimen>
 </resources>
