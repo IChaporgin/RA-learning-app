@@ -115,8 +115,8 @@
                 android:id="@+id/rvMethod"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/main_margin"
-                android:layout_marginTop="@dimen/main_margin"
+                android:layout_marginHorizontal="@dimen/ingredient_margin"
+                android:layout_marginTop="@dimen/ingredient_margin"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_method" />
         </androidx.cardview.widget.CardView>

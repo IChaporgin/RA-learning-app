@@ -7,7 +7,7 @@
     <color name="background_color">#F4FAFF</color>
     <color name="header_text_color">#5F3678</color>
     <color name="item_category_description">#000000</color>
-    <color name="item_recipe_count">#666666</color>
+    <color name="item_recipe_color">#666666</color>
     <color name="seekbar_progress_color">#A1A9F9</color>
     <color name="seekbar_thumb_color">#525DC0</color>
 </resources>
