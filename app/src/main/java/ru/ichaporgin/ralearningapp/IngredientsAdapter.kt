@@ -29,7 +29,7 @@ class IngredientsAdapter(
         } else {
             ingredient.quantity
         }
-//        val newPortions = ingredient.quantity.toInt() * portions
+
         with(holder.binding) {
             tvIngredientName.text = ingredient.description
             tvIngredientAmount.text = newPortions.toString()
