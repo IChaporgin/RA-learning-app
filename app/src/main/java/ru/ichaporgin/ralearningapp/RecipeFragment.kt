@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -65,12 +66,12 @@ class RecipeFragment : Fragment() {
         ingredientsAdapter = IngredientsAdapter(recipe.ingredients)
         val context = requireContext()
         val ingredientsLayoutManager = LinearLayoutManager(context)
-        val decoration =
-            MaterialDividerItemDecoration(context, ingredientsLayoutManager.orientation).apply {
-                isLastItemDecorated = false
-                dividerInsetStart = resources.getDimensionPixelSize(R.dimen.ingredient_margin)
-                dividerInsetEnd = resources.getDimensionPixelSize(R.dimen.ingredient_margin)
-            }
+        val decoration = MaterialDividerItemDecoration(context, ingredientsLayoutManager.orientation).apply {
+            isLastItemDecorated = false
+            dividerInsetStart = resources.getDimensionPixelSize(R.dimen.ingredient_margin)
+            dividerInsetEnd = resources.getDimensionPixelSize(R.dimen.ingredient_margin)
+            dividerColor = ContextCompat.getColor(context,R.color.divider_color)
+        }
 
         binding.rvIngredients.layoutManager = LinearLayoutManager(context)
         binding.rvIngredients.adapter = ingredientsAdapter

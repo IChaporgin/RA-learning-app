@@ -43,25 +43,25 @@
     <style name="ItemRecipe" parent="TextAppearance.AppCompat">
         <item name="android:textSize">@dimen/title_item_text_size</item>
         <item name="fontFamily">@font/montserrat_semibold</item>
-        <item name="android:textColor">@color/item_recipe_count</item>
+        <item name="android:textColor">@color/item_recipe_color</item>
     </style>
 
     <style name="IngredientTextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">@dimen/ingredient_text_size</item>
         <item name="fontFamily">@font/montserrat_regular</item>
-        <item name="android:textColor">@color/item_recipe_count</item>
+        <item name="android:textColor">@color/item_recipe_color</item>
         <item name="textAllCaps">true</item>
     </style>
 
     <style name="IngredientItemStyle" parent="Widget.MaterialComponents.CardView">
-        <item name="background">@color/white</item>
+        <item name="cardBackgroundColor">@color/white</item>
         <item name="cardCornerRadius">@dimen/corner_radius</item>
     </style>
 
     <style name="IngredientMethodTextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">@dimen/ingredient_text_size</item>
         <item name="fontFamily">@font/montserrat_regular</item>
-        <item name="android:textColor">@color/item_recipe_count</item>
+        <item name="android:textColor">@color/item_recipe_color</item>
     </style>
 
 </resources>
