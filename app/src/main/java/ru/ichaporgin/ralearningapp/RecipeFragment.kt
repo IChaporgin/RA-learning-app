@@ -35,7 +35,7 @@ class RecipeFragment : Fragment() {
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, p2: Boolean) {
                 val portionsCount = if (progress < 1) 1 else progress
-                binding.portions.text = "Порции: $portionsCount"
+                binding.portions.text = getString(R.string.portions, portionsCount)
                 ingredientsAdapter?.updatePortions(portionsCount)
             }
 
@@ -43,6 +43,9 @@ class RecipeFragment : Fragment() {
 
             override fun onStopTrackingTouch(p0: SeekBar?) { }
         })
+
+        val initialPortions = if (binding.seekBar.progress < 1) 1 else binding.seekBar.progress
+        binding.portions.text = getString(R.string.portions, initialPortions)
 
         @Suppress("DEPRECATION")
         val recipe = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
