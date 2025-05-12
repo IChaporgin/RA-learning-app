@@ -7,4 +7,7 @@
     <string name="category_image">изображение списка категорий</string>
     <string name="recipe_image_description">Изображение рецепта %1$s</string>
     <string name="recipes_title_text">%1$s</string>
+    <string name="ingredients">Ингредиенты</string>
+    <string name="portions">Порции: 1</string>
+    <string name="method_of_preparation">способ приготовления</string>
 </resources>

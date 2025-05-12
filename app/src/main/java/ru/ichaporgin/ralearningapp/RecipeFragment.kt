@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
@@ -54,6 +55,7 @@ class RecipeFragment : Fragment() {
             isLastItemDecorated = false
             dividerInsetStart = resources.getDimensionPixelSize(R.dimen.ingredient_margin)
             dividerInsetEnd = resources.getDimensionPixelSize(R.dimen.ingredient_margin)
+            dividerColor = ContextCompat.getColor(context,R.color.divider_color)
         }
 
         binding.rvIngredients.layoutManager = LinearLayoutManager(context)
