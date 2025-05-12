@@ -36,7 +36,7 @@ class RecipeFragment : Fragment() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, p2: Boolean) {
                 val portionsCount = if (progress < 1) 1 else progress
                 binding.portions.text = getString(R.string.portions, portionsCount)
-                ingredientsAdapter?.updatePortions(portionsCount)
+                ingredientsAdapter?.updateIngredients(portionsCount)
             }
 
             override fun onStartTrackingTouch(p0: SeekBar?) { }

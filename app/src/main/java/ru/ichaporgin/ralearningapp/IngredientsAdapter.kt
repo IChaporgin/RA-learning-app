@@ -7,7 +7,7 @@ import ru.ichaporgin.ralearningapp.databinding.ItemIngredientBinding
 
 class IngredientsAdapter(
     private val dataset: List<Ingredient>,
-    private var portions: Int = 1
+    private var quantity: Int = 1
 ) :
     RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() {
     class ViewHolder(val binding: ItemIngredientBinding) : RecyclerView.ViewHolder(binding.root)
@@ -25,7 +25,7 @@ class IngredientsAdapter(
         val ingredient = dataset[position]
         val amount = ingredient.quantity.toDoubleOrNull()
         val newPortions = if (amount != null) {
-            (amount * portions).toString().removeSuffix(".0")
+            (amount * quantity).toString().removeSuffix(".0")
         } else {
             ingredient.quantity
         }
@@ -39,9 +39,10 @@ class IngredientsAdapter(
 
     override fun getItemCount() = dataset.size
 
-    fun updatePortions(newPortions: Int) {
-        portions = newPortions
-        notifyDataSetChanged()
+    fun updateIngredients(progress: Int) {
+        quantity = progress
+//        notifyDataSetChanged()
+//        Ругается на метод notifyDataSetChanged()
+        notifyItemRangeChanged(0, dataset.size)
     }
-
 }
