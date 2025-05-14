@@ -49,7 +49,5 @@ class MainActivity : AppCompatActivity() {
         window.navigationBarColor = ContextCompat.getColor(this, R.color.background_color)
         @Suppress("DEPRECATION")
         window.statusBarColor = ContextCompat.getColor(this, R.color.background_color)
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
     }
 }
