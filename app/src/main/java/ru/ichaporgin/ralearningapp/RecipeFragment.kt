@@ -7,8 +7,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import android.widget.SeekBar
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
@@ -31,17 +31,19 @@ class RecipeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.seekBar.max = MAX_PORTIONS
+        binding.seekBar.min = MIN_PORTIONS
 
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, p2: Boolean) {
-                val portionsCount = if (progress < 1) 1 else progress
+                val portionsCount = progress
                 binding.portions.text = getString(R.string.portions, portionsCount)
                 ingredientsAdapter?.updateIngredients(portionsCount)
             }
 
-            override fun onStartTrackingTouch(p0: SeekBar?) { }
+            override fun onStartTrackingTouch(p0: SeekBar?) {}
 
-            override fun onStopTrackingTouch(p0: SeekBar?) { }
+            override fun onStopTrackingTouch(p0: SeekBar?) {}
         })
 
         val initialPortions = if (binding.seekBar.progress < 1) 1 else binding.seekBar.progress
@@ -69,12 +71,13 @@ class RecipeFragment : Fragment() {
         ingredientsAdapter = IngredientsAdapter(recipe.ingredients)
         val context = requireContext()
         val ingredientsLayoutManager = LinearLayoutManager(context)
-        val decoration = MaterialDividerItemDecoration(context, ingredientsLayoutManager.orientation).apply {
-            isLastItemDecorated = false
-            dividerInsetStart = resources.getDimensionPixelSize(R.dimen.ingredient_margin)
-            dividerInsetEnd = resources.getDimensionPixelSize(R.dimen.ingredient_margin)
-            dividerColor = ContextCompat.getColor(context,R.color.divider_color)
-        }
+        val decoration =
+            MaterialDividerItemDecoration(context, ingredientsLayoutManager.orientation).apply {
+                isLastItemDecorated = false
+                dividerInsetStart = resources.getDimensionPixelSize(R.dimen.ingredient_margin)
+                dividerInsetEnd = resources.getDimensionPixelSize(R.dimen.ingredient_margin)
+                dividerColor = ContextCompat.getColor(context, R.color.divider_color)
+            }
 
         binding.rvIngredients.layoutManager = LinearLayoutManager(context)
         binding.rvIngredients.adapter = ingredientsAdapter
@@ -101,5 +104,10 @@ class RecipeFragment : Fragment() {
         } catch (e: Exception) {
             Log.e("RecipesListFragment", "Ошибка загрузки картинки", e)
         }
+    }
+
+    companion object {
+        const val MIN_PORTIONS = 1
+        const val MAX_PORTIONS = 10
     }
 }
