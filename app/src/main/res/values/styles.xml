@@ -54,7 +54,7 @@
     </style>
 
     <style name="IngredientItemStyle" parent="Widget.MaterialComponents.CardView">
-        <item name="background">@color/white</item>
+        <item name="cardBackgroundColor">@color/white</item>
         <item name="cardCornerRadius">@dimen/corner_radius</item>
     </style>
 
@@ -63,10 +63,11 @@
         <item name="fontFamily">@font/montserrat_regular</item>
         <item name="android:textColor">@color/item_recipe_color</item>
     </style>
-    
+
     <style name="styleSeekBar" parent="Widget.AppCompat.SeekBar">
         <item name="android:progressDrawable">@drawable/shape_seekbar_progress</item>
         <item name="android:thumb">@drawable/shape_seekbar_thumb</item>
+        <item name="android:textColor">@color/item_recipe_color</item>
     </style>
 
 </resources>
