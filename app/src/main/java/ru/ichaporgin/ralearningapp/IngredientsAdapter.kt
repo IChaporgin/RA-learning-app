@@ -4,8 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.ichaporgin.ralearningapp.databinding.ItemIngredientBinding
+import java.math.BigDecimal
+import java.math.RoundingMode
 
-class IngredientsAdapter(private val dataset: List<Ingredient>) :
+class IngredientsAdapter(
+    private val dataset: List<Ingredient>,
+    private var quantity: Int = 1
+) :
     RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() {
     class ViewHolder(val binding: ItemIngredientBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -20,13 +25,23 @@ class IngredientsAdapter(private val dataset: List<Ingredient>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val ingredient = dataset[position]
+        val totalQuantity = BigDecimal(ingredient.quantity) * BigDecimal(quantity)
+        val displayQuality = totalQuantity
+            .setScale(1, RoundingMode.HALF_UP)
+            .stripTrailingZeros()
+            .toPlainString()
+
         with(holder.binding) {
             tvIngredientName.text = ingredient.description
-            tvIngredientAmount.text = ingredient.quantity
+            tvIngredientAmount.text = displayQuality
             tvIngredientUnit.text = ingredient.unitOfMeasure
         }
     }
 
     override fun getItemCount() = dataset.size
 
+    fun updateIngredients(progress: Int) {
+        quantity = progress
+        notifyDataSetChanged()
+    }
 }
