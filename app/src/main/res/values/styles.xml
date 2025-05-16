@@ -64,4 +64,10 @@
         <item name="android:textColor">@color/item_recipe_color</item>
     </style>
 
+    <style name="styleSeekBar" parent="Widget.AppCompat.SeekBar">
+        <item name="android:progressDrawable">@drawable/shape_seekbar_progress</item>
+        <item name="android:thumb">@drawable/shape_seekbar_thumb</item>
+        <item name="android:textColor">@color/item_recipe_color</item>
+    </style>
+
 </resources>

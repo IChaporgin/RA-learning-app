@@ -108,6 +108,6 @@ class RecipeFragment : Fragment() {
 
     companion object {
         const val MIN_PORTIONS = 1
-        const val MAX_PORTIONS = 10
+        const val MAX_PORTIONS = 5
     }
 }

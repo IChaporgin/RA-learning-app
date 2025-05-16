@@ -19,11 +19,11 @@
                 android:id="@+id/imgRecipe"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/header_image_height"
+                android:contentDescription="@string/recipes_title_text"
                 android:scaleType="centerCrop"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/burger"
-                android:contentDescription="@string/recipes_title_text"/>
+                tools:src="@drawable/burger" />
 
             <TextView
                 android:id="@+id/txTitleRecipe"
@@ -66,9 +66,10 @@
 
         <SeekBar
             android:id="@+id/seekBar"
+            style="@style/styleSeekBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/main_margin"
+
             android:layout_marginTop="@dimen/recipe_text_margin"
             android:max="10"
             android:min="1"
@@ -114,10 +115,10 @@
                 android:id="@+id/rvMethod"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/main_margin"
-                android:layout_marginTop="@dimen/main_margin"
+                android:layout_marginHorizontal="@dimen/ingredient_margin"
+                android:layout_marginTop="@dimen/ingredient_margin"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_method"/>
+                tools:listitem="@layout/item_method" />
         </androidx.cardview.widget.CardView>
 
     </LinearLayout>
