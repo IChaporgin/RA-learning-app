@@ -40,6 +40,21 @@
                 app:layout_constraintBottom_toBottomOf="@+id/imgRecipe"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="Бургеры" />
+
+            <ImageButton
+                android:id="@+id/btnFavoriteAdd"
+                android:layout_width="@dimen/favorite_icon_size"
+                android:layout_height="@dimen/favorite_icon_size"
+                android:layout_marginTop="@dimen/main_margin"
+                android:layout_marginEnd="@dimen/main_margin"
+                android:background="@android:color/transparent"
+                android:clickable="true"
+                android:contentDescription="@string/button_add_favorite"
+                android:focusable="true"
+                android:foreground="?selectableItemBackground"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_heart_fill" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView

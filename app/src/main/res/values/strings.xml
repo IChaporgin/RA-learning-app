@@ -10,4 +10,5 @@
     <string name="ingredients">Ингредиенты</string>
     <string name="portions">Порции: %1$d</string>
     <string name="method_of_preparation">способ приготовления</string>
+    <string name="button_add_favorite">добавить в избранное</string>
 </resources>
