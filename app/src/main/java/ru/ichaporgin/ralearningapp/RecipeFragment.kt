@@ -21,6 +21,7 @@ class RecipeFragment : Fragment() {
         get() = _binding
             ?: throw IllegalStateException("Binding for FragmentRecipeBinding must not to be null")
     private var recipeId: Int? = null
+    private var isFavorite = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -103,6 +104,22 @@ class RecipeFragment : Fragment() {
             }
         } catch (e: Exception) {
             Log.e("RecipesListFragment", "Ошибка загрузки картинки", e)
+        }
+        binding.btnFavoriteAdd.setOnClickListener {
+            isFavorite = !isFavorite
+            addToFavorite()
+        }
+        addToFavorite()
+    }
+
+    private fun addToFavorite(){
+        val favoriteStatus = if (isFavorite) {
+            R.drawable.ic_heart
+        } else {
+            R.drawable.ic_heart_fill
+        }
+        binding.btnFavoriteAdd.apply {
+            setImageResource(favoriteStatus)
         }
     }
 
