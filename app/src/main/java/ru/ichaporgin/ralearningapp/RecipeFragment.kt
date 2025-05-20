@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.core.content.ContextCompat
-import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
@@ -34,8 +33,8 @@ class RecipeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.seekBar.max = MAX_PORTIONS
-        binding.seekBar.min = MIN_PORTIONS
+        binding.seekBar.max = Constants.MAX_PORTIONS
+        binding.seekBar.min = Constants.MIN_PORTIONS
         isFavorite = getFavorites().contains(recipeId.toString())
 
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -116,18 +115,15 @@ class RecipeFragment : Fragment() {
     }
 
     private fun toggleFavorite() {
-        val id = recipeId?.toString() ?: return
-        val favorites = getFavorites()
-
-        isFavorite = if (favorites.contains(id)) {
-            favorites.remove(id)
+        isFavorite = if (getFavorites().contains(recipeId?.toString())) {
+            getFavorites().remove(recipeId.toString())
             false
         } else {
-            favorites.add(id)
+            getFavorites().add(recipeId.toString())
             true
         }
 
-        saveFavorites(favorites)
+        saveFavorites(getFavorites())
         updateFavoriteIcon()
     }
 
@@ -139,26 +135,20 @@ class RecipeFragment : Fragment() {
 
     private fun saveFavorites(id: Set<String>) {
         val sharedPref = requireContext()
-            .getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
-        sharedPref.edit {
-            putStringSet(FAVORITES_KEY, id)
-            apply()
+            .getSharedPreferences(Constants.SHARED_PREFS_NAME, Context.MODE_PRIVATE)
+        with(sharedPref?.edit()) {
+            this?.putStringSet(Constants.FAVORITES_KEY, id)
+            this?.apply()
         }
         Log.d("RecipeFragment", "Сохранённые избранные: $id")
     }
 
     private fun getFavorites(): MutableSet<String> {
-        val pref = requireContext().getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
-        val favoriteSet = pref.getStringSet(FAVORITES_KEY, emptySet())
+        val pref =
+            requireContext().getSharedPreferences(Constants.SHARED_PREFS_NAME, Context.MODE_PRIVATE)
+        val favoriteSet = pref.getStringSet(Constants.FAVORITES_KEY, emptySet())
         Log.d("RecipeFragment", "Получение данных: $favoriteSet")
         return HashSet(favoriteSet)
 
-    }
-
-    companion object {
-        const val MIN_PORTIONS = 1
-        const val MAX_PORTIONS = 5
-        const val SHARED_PREFS_NAME = "favorites_prefs"
-        const val FAVORITES_KEY = "favorites_ids"
     }
 }
