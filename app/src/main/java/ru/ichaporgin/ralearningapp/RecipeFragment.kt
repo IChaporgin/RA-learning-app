@@ -1,5 +1,6 @@
 package ru.ichaporgin.ralearningapp
 
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
@@ -21,7 +22,7 @@ class RecipeFragment : Fragment() {
         get() = _binding
             ?: throw IllegalStateException("Binding for FragmentRecipeBinding must not to be null")
     private var recipeId: Int? = null
-    private var isFavorite = true
+    private var isFavorite = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -32,8 +33,9 @@ class RecipeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.seekBar.max = MAX_PORTIONS
-        binding.seekBar.min = MIN_PORTIONS
+        binding.seekBar.max = Constants.MAX_PORTIONS
+        binding.seekBar.min = Constants.MIN_PORTIONS
+        isFavorite = getFavorites().contains(recipeId.toString())
 
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, p2: Boolean) {
@@ -58,6 +60,7 @@ class RecipeFragment : Fragment() {
         }
         recipe?.let {
             recipeId = it.id
+            isFavorite = getFavorites().contains(recipeId.toString())
             initRecycler(it)
             initUI(it)
         }
@@ -105,26 +108,47 @@ class RecipeFragment : Fragment() {
         } catch (e: Exception) {
             Log.e("RecipesListFragment", "Ошибка загрузки картинки", e)
         }
+        updateFavoriteIcon()
         binding.btnFavoriteAdd.setOnClickListener {
-            isFavorite = !isFavorite
-            addToFavorite()
+            toggleFavorite()
         }
-        addToFavorite()
     }
 
-    private fun addToFavorite(){
-        val favoriteStatus = if (isFavorite) {
-            R.drawable.ic_heart
+    private fun toggleFavorite() {
+        isFavorite = if (getFavorites().contains(recipeId?.toString())) {
+            getFavorites().remove(recipeId.toString())
+            false
         } else {
-            R.drawable.ic_heart_fill
+            getFavorites().add(recipeId.toString())
+            true
         }
-        binding.btnFavoriteAdd.apply {
-            setImageResource(favoriteStatus)
-        }
+
+        saveFavorites(getFavorites())
+        updateFavoriteIcon()
     }
 
-    companion object {
-        const val MIN_PORTIONS = 1
-        const val MAX_PORTIONS = 5
+    private fun updateFavoriteIcon() {
+        binding.btnFavoriteAdd.setImageResource(
+            if (isFavorite) R.drawable.ic_heart_fill else R.drawable.ic_heart
+        )
+    }
+
+    private fun saveFavorites(id: Set<String>) {
+        val sharedPref = requireContext()
+            .getSharedPreferences(Constants.SHARED_PREFS_NAME, Context.MODE_PRIVATE)
+        with(sharedPref?.edit()) {
+            this?.putStringSet(Constants.FAVORITES_KEY, id)
+            this?.apply()
+        }
+        Log.d("RecipeFragment", "Сохранённые избранные: $id")
+    }
+
+    private fun getFavorites(): MutableSet<String> {
+        val pref =
+            requireContext().getSharedPreferences(Constants.SHARED_PREFS_NAME, Context.MODE_PRIVATE)
+        val favoriteSet = pref.getStringSet(Constants.FAVORITES_KEY, emptySet())
+        Log.d("RecipeFragment", "Получение данных: $favoriteSet")
+        return HashSet(favoriteSet)
+
     }
 }
