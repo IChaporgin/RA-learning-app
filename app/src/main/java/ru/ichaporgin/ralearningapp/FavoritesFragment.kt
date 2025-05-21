@@ -1,10 +1,14 @@
 package ru.ichaporgin.ralearningapp
 
+import android.content.Context
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import ru.ichaporgin.ralearningapp.databinding.FragmentFavoritesBinding
 
 class FavoritesFragment : Fragment() {
@@ -12,6 +16,7 @@ class FavoritesFragment : Fragment() {
     private val binding
         get() = _binding
             ?: throw IllegalStateException("Binding for FragmentFavoritesBinding must not to be null")
+    private var favoriteRecipes: MutableSet<String> = mutableSetOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,9 +27,44 @@ class FavoritesFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        try {
+            val assetManager = requireContext().assets
+            val inputStream = assetManager.open("bcg_favorites.png")
+            val drawable = Drawable.createFromStream(inputStream, null)
+            if (drawable != null) {
+                binding.imgFavorites.setImageDrawable(drawable)
+                Log.d("CategoriesListFragment", "Картинка успешно загружена")
+            } else {
+                Log.e("CategoriesListFragment", "Drawable == null")
+            }
+        } catch (e: Exception) {
+            Log.e("CategoriesListFragment", "Ошибка загрузки картинки", e)
+        }
+        initRecycle()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
+    private fun initRecycle(){
+        Log.d("FavoritesFragment", "initRecycler called")
+        binding.rvFavorites.layoutManager = LinearLayoutManager(requireContext())
+        favoriteRecipes = getFavorites()
+        val favoritesAdapter = RecipesListAdapter(STUB.openRecipeByRecipeId(favoriteRecipes))
+        binding.rvFavorites.adapter = favoritesAdapter
+
+    }
+
+    private fun getFavorites(): MutableSet<String> {
+        val pref =
+            requireContext().getSharedPreferences(Constants.SHARED_PREFS_NAME, Context.MODE_PRIVATE)
+        val favoriteSet = pref.getStringSet(Constants.FAVORITES_KEY, emptySet())
+        Log.d("FavoriteFragment", "Получение данных: $favoriteSet")
+        return HashSet(favoriteSet)
+
+    }
 }

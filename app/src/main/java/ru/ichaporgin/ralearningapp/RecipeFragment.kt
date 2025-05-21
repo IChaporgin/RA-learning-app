@@ -147,7 +147,6 @@ class RecipeFragment : Fragment() {
         val pref =
             requireContext().getSharedPreferences(Constants.SHARED_PREFS_NAME, Context.MODE_PRIVATE)
         val favoriteSet = pref.getStringSet(Constants.FAVORITES_KEY, emptySet())
-        Log.d("RecipeFragment", "Получение данных: $favoriteSet")
         return HashSet(favoriteSet)
 
     }
