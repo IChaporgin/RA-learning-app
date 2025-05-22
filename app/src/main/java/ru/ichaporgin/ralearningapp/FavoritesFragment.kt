@@ -7,7 +7,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.ichaporgin.ralearningapp.databinding.FragmentFavoritesBinding
 
@@ -16,7 +19,6 @@ class FavoritesFragment : Fragment() {
     private val binding
         get() = _binding
             ?: throw IllegalStateException("Binding for FragmentFavoritesBinding must not to be null")
-    private var favoriteRecipes: MutableSet<String> = mutableSetOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,13 +52,18 @@ class FavoritesFragment : Fragment() {
         _binding = null
     }
 
-    private fun initRecycle(){
+    private fun initRecycle() {
         Log.d("FavoritesFragment", "initRecycler called")
         binding.rvFavorites.layoutManager = LinearLayoutManager(requireContext())
-        favoriteRecipes = getFavorites()
-        val favoritesAdapter = RecipesListAdapter(STUB.openRecipeByRecipeId(favoriteRecipes))
+        val favoriteRecipes = getFavorites()
+        val favoritesAdapter = RecipesListAdapter(STUB.getRecipesByIds(favoriteRecipes))
         binding.rvFavorites.adapter = favoritesAdapter
-
+        favoritesAdapter.setOnItemClickListener(object :
+            RecipesListAdapter.OnItemClickListener {
+            override fun onItemClick(recipeId: Int) {
+                openRecipeByRecipeId(recipeId)
+            }
+        })
     }
 
     private fun getFavorites(): MutableSet<String> {
@@ -65,6 +72,19 @@ class FavoritesFragment : Fragment() {
         val favoriteSet = pref.getStringSet(Constants.FAVORITES_KEY, emptySet())
         Log.d("FavoriteFragment", "Получение данных: $favoriteSet")
         return HashSet(favoriteSet)
+    }
 
+    private fun openRecipeByRecipeId(recipeId: Int) {
+        val recipe = STUB.getRecipeById(recipeId)
+        if (recipe == null) {
+            Log.e("!!!", "Recipe $recipeId not found")
+            return
+        }
+        val bundle = bundleOf(NavigationArgs.ARG_RECIPE to recipe)
+        parentFragmentManager.commit {
+            setReorderingAllowed(false)
+            replace<RecipeFragment>(R.id.mainContainer, args = bundle)
+            addToBackStack(null)
+        }
     }
 }

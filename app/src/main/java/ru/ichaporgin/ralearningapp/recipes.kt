@@ -271,7 +271,7 @@ object STUB {
         return burgerRecipes.find { it.id == id } ?: burgerRecipes[0]
     }
 
-    fun openRecipeByRecipeId(recipeIds: Set<String>): List<Recipe> {
+    fun getRecipesByIds(recipeIds: Set<String>): List<Recipe> {
         val ids = recipeIds.mapNotNull { it.toIntOrNull() }.toSet()
         Log.d("openRecipeByRecipeId", "All recipe IDs: ${burgerRecipes.map { it.id }}")
         return burgerRecipes.filter { it.id in ids }
