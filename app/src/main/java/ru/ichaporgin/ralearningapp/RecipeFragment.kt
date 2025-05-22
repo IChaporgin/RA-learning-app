@@ -35,7 +35,6 @@ class RecipeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.seekBar.max = Constants.MAX_PORTIONS
         binding.seekBar.min = Constants.MIN_PORTIONS
-        isFavorite = getFavorites().contains(recipeId.toString())
 
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, p2: Boolean) {
@@ -115,19 +114,23 @@ class RecipeFragment : Fragment() {
     }
 
     private fun toggleFavorite() {
-        isFavorite = if (getFavorites().contains(recipeId?.toString())) {
-            getFavorites().remove(recipeId.toString())
+        val idString = recipeId?.toString() ?: return
+        val favorites = getFavorites()
+
+        isFavorite = if (favorites.contains(idString)) {
+            favorites.remove(idString)
             false
         } else {
-            getFavorites().add(recipeId.toString())
+            favorites.add(idString)
             true
         }
 
-        saveFavorites(getFavorites())
+        saveFavorites(favorites)
         updateFavoriteIcon()
     }
 
     private fun updateFavoriteIcon() {
+        isFavorite = getFavorites().any { it.toIntOrNull() == recipeId }
         binding.btnFavoriteAdd.setImageResource(
             if (isFavorite) R.drawable.ic_heart_fill else R.drawable.ic_heart
         )
