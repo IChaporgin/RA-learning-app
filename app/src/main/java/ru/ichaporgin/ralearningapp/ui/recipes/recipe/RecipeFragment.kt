@@ -1,4 +1,4 @@
-package ru.ichaporgin.ralearningapp
+package ru.ichaporgin.ralearningapp.ui.recipes.recipe
 
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -13,7 +13,11 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
+import ru.ichaporgin.ralearningapp.R
+import ru.ichaporgin.ralearningapp.data.Constants
+import ru.ichaporgin.ralearningapp.data.NavigationArgs
 import ru.ichaporgin.ralearningapp.databinding.FragmentRecipeBinding
+import ru.ichaporgin.ralearningapp.model.Recipe
 
 class RecipeFragment : Fragment() {
     private var _binding: FragmentRecipeBinding? = null

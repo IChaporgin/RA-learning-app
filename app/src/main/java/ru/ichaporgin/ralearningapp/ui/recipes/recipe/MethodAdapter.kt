@@ -1,4 +1,4 @@
-package ru.ichaporgin.ralearningapp
+package ru.ichaporgin.ralearningapp.ui.recipes.recipe
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

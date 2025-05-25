@@ -8,6 +8,8 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import ru.ichaporgin.ralearningapp.databinding.ActivityMainBinding
+import ru.ichaporgin.ralearningapp.ui.category.CategoriesListFragment
+import ru.ichaporgin.ralearningapp.ui.recipes.favorite.FavoritesFragment
 
 class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null

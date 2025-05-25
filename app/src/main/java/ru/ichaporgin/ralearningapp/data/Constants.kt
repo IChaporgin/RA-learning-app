@@ -1,4 +1,4 @@
-package ru.ichaporgin.ralearningapp
+package ru.ichaporgin.ralearningapp.data
 
 object Constants {
     const val MIN_PORTIONS = 1

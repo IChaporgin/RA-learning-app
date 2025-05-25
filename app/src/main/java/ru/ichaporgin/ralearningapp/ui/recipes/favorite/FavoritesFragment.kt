@@ -1,4 +1,4 @@
-package ru.ichaporgin.ralearningapp
+package ru.ichaporgin.ralearningapp.ui.recipes.favorite
 
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -12,7 +12,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.recyclerview.widget.LinearLayoutManager
+import ru.ichaporgin.ralearningapp.R
+import ru.ichaporgin.ralearningapp.data.Constants
+import ru.ichaporgin.ralearningapp.data.NavigationArgs
+import ru.ichaporgin.ralearningapp.data.STUB
 import ru.ichaporgin.ralearningapp.databinding.FragmentFavoritesBinding
+import ru.ichaporgin.ralearningapp.ui.recipes.recipe.RecipeFragment
+import ru.ichaporgin.ralearningapp.ui.recipes.recipesList.RecipesListAdapter
 
 class FavoritesFragment : Fragment() {
     private var _binding: FragmentFavoritesBinding? = null

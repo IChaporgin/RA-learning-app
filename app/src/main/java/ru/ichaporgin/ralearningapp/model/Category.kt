@@ -1,9 +1,8 @@
-package ru.ichaporgin.ralearningapp
+package ru.ichaporgin.ralearningapp.model
 
-data class Category (
+data class Category(
     val id: Int,
     val title: String,
     val description: String,
     val imageUrl: String,
 )
-
