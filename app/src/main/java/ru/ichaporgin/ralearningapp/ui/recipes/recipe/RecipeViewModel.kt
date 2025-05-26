@@ -14,5 +14,5 @@ data class RecipeUiState(
     var isFavorite: Boolean = false,
 )
 
-class RecipeUiViewModel : ViewModel() {
+class RecipeViewModel : ViewModel() {
 }
