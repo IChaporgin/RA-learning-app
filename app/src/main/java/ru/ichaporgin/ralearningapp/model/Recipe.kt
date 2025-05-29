@@ -1,4 +1,4 @@
-package ru.ichaporgin.ralearningapp
+package ru.ichaporgin.ralearningapp.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

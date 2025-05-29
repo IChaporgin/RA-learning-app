@@ -1,4 +1,4 @@
-package ru.ichaporgin.ralearningapp
+package ru.ichaporgin.ralearningapp.ui.recipes.recipesList
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -11,7 +11,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.recyclerview.widget.LinearLayoutManager
+import ru.ichaporgin.ralearningapp.R
+import ru.ichaporgin.ralearningapp.data.NavigationArgs
+import ru.ichaporgin.ralearningapp.data.STUB
 import ru.ichaporgin.ralearningapp.databinding.FragmentRecipesListBinding
+import ru.ichaporgin.ralearningapp.ui.recipes.recipe.RecipeFragment
 
 class RecipesListFragment : Fragment() {
     private var _binding: FragmentRecipesListBinding? = null

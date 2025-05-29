@@ -1,9 +1,10 @@
-package ru.ichaporgin.ralearningapp
+package ru.ichaporgin.ralearningapp.ui.recipes.recipe
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.ichaporgin.ralearningapp.databinding.ItemIngredientBinding
+import ru.ichaporgin.ralearningapp.model.Ingredient
 import java.math.BigDecimal
 import java.math.RoundingMode
 

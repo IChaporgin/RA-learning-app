@@ -1,4 +1,4 @@
-package ru.ichaporgin.ralearningapp
+package ru.ichaporgin.ralearningapp.ui.category
 
 import CategoriesListAdapter
 import android.graphics.drawable.Drawable
@@ -12,7 +12,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.recyclerview.widget.GridLayoutManager
+import ru.ichaporgin.ralearningapp.R
+import ru.ichaporgin.ralearningapp.data.NavigationArgs
+import ru.ichaporgin.ralearningapp.data.STUB
 import ru.ichaporgin.ralearningapp.databinding.FragmentListCategoriesBinding
+import ru.ichaporgin.ralearningapp.ui.recipes.recipesList.RecipesListFragment
 
 class CategoriesListFragment : Fragment() {
     private var _binding: FragmentListCategoriesBinding? = null

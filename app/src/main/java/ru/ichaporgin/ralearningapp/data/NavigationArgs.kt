@@ -1,4 +1,4 @@
-package ru.ichaporgin.ralearningapp
+package ru.ichaporgin.ralearningapp.data
 
 object NavigationArgs {
     const val ARG_CATEGORY_ID = "arg_category_id"

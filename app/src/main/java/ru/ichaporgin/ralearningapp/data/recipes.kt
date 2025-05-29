@@ -1,6 +1,9 @@
-package ru.ichaporgin.ralearningapp
+package ru.ichaporgin.ralearningapp.data
 
 import android.util.Log
+import ru.ichaporgin.ralearningapp.model.Category
+import ru.ichaporgin.ralearningapp.model.Ingredient
+import ru.ichaporgin.ralearningapp.model.Recipe
 
 object STUB {
     private val categories: List<Category> = listOf(

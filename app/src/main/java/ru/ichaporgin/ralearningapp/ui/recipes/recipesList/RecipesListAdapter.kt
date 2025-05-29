@@ -1,11 +1,13 @@
-package ru.ichaporgin.ralearningapp
+package ru.ichaporgin.ralearningapp.ui.recipes.recipesList
 
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import ru.ichaporgin.ralearningapp.R
 import ru.ichaporgin.ralearningapp.databinding.ItemRecipesBinding
+import ru.ichaporgin.ralearningapp.model.Recipe
 import java.io.InputStream
 
 class RecipesListAdapter(private val dataSet: List<Recipe>) :
