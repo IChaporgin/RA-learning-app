@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import ru.ichaporgin.ralearningapp.R
@@ -27,6 +28,7 @@ class RecipeFragment : Fragment() {
             ?: throw IllegalStateException("Binding for FragmentRecipeBinding must not to be null")
     private var recipeId: Int? = null
     private var isFavorite = false
+    private val model: RecipeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -37,6 +39,10 @@ class RecipeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        model.selectedRecipe.observe(viewLifecycleOwner) {
+            Log.i("!!!", "Status Favorite: $isFavorite")
+
+        }
         binding.seekBar.max = Constants.MAX_PORTIONS
         binding.seekBar.min = Constants.MIN_PORTIONS
 
@@ -155,6 +161,5 @@ class RecipeFragment : Fragment() {
             requireContext().getSharedPreferences(Constants.SHARED_PREFS_NAME, Context.MODE_PRIVATE)
         val favoriteSet = pref.getStringSet(Constants.FAVORITES_KEY, emptySet())
         return HashSet(favoriteSet)
-
     }
 }
