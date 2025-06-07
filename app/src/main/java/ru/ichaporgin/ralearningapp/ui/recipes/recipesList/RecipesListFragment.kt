@@ -85,12 +85,7 @@ class RecipesListFragment : Fragment() {
     }
 
     private fun openRecipeByRecipeId(recipeId: Int) {
-        val recipe = STUB.getRecipeById(recipeId)
-        if (recipe == null) {
-            Log.e("!!!", "Recipe $recipeId not found")
-            return
-        }
-        val bundle = bundleOf(NavigationArgs.ARG_RECIPE to recipe)
+        val bundle = bundleOf(NavigationArgs.ARG_RECIPE_ID to recipeId)
         parentFragmentManager.commit {
             setReorderingAllowed(false)
             replace<RecipeFragment>(R.id.mainContainer, args = bundle)
