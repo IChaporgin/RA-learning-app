@@ -21,22 +21,23 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     private val _recipeState = MutableLiveData(RecipeState())
     val selectedRecipe: LiveData<RecipeState> get() = _recipeState
 
-    init {
-        _recipeState.value = RecipeState(isFavorite = true)
-//        loadRecipe(recipeId)
-    }
+//    init {
+//        _recipeState.value = RecipeState(isFavorite = false)
+////        loadRecipe(recipeId)
+//    }
 
     fun loadRecipe(id: Int) {
 //        TODO("load from network")
         Log.e("!!!", "load from network")
         val recipe = STUB.getRecipeById(id)
         val portion = Constants.MIN_PORTIONS
-//        val favorites = getFavorites()
-//        val isFavorite = favorites.contains(id.toString())
+        val favorites = getFavorites()
+        val isFavorite = favorites.contains(id.toString())
 
         _recipeState.value = _recipeState.value?.copy(
             recipe = recipe,
             portion = portion,
+            isFavorite = isFavorite,
         )
     }
 

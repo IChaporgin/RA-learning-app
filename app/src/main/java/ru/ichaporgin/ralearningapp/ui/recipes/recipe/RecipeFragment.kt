@@ -90,7 +90,6 @@ class RecipeFragment : Fragment() {
     }
 
     private fun initUI() {
-
         model.selectedRecipe.observe(viewLifecycleOwner) { state ->
             val recipe = state.recipe
             val portion = state.portion
