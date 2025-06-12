@@ -39,22 +39,19 @@ class RecipeFragment : Fragment() {
         recipeId?.let { id ->
             model.loadRecipe(id)
         }
-        binding.seekBar.max = Constants.MAX_PORTIONS
         binding.seekBar.min = Constants.MIN_PORTIONS
+        binding.seekBar.max = Constants.MAX_PORTIONS
+
 
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, p2: Boolean) {
-                val portionsCount = progress
-                binding.portions.text = getString(R.string.portions, portionsCount)
-                ingredientsAdapter?.updateIngredients(portionsCount)
+                model.updatePortion(progress)
             }
 
             override fun onStartTrackingTouch(p0: SeekBar?) {}
             override fun onStopTrackingTouch(p0: SeekBar?) {}
         })
 
-        val initialPortions = if (binding.seekBar.progress < 1) 1 else binding.seekBar.progress
-        binding.portions.text = getString(R.string.portions, initialPortions)
         initUI()
     }
 

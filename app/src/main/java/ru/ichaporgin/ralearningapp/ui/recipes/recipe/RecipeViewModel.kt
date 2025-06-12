@@ -13,7 +13,7 @@ import ru.ichaporgin.ralearningapp.model.Recipe
 
 data class RecipeState(
     val recipe: Recipe? = null,
-    val portion: Int = Constants.MAX_PORTIONS,
+    val portion: Int = Constants.MIN_PORTIONS,
     val isFavorite: Boolean = false,
 )
 
@@ -21,16 +21,12 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     private val _recipeState = MutableLiveData(RecipeState())
     val selectedRecipe: LiveData<RecipeState> get() = _recipeState
 
-//    init {
-//        _recipeState.value = RecipeState(isFavorite = false)
-////        loadRecipe(recipeId)
-//    }
-
     fun loadRecipe(id: Int) {
 //        TODO("load from network")
         Log.e("!!!", "load from network")
+        val currentState = _recipeState.value ?: RecipeState()
         val recipe = STUB.getRecipeById(id)
-        val portion = Constants.MIN_PORTIONS
+        val portion = currentState.portion
         val favorites = getFavorites()
         val isFavorite = favorites.contains(id.toString())
 
@@ -42,13 +38,11 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     private fun getFavorites(): MutableSet<String> {
-        val pref =
-            getApplication<Application>().getSharedPreferences(
-                Constants.SHARED_PREFS_NAME,
-                Context.MODE_PRIVATE
-            )
-        val favoriteSet = pref.getStringSet(Constants.FAVORITES_KEY, emptySet())
-        return HashSet(favoriteSet)
+        return HashSet(
+            getApplication<Application>()
+                .getSharedPreferences(Constants.SHARED_PREFS_NAME, Context.MODE_PRIVATE)
+                .getStringSet(Constants.FAVORITES_KEY, emptySet()) ?: emptySet()
+        )
     }
 
     fun onFavoritesClicked() {
@@ -75,5 +69,10 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         pref.edit {
             putStringSet(Constants.FAVORITES_KEY, ids)
         }
+    }
+
+    fun updatePortion(portion: Int) {
+        val currentState = _recipeState.value ?: return
+        _recipeState.value = currentState.copy(portion = portion)
     }
 }
