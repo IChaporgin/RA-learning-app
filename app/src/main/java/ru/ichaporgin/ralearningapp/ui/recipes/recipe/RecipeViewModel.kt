@@ -2,6 +2,7 @@ package ru.ichaporgin.ralearningapp.ui.recipes.recipe
 
 import android.app.Application
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.util.Log
 import androidx.core.content.edit
 import androidx.lifecycle.AndroidViewModel
@@ -15,6 +16,7 @@ data class RecipeState(
     val recipe: Recipe? = null,
     val portion: Int = Constants.MIN_PORTIONS,
     val isFavorite: Boolean = false,
+    val recipeImage: Drawable? = null,
 )
 
 class RecipeViewModel(application: Application) : AndroidViewModel(application) {
@@ -29,11 +31,22 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         val portion = currentState.portion
         val favorites = getFavorites()
         val isFavorite = favorites.contains(id.toString())
+        val recipeImage =
+            try {
+                val assetManager = getApplication<Application>().assets
+                val inputStream = assetManager.open(recipe.imageUrl)
+                Drawable.createFromStream(inputStream, null)
+
+            } catch (e: Exception) {
+                Log.e("RecipesListFragment", "Ошибка загрузки картинки", e)
+                null
+            }
 
         _recipeState.value = _recipeState.value?.copy(
             recipe = recipe,
             portion = portion,
             isFavorite = isFavorite,
+            recipeImage = recipeImage,
         )
     }
 
