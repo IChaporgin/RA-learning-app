@@ -14,7 +14,6 @@ import ru.ichaporgin.ralearningapp.R
 import ru.ichaporgin.ralearningapp.data.Constants
 import ru.ichaporgin.ralearningapp.data.NavigationArgs
 import ru.ichaporgin.ralearningapp.databinding.FragmentRecipeBinding
-import ru.ichaporgin.ralearningapp.model.Recipe
 
 class RecipeFragment : Fragment() {
     private var _binding: FragmentRecipeBinding? = null
@@ -58,48 +57,48 @@ class RecipeFragment : Fragment() {
         _binding = null
     }
 
-    private fun initRecycler(recipe: Recipe?) {
-        if (recipe == null) return
-        ingredientsAdapter = IngredientsAdapter(recipe.ingredients)
-        val context = requireContext()
-        val ingredientsLayoutManager = LinearLayoutManager(context)
-        val decoration =
-            MaterialDividerItemDecoration(context, ingredientsLayoutManager.orientation).apply {
-                isLastItemDecorated = false
-                dividerInsetStart = resources.getDimensionPixelSize(R.dimen.ingredient_margin)
-                dividerInsetEnd = resources.getDimensionPixelSize(R.dimen.ingredient_margin)
-                dividerColor = ContextCompat.getColor(context, R.color.divider_color)
-            }
-
-        binding.rvIngredients.apply {
-            this.layoutManager = LinearLayoutManager(context)
-            adapter = ingredientsAdapter
-            addItemDecoration(decoration)
-        }
-
-        binding.rvMethod.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = MethodAdapter(recipe.method)
-            addItemDecoration(decoration)
-        }
-    }
-
     private fun initUI() {
         model.selectedRecipe.observe(viewLifecycleOwner) { state ->
             val recipe = state.recipe
-            val portion = state.portion
+            val portion = state.portionCount
             val isFavorite = state.isFavorite
             val text = state.recipe?.title
 
             state.recipeImage?.let { drawable ->
                 binding.imgRecipe.setImageDrawable(drawable)
-                binding.imgRecipe.contentDescription = state.recipe?.title
+                binding.imgRecipe.contentDescription = recipe?.title
             }
 
-
-
             if (ingredientsAdapter == null) {
-                initRecycler(recipe)
+                if (recipe != null) {
+                    ingredientsAdapter = IngredientsAdapter(recipe.ingredients)
+                    val context = requireContext()
+                    val ingredientsLayoutManager = LinearLayoutManager(context)
+                    val decoration =
+                        MaterialDividerItemDecoration(
+                            context,
+                            ingredientsLayoutManager.orientation
+                        ).apply {
+                            isLastItemDecorated = false
+                            dividerInsetStart =
+                                resources.getDimensionPixelSize(R.dimen.ingredient_margin)
+                            dividerInsetEnd =
+                                resources.getDimensionPixelSize(R.dimen.ingredient_margin)
+                            dividerColor = ContextCompat.getColor(context, R.color.divider_color)
+                        }
+
+                    binding.rvIngredients.apply {
+                        this.layoutManager = LinearLayoutManager(context)
+                        adapter = ingredientsAdapter
+                        addItemDecoration(decoration)
+                    }
+
+                    binding.rvMethod.apply {
+                        layoutManager = LinearLayoutManager(context)
+                        adapter = MethodAdapter(recipe.method)
+                        addItemDecoration(decoration)
+                    }
+                }
             }
 
             ingredientsAdapter?.updateIngredients(portion)
