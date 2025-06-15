@@ -1,8 +1,6 @@
 package ru.ichaporgin.ralearningapp.ui.recipes.recipe
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -91,27 +89,17 @@ class RecipeFragment : Fragment() {
             val recipe = state.recipe
             val portion = state.portion
             val isFavorite = state.isFavorite
+            val text = state.recipe?.title
 
-            binding.txTitleRecipe.text = recipe?.title
+            state.recipeImage?.let { drawable ->
+                binding.imgRecipe.setImageDrawable(drawable)
+                binding.imgRecipe.contentDescription = state.recipe?.title
+            }
+
+
 
             if (ingredientsAdapter == null) {
                 initRecycler(recipe)
-            }
-
-            try {
-                val assetManager = requireContext().assets
-                val inputStream = assetManager.open(recipe?.imageUrl.toString())
-                val drawable = Drawable.createFromStream(inputStream, null)
-
-                if (drawable != null) {
-                    binding.imgRecipe.setImageDrawable(drawable)
-                    binding.imgRecipe.contentDescription = recipe?.title
-                    Log.d("RecipesListFragment", "Картинка успешно загружена")
-                } else {
-                    Log.e("RecipesiesListFragment", "Drawable == null")
-                }
-            } catch (e: Exception) {
-                Log.e("RecipesListFragment", "Ошибка загрузки картинки", e)
             }
 
             ingredientsAdapter?.updateIngredients(portion)
@@ -121,6 +109,7 @@ class RecipeFragment : Fragment() {
             binding.btnFavoriteAdd.setOnClickListener {
                 model.onFavoritesClicked()
             }
+            binding.txTitleRecipe.text = text
         }
     }
 
