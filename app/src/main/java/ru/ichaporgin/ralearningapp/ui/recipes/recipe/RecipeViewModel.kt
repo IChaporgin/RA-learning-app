@@ -14,7 +14,7 @@ import ru.ichaporgin.ralearningapp.model.Recipe
 
 data class RecipeState(
     val recipe: Recipe? = null,
-    val portion: Int = Constants.MIN_PORTIONS,
+    val portionCount: Int = Constants.MIN_PORTIONS,
     val isFavorite: Boolean = false,
     val recipeImage: Drawable? = null,
 )
@@ -28,7 +28,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         Log.e("!!!", "load from network")
         val currentState = _recipeState.value ?: RecipeState()
         val recipe = STUB.getRecipeById(id)
-        val portion = currentState.portion
+        val portion = currentState.portionCount
         val favorites = getFavorites()
         val isFavorite = favorites.contains(id.toString())
         val recipeImage =
@@ -44,7 +44,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
 
         _recipeState.value = _recipeState.value?.copy(
             recipe = recipe,
-            portion = portion,
+            portionCount = portion,
             isFavorite = isFavorite,
             recipeImage = recipeImage,
         )
@@ -86,6 +86,6 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
 
     fun updatePortion(portion: Int) {
         val currentState = _recipeState.value ?: return
-        _recipeState.value = currentState.copy(portion = portion)
+        _recipeState.value = currentState.copy(portionCount = portion)
     }
 }
