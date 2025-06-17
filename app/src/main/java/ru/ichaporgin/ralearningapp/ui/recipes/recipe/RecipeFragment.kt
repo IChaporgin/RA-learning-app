@@ -18,6 +18,7 @@ import ru.ichaporgin.ralearningapp.databinding.FragmentRecipeBinding
 class RecipeFragment : Fragment() {
     private var _binding: FragmentRecipeBinding? = null
     private var ingredientsAdapter: IngredientsAdapter? = null
+    private var methodAdapter: MethodAdapter? = null
     private val binding
         get() = _binding
             ?: throw IllegalStateException("Binding for FragmentRecipeBinding must not to be null")
@@ -36,19 +37,17 @@ class RecipeFragment : Fragment() {
         recipeId?.let { id ->
             model.loadRecipe(id)
         }
+
         binding.seekBar.min = Constants.MIN_PORTIONS
         binding.seekBar.max = Constants.MAX_PORTIONS
 
-
-        binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, p2: Boolean) {
+        binding.seekBar.setOnSeekBarChangeListener(
+            PortionSeekBarListener { progress ->
                 model.updatePortion(progress)
             }
+        )
 
-            override fun onStartTrackingTouch(p0: SeekBar?) {}
-            override fun onStopTrackingTouch(p0: SeekBar?) {}
-        })
-
+        initAdapter()
         initUI()
     }
 
@@ -69,41 +68,13 @@ class RecipeFragment : Fragment() {
                 binding.imgRecipe.contentDescription = recipe?.title
             }
 
-            if (ingredientsAdapter == null) {
-                if (recipe != null) {
-                    ingredientsAdapter = IngredientsAdapter(recipe.ingredients)
-                    val context = requireContext()
-                    val ingredientsLayoutManager = LinearLayoutManager(context)
-                    val decoration =
-                        MaterialDividerItemDecoration(
-                            context,
-                            ingredientsLayoutManager.orientation
-                        ).apply {
-                            isLastItemDecorated = false
-                            dividerInsetStart =
-                                resources.getDimensionPixelSize(R.dimen.ingredient_margin)
-                            dividerInsetEnd =
-                                resources.getDimensionPixelSize(R.dimen.ingredient_margin)
-                            dividerColor = ContextCompat.getColor(context, R.color.divider_color)
-                        }
-
-                    binding.rvIngredients.apply {
-                        this.layoutManager = LinearLayoutManager(context)
-                        adapter = ingredientsAdapter
-                        addItemDecoration(decoration)
-                    }
-
-                    binding.rvMethod.apply {
-                        layoutManager = LinearLayoutManager(context)
-                        adapter = MethodAdapter(recipe.method)
-                        addItemDecoration(decoration)
-                    }
-                }
-            }
-
+            ingredientsAdapter?.dataset = recipe?.ingredients ?: emptyList()
             ingredientsAdapter?.updateIngredients(portion)
+
+            methodAdapter?.dataset = recipe?.method ?: emptyList()
+
             binding.portions.text = getString(R.string.portions, portion)
-            binding.seekBar.progress = portion
+
             updateFavoriteIcon(isFavorite)
             binding.btnFavoriteAdd.setOnClickListener {
                 model.onFavoritesClicked()
@@ -112,9 +83,54 @@ class RecipeFragment : Fragment() {
         }
     }
 
+    private fun initAdapter() {
+        ingredientsAdapter = IngredientsAdapter()
+        methodAdapter = MethodAdapter()
+        val context = requireContext()
+        val ingredientsLayoutManager = LinearLayoutManager(context)
+        val decoration =
+            MaterialDividerItemDecoration(
+                context,
+                ingredientsLayoutManager.orientation
+            ).apply {
+                isLastItemDecorated = false
+                dividerInsetStart =
+                    resources.getDimensionPixelSize(R.dimen.ingredient_margin)
+                dividerInsetEnd =
+                    resources.getDimensionPixelSize(R.dimen.ingredient_margin)
+                dividerColor = ContextCompat.getColor(context, R.color.divider_color)
+            }
+        binding.rvIngredients.apply {
+            this.layoutManager = LinearLayoutManager(context)
+            adapter = ingredientsAdapter
+            addItemDecoration(decoration)
+        }
+
+        binding.rvMethod.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = methodAdapter
+            addItemDecoration(decoration)
+        }
+
+    }
+
     private fun updateFavoriteIcon(isFavorite: Boolean) {
         binding.btnFavoriteAdd.setImageResource(
             if (isFavorite) R.drawable.ic_heart_fill else R.drawable.ic_heart
         )
     }
+}
+
+internal class PortionSeekBarListener(val onChangeIngredients: (Int) -> Unit) :
+    SeekBar.OnSeekBarChangeListener {
+    override fun onProgressChanged(
+        p0: SeekBar?,
+        progress: Int,
+        p2: Boolean
+    ) {
+        onChangeIngredients(progress)
+    }
+
+    override fun onStartTrackingTouch(p0: SeekBar?) {}
+    override fun onStopTrackingTouch(p0: SeekBar?) {}
 }

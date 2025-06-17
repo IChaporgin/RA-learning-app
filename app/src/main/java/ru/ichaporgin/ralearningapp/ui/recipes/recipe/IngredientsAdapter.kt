@@ -8,11 +8,15 @@ import ru.ichaporgin.ralearningapp.model.Ingredient
 import java.math.BigDecimal
 import java.math.RoundingMode
 
-class IngredientsAdapter(
-    private val dataset: List<Ingredient>,
-    private var quantity: Int = 1
-) :
+class IngredientsAdapter() :
     RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() {
+    var dataset: List<Ingredient> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+    private var quantity: Int = 1
+
     class ViewHolder(val binding: ItemIngredientBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(
