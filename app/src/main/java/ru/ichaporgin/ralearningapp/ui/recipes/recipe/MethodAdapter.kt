@@ -5,8 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.ichaporgin.ralearningapp.databinding.ItemMethodBinding
 
-class MethodAdapter(private val dataset: List<String>) :
+class MethodAdapter() :
     RecyclerView.Adapter<MethodAdapter.ViewHolder>() {
+    var dataset: List<String> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
     class ViewHolder(val binding: ItemMethodBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(
