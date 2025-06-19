@@ -43,6 +43,7 @@ class FavoritesFragment : Fragment() {
 
         initRecycle()
         initUI()
+        model.loadFavorites()
     }
 
     override fun onDestroyView() {
@@ -54,9 +55,9 @@ class FavoritesFragment : Fragment() {
         Log.d("FavoritesFragment", "initRecycler called")
         binding.rvFavorites.layoutManager = LinearLayoutManager(requireContext())
 //        val favoriteRecipes = getFavorites()
-        val favoritesAdapter = RecipesListAdapter()
-        binding.rvFavorites.adapter = favoritesAdapter
-        favoritesAdapter.setOnItemClickListener(object :
+//        val favoritesAdapter = RecipesListAdapter()
+        binding.rvFavorites.adapter = adapter
+        adapter.setOnItemClickListener(object :
             RecipesListAdapter.OnItemClickListener {
             override fun onItemClick(recipeId: Int) {
                 openRecipeByRecipeId(recipeId)
@@ -84,9 +85,22 @@ class FavoritesFragment : Fragment() {
     private fun initUI() {
         model.selectedFavorites.observe(viewLifecycleOwner) { state ->
             adapter.dataSet = state.recipes
-            state.imageFavorite.let { drawable ->
-                binding.imgFavorites.setImageDrawable(drawable)
+            try {
+                val assetManager = requireContext().assets
+                val inputStream = assetManager.open("bcg_favorites.png")
+                val drawable = Drawable.createFromStream(inputStream, null)
+                if (drawable != null) {
+                    binding.imgFavorites.setImageDrawable(drawable)
+                    Log.d("CategoriesListFragment", "Картинка успешно загружена")
+                } else {
+                    Log.e("CategoriesListFragment", "Drawable == null")
+                }
+            } catch (e: Exception) {
+                Log.e("CategoriesListFragment", "Ошибка загрузки картинки", e)
             }
+//            state.imageFavorite.let { drawable ->
+//                binding.imgFavorites.setImageDrawable(drawable)
+//            }
         }
     }
 }
