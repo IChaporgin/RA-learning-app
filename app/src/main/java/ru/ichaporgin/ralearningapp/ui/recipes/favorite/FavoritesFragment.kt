@@ -11,6 +11,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.ichaporgin.ralearningapp.R
 import ru.ichaporgin.ralearningapp.data.Constants
@@ -25,6 +26,9 @@ class FavoritesFragment : Fragment() {
         get() = _binding
             ?: throw IllegalStateException("Binding for FragmentFavoritesBinding must not to be null")
 
+    private val model: FavoritesViewModel by viewModels()
+    private val adapter = RecipesListAdapter()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -36,20 +40,9 @@ class FavoritesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        try {
-            val assetManager = requireContext().assets
-            val inputStream = assetManager.open("bcg_favorites.png")
-            val drawable = Drawable.createFromStream(inputStream, null)
-            if (drawable != null) {
-                binding.imgFavorites.setImageDrawable(drawable)
-                Log.d("CategoriesListFragment", "Картинка успешно загружена")
-            } else {
-                Log.e("CategoriesListFragment", "Drawable == null")
-            }
-        } catch (e: Exception) {
-            Log.e("CategoriesListFragment", "Ошибка загрузки картинки", e)
-        }
+
         initRecycle()
+        initUI()
     }
 
     override fun onDestroyView() {
@@ -60,7 +53,7 @@ class FavoritesFragment : Fragment() {
     private fun initRecycle() {
         Log.d("FavoritesFragment", "initRecycler called")
         binding.rvFavorites.layoutManager = LinearLayoutManager(requireContext())
-        val favoriteRecipes = getFavorites()
+//        val favoriteRecipes = getFavorites()
         val favoritesAdapter = RecipesListAdapter()
         binding.rvFavorites.adapter = favoritesAdapter
         favoritesAdapter.setOnItemClickListener(object :
@@ -85,6 +78,15 @@ class FavoritesFragment : Fragment() {
             setReorderingAllowed(false)
             replace<RecipeFragment>(R.id.mainContainer, args = bundle)
             addToBackStack(null)
+        }
+    }
+
+    private fun initUI() {
+        model.selectedFavorites.observe(viewLifecycleOwner) { state ->
+            adapter.dataSet = state.recipes
+            state.imageFavorite.let { drawable ->
+                binding.imgFavorites.setImageDrawable(drawable)
+            }
         }
     }
 }

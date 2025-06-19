@@ -25,7 +25,7 @@ class RecipesListFragment : Fragment() {
     private var categoryTitle: String? = null
     private var categoryImage: String? = null
 
-    private val recipesAdapter = RecipesListAdapter()
+    private val adapter = RecipesListAdapter()
     private val model: RecipesListViewModel by viewModels()
 
 
@@ -68,8 +68,8 @@ class RecipesListFragment : Fragment() {
     private fun initRecycler() {
         Log.d("RecipesListFragment", "initRecycler called")
         binding.rvRecipes.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvRecipes.adapter = recipesAdapter
-        recipesAdapter.setOnItemClickListener(object :
+        binding.rvRecipes.adapter = adapter
+        adapter.setOnItemClickListener(object :
             RecipesListAdapter.OnItemClickListener {
             override fun onItemClick(recipeId: Int) {
                 openRecipeByRecipeId(recipeId)
@@ -88,7 +88,7 @@ class RecipesListFragment : Fragment() {
 
     private fun initUI() {
         model.recipesState.observe(viewLifecycleOwner) { state ->
-            recipesAdapter.dataSet = state.recipes
+            adapter.dataSet = state.recipes
             state.image?.let { drawable ->
                 binding.imgRecipes.setImageDrawable(drawable)
             }

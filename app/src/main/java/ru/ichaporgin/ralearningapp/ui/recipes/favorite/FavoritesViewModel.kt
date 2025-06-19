@@ -2,6 +2,7 @@ package ru.ichaporgin.ralearningapp.ui.recipes.favorite
 
 import android.app.Application
 import android.content.Context
+import android.graphics.drawable.Drawable
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,7 +11,8 @@ import ru.ichaporgin.ralearningapp.data.STUB
 import ru.ichaporgin.ralearningapp.model.Recipe
 
 data class FavoritesState(
-    val recipes: List<Recipe> = emptyList()
+    val recipes: List<Recipe> = emptyList(),
+    val imageFavorite: Drawable? = null
 )
 
 class FavoritesViewModel(application: Application) : AndroidViewModel(application) {
