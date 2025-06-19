@@ -8,11 +8,17 @@ import ru.ichaporgin.ralearningapp.R
 import ru.ichaporgin.ralearningapp.databinding.ItemCategoryBinding
 import java.io.InputStream
 
-class CategoriesListAdapter(private val dataSet: List<Category>) :
+class CategoriesListAdapter() :
     RecyclerView.Adapter<CategoriesListAdapter.ViewHolder>() {
     interface OnItemClickListener {
         fun onItemClick(categoryId: Int)
     }
+
+    var dataSet: List<Category> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     private var itemClickListener: OnItemClickListener? = null
     fun setOnItemClickListener(listener: OnItemClickListener) {

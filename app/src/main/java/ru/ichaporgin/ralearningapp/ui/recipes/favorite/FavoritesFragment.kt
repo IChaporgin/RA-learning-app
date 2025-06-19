@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import ru.ichaporgin.ralearningapp.R
 import ru.ichaporgin.ralearningapp.data.Constants
 import ru.ichaporgin.ralearningapp.data.NavigationArgs
-import ru.ichaporgin.ralearningapp.data.STUB
 import ru.ichaporgin.ralearningapp.databinding.FragmentFavoritesBinding
 import ru.ichaporgin.ralearningapp.ui.recipes.recipe.RecipeFragment
 import ru.ichaporgin.ralearningapp.ui.recipes.recipesList.RecipesListAdapter
@@ -62,7 +61,7 @@ class FavoritesFragment : Fragment() {
         Log.d("FavoritesFragment", "initRecycler called")
         binding.rvFavorites.layoutManager = LinearLayoutManager(requireContext())
         val favoriteRecipes = getFavorites()
-        val favoritesAdapter = RecipesListAdapter(STUB.getRecipesByIds(favoriteRecipes))
+        val favoritesAdapter = RecipesListAdapter()
         binding.rvFavorites.adapter = favoritesAdapter
         favoritesAdapter.setOnItemClickListener(object :
             RecipesListAdapter.OnItemClickListener {

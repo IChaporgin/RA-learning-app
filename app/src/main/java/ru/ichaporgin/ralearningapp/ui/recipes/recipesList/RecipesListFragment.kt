@@ -1,6 +1,5 @@
 package ru.ichaporgin.ralearningapp.ui.recipes.recipesList
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,10 +9,10 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.ichaporgin.ralearningapp.R
 import ru.ichaporgin.ralearningapp.data.NavigationArgs
-import ru.ichaporgin.ralearningapp.data.STUB
 import ru.ichaporgin.ralearningapp.databinding.FragmentRecipesListBinding
 import ru.ichaporgin.ralearningapp.ui.recipes.recipe.RecipeFragment
 
@@ -25,6 +24,9 @@ class RecipesListFragment : Fragment() {
     private var categoryId: Int? = null
     private var categoryTitle: String? = null
     private var categoryImage: String? = null
+
+    private val recipesAdapter = RecipesListAdapter()
+    private val model: RecipesListViewModel by viewModels()
 
 
     override fun onCreateView(
@@ -38,24 +40,13 @@ class RecipesListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         initBundleData()
         binding.txTitleRecipes.text =
             view.context.getString(R.string.recipes_title_text, categoryTitle)
 
-        try {
-            val assetManager = requireContext().assets
-            val inputStream = assetManager.open(categoryImage.toString())
-            val drawable = Drawable.createFromStream(inputStream, null)
-            if (drawable != null) {
-                binding.imgRecipes.setImageDrawable(drawable)
-                Log.d("RecipesListFragment", "Картинка успешно загружена")
-            } else {
-                Log.e("RecipesiesListFragment", "Drawable == null")
-            }
-        } catch (e: Exception) {
-            Log.e("RecipesListFragment", "Ошибка загрузки картинки", e)
-        }
         initRecycler()
+        initUI()
     }
 
     override fun onDestroyView() {
@@ -69,14 +60,16 @@ class RecipesListFragment : Fragment() {
             categoryTitle = bundle.getString(NavigationArgs.ARG_CATEGORY_NAME)
             categoryImage = bundle.getString(NavigationArgs.ARG_CATEGORY_IMAGE_URL)
         }
+        categoryId?.let { model.loadRecipes(it) }
+        categoryImage?.let { model.loadImageFromAssets(it) }
+//        TODO: По кривому написано обращение к данным, пока не могу придумать, как сделать лаконичнее
     }
 
     private fun initRecycler() {
         Log.d("RecipesListFragment", "initRecycler called")
         binding.rvRecipes.layoutManager = LinearLayoutManager(requireContext())
-        val categoriesAdapter = RecipesListAdapter(STUB.getRecipesByCategoryId(categoryId ?: 0))
-        binding.rvRecipes.adapter = categoriesAdapter
-        categoriesAdapter.setOnItemClickListener(object :
+        binding.rvRecipes.adapter = recipesAdapter
+        recipesAdapter.setOnItemClickListener(object :
             RecipesListAdapter.OnItemClickListener {
             override fun onItemClick(recipeId: Int) {
                 openRecipeByRecipeId(recipeId)
@@ -90,6 +83,15 @@ class RecipesListFragment : Fragment() {
             setReorderingAllowed(false)
             replace<RecipeFragment>(R.id.mainContainer, args = bundle)
             addToBackStack(null)
+        }
+    }
+
+    private fun initUI() {
+        model.recipesState.observe(viewLifecycleOwner) { state ->
+            recipesAdapter.dataSet = state.recipes
+            state.image?.let { drawable ->
+                binding.imgRecipes.setImageDrawable(drawable)
+            }
         }
     }
 }

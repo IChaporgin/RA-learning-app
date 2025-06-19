@@ -1,7 +1,6 @@
 package ru.ichaporgin.ralearningapp.ui.category
 
 import CategoriesListAdapter
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +10,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import ru.ichaporgin.ralearningapp.R
 import ru.ichaporgin.ralearningapp.data.NavigationArgs
@@ -24,6 +24,9 @@ class CategoriesListFragment : Fragment() {
         get() = _binding
             ?: throw IllegalStateException("Binding for FragmentListCategoriesBinding must not to be null")
 
+    private val model: CategoriesListViewModel by viewModels()
+    private val categoriesAdapter = CategoriesListAdapter()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -34,19 +37,7 @@ class CategoriesListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecycler()
-        try {
-            val assetManager = requireContext().assets
-            val inputStream = assetManager.open("categories.png")
-            val drawable = Drawable.createFromStream(inputStream, null)
-            if (drawable != null) {
-                binding.imgCategory.setImageDrawable(drawable)
-                Log.d("CategoriesListFragment", "Картинка успешно загружена")
-            } else {
-                Log.e("CategoriesListFragment", "Drawable == null")
-            }
-        } catch (e: Exception) {
-            Log.e("CategoriesListFragment", "Ошибка загрузки картинки", e)
-        }
+        initUI()
     }
 
     override fun onDestroyView() {
@@ -57,7 +48,6 @@ class CategoriesListFragment : Fragment() {
     private fun initRecycler() {
         Log.d("CategoriesListFragment", "initRecycler called")
         binding.rvCategories.layoutManager = GridLayoutManager(requireContext(), 2)
-        val categoriesAdapter = CategoriesListAdapter(STUB.getCategories())
         binding.rvCategories.adapter = categoriesAdapter
         categoriesAdapter.setOnItemClickListener(object :
             CategoriesListAdapter.OnItemClickListener {
@@ -84,5 +74,16 @@ class CategoriesListFragment : Fragment() {
             replace<RecipesListFragment>(R.id.mainContainer, args = bundle)
             addToBackStack(null)
         }
+    }
+
+    private fun initUI() {
+        model.categoriesState.observe(viewLifecycleOwner) { state ->
+            state.categoriesImage?.let {
+                binding.imgCategory.setImageDrawable(it)
+            }
+            categoriesAdapter.dataSet = state.categories
+        }
+
+        model.loadCategories()
     }
 }
