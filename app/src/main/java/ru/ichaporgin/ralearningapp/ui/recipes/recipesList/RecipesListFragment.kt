@@ -42,9 +42,6 @@ class RecipesListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initBundleData()
-        binding.txTitleRecipes.text =
-            view.context.getString(R.string.recipes_title_text, categoryTitle)
-
         initRecycler()
         initUI()
     }
@@ -60,6 +57,9 @@ class RecipesListFragment : Fragment() {
             categoryTitle = bundle.getString(NavigationArgs.ARG_CATEGORY_NAME)
             categoryImage = bundle.getString(NavigationArgs.ARG_CATEGORY_IMAGE_URL)
         }
+
+        binding.txTitleRecipes.text = getString(R.string.recipes_title_text, categoryTitle)
+
         categoryId?.let { model.loadRecipes(it) }
         categoryImage?.let { model.loadImageFromAssets(it) }
 //        TODO: По кривому написано обращение к данным, пока не могу придумать, как сделать лаконичнее

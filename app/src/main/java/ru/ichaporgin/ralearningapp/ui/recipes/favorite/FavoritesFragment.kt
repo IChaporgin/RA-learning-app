@@ -1,7 +1,5 @@
 package ru.ichaporgin.ralearningapp.ui.recipes.favorite
 
-import android.content.Context
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,7 +12,6 @@ import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.ichaporgin.ralearningapp.R
-import ru.ichaporgin.ralearningapp.data.Constants
 import ru.ichaporgin.ralearningapp.data.NavigationArgs
 import ru.ichaporgin.ralearningapp.databinding.FragmentFavoritesBinding
 import ru.ichaporgin.ralearningapp.ui.recipes.recipe.RecipeFragment
@@ -43,7 +40,7 @@ class FavoritesFragment : Fragment() {
 
         initRecycle()
         initUI()
-        model.loadFavorites()
+        model.loadData()
     }
 
     override fun onDestroyView() {
@@ -54,8 +51,6 @@ class FavoritesFragment : Fragment() {
     private fun initRecycle() {
         Log.d("FavoritesFragment", "initRecycler called")
         binding.rvFavorites.layoutManager = LinearLayoutManager(requireContext())
-//        val favoriteRecipes = getFavorites()
-//        val favoritesAdapter = RecipesListAdapter()
         binding.rvFavorites.adapter = adapter
         adapter.setOnItemClickListener(object :
             RecipesListAdapter.OnItemClickListener {
@@ -63,14 +58,6 @@ class FavoritesFragment : Fragment() {
                 openRecipeByRecipeId(recipeId)
             }
         })
-    }
-
-    private fun getFavorites(): MutableSet<String> {
-        val pref =
-            requireContext().getSharedPreferences(Constants.SHARED_PREFS_NAME, Context.MODE_PRIVATE)
-        val favoriteSet = pref.getStringSet(Constants.FAVORITES_KEY, emptySet())
-        Log.d("FavoriteFragment", "Получение данных: $favoriteSet")
-        return HashSet(favoriteSet)
     }
 
     private fun openRecipeByRecipeId(recipeId: Int) {
@@ -85,22 +72,9 @@ class FavoritesFragment : Fragment() {
     private fun initUI() {
         model.selectedFavorites.observe(viewLifecycleOwner) { state ->
             adapter.dataSet = state.recipes
-            try {
-                val assetManager = requireContext().assets
-                val inputStream = assetManager.open("bcg_favorites.png")
-                val drawable = Drawable.createFromStream(inputStream, null)
-                if (drawable != null) {
-                    binding.imgFavorites.setImageDrawable(drawable)
-                    Log.d("CategoriesListFragment", "Картинка успешно загружена")
-                } else {
-                    Log.e("CategoriesListFragment", "Drawable == null")
-                }
-            } catch (e: Exception) {
-                Log.e("CategoriesListFragment", "Ошибка загрузки картинки", e)
+            state.imageFavorite?.let {
+                binding.imgFavorites.setImageDrawable(it)
             }
-//            state.imageFavorite.let { drawable ->
-//                binding.imgFavorites.setImageDrawable(drawable)
-//            }
         }
     }
 }

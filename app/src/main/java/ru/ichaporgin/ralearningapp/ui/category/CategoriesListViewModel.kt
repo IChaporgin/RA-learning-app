@@ -18,19 +18,29 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
     private val _categoriesState = MutableLiveData(CategoriesState())
     val categoriesState: LiveData<CategoriesState> get() = _categoriesState
 
-    fun loadCategories() {
+    fun loadData() {
+        val categories = STUB.getCategories()
+        val drawable =
+            try {
+                val assetManager = getApplication<Application>().assets
+                val inputStream = assetManager.open("categories.png")
+                Drawable.createFromStream(inputStream, null)
+            } catch (e: Exception) {
+                Log.e("CategoriesViewModel", "Ошибка загрузки картинки", e)
+                null
+            }
         _categoriesState.value = CategoriesState(
-            categories = STUB.getCategories()
+            categories = categories,
+            categoriesImage = drawable
         )
-        try {
-            val assetManager = getApplication<Application>().assets
-            val inputStream = assetManager.open("categories.png")
-            val drawable = Drawable.createFromStream(inputStream, null)
-            _categoriesState.value = _categoriesState.value?.copy(categoriesImage = drawable)
+        if (drawable != null) {
             Log.d("CategoriesListFragment", "Картинка успешно загружена")
+        } else {
             Log.e("CategoriesListFragment", "Drawable == null")
-        } catch (e: Exception) {
-            Log.e("CategoriesListFragment", "Ошибка загрузки картинки", e)
         }
+    }
+
+    fun getCategoryById(categoryId: Int): Category? {
+        return _categoriesState.value?.categories?.find { it.id == categoryId }
     }
 }

@@ -14,7 +14,6 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import ru.ichaporgin.ralearningapp.R
 import ru.ichaporgin.ralearningapp.data.NavigationArgs
-import ru.ichaporgin.ralearningapp.data.STUB
 import ru.ichaporgin.ralearningapp.databinding.FragmentListCategoriesBinding
 import ru.ichaporgin.ralearningapp.ui.recipes.recipesList.RecipesListFragment
 
@@ -58,9 +57,9 @@ class CategoriesListFragment : Fragment() {
     }
 
     private fun openRecipesByCategoryId(categoryId: Int) {
-        val category = STUB.getCategories().find { it.id == categoryId }
+        val category = model.getCategoryById(categoryId)
         if (category == null) {
-            Log.e("!!!", "Category $categoryId not found")
+            Log.e("CategoriesListFragment", "Категория не найдена: id=$categoryId")
             return
         }
         val bundle = bundleOf(
@@ -83,7 +82,6 @@ class CategoriesListFragment : Fragment() {
             }
             categoriesAdapter.dataSet = state.categories
         }
-
-        model.loadCategories()
+        model.loadData()
     }
 }
