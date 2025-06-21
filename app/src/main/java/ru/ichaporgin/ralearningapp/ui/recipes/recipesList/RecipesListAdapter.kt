@@ -10,11 +10,17 @@ import ru.ichaporgin.ralearningapp.databinding.ItemRecipesBinding
 import ru.ichaporgin.ralearningapp.model.Recipe
 import java.io.InputStream
 
-class RecipesListAdapter(private val dataSet: List<Recipe>) :
+class RecipesListAdapter() :
     RecyclerView.Adapter<RecipesListAdapter.ViewHolder>() {
     interface OnItemClickListener {
         fun onItemClick(categoryId: Int)
     }
+
+    var dataSet: List<Recipe> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     private var itemClickListener: OnItemClickListener? = null
     fun setOnItemClickListener(listener: OnItemClickListener) {

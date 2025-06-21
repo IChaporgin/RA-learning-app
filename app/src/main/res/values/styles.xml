@@ -13,6 +13,7 @@
         <item name="fontFamily">@font/montserrat_medium</item>
         <item name="android:textColor">@color/item_category_description</item>
     </style>
+
     <style name="StyleItemCategoryTitle" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/montserrat_alternates_semibold</item>
         <item name="android:textSize">@dimen/title_item_text_size</item>
@@ -67,6 +68,12 @@
     <style name="styleSeekBar" parent="Widget.AppCompat.SeekBar">
         <item name="android:progressDrawable">@drawable/shape_seekbar_progress</item>
         <item name="android:thumb">@drawable/shape_seekbar_thumb</item>
+        <item name="android:textColor">@color/item_recipe_color</item>
+    </style>
+
+    <style name="recipesEmptyTextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/ingredient_text_size</item>
+        <item name="fontFamily">@font/montserrat_regular</item>
         <item name="android:textColor">@color/item_recipe_color</item>
     </style>
 

@@ -11,4 +11,5 @@
     <string name="portions">Порции: %1$d</string>
     <string name="method_of_preparation">способ приготовления</string>
     <string name="button_add_favorite">добавить в избранное</string>
+    <string name="Recipes_empty">Вы еще не добавили ни одного рецепта в избранное</string>
 </resources>
