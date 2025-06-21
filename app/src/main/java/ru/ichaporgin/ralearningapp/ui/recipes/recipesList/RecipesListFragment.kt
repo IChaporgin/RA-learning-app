@@ -26,7 +26,7 @@ class RecipesListFragment : Fragment() {
     private var categoryImage: String? = null
 
     private val adapter = RecipesListAdapter()
-    private val model: RecipesListViewModel by viewModels()
+    private val viewModel: RecipesListViewModel by viewModels()
 
 
     override fun onCreateView(
@@ -60,8 +60,8 @@ class RecipesListFragment : Fragment() {
 
         binding.txTitleRecipes.text = getString(R.string.recipes_title_text, categoryTitle)
 
-        categoryId?.let { model.loadRecipes(it) }
-        categoryImage?.let { model.loadImageFromAssets(it) }
+        categoryId?.let { viewModel.loadRecipes(it) }
+        categoryImage?.let { viewModel.loadImageFromAssets(it) }
 //        TODO: По кривому написано обращение к данным, пока не могу придумать, как сделать лаконичнее
     }
 
@@ -87,7 +87,7 @@ class RecipesListFragment : Fragment() {
     }
 
     private fun initUI() {
-        model.recipesState.observe(viewLifecycleOwner) { state ->
+        viewModel.recipesState.observe(viewLifecycleOwner) { state ->
             adapter.dataSet = state.recipes
             state.image?.let { drawable ->
                 binding.imgRecipes.setImageDrawable(drawable)

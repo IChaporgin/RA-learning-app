@@ -19,7 +19,7 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
     val recipesState: LiveData<RecipesState> get() = _recipesState
 
     fun loadRecipes(id: Int) {
-        _recipesState.value = RecipesState(
+        _recipesState.value = _recipesState.value?.copy(
             recipes = STUB.getRecipesByCategoryId(id)
         )
     }

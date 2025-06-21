@@ -29,7 +29,7 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
                 Log.e("CategoriesViewModel", "Ошибка загрузки картинки", e)
                 null
             }
-        _categoriesState.value = CategoriesState(
+        _categoriesState.value = _categoriesState.value?.copy(
             categories = categories,
             categoriesImage = drawable
         )

@@ -31,7 +31,7 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
             val inputStream = assetManager.open("bcg_favorites.png")
             val drawable = Drawable.createFromStream(inputStream, null)
             if (drawable != null) {
-                _favoritesState.value = FavoritesState(
+                _favoritesState.value = _favoritesState.value?.copy(
                     recipes = recipes,
                     imageFavorite = drawable
                 )

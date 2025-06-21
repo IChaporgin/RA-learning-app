@@ -22,7 +22,7 @@ class RecipeFragment : Fragment() {
     private val binding
         get() = _binding
             ?: throw IllegalStateException("Binding for FragmentRecipeBinding must not to be null")
-    private val model: RecipeViewModel by viewModels()
+    private val viewModel: RecipeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -35,7 +35,7 @@ class RecipeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         var recipeId = arguments?.getInt(NavigationArgs.ARG_RECIPE_ID)
         recipeId?.let { id ->
-            model.loadRecipe(id)
+            viewModel.loadRecipe(id)
         }
 
         binding.seekBar.min = Constants.MIN_PORTIONS
@@ -43,7 +43,7 @@ class RecipeFragment : Fragment() {
 
         binding.seekBar.setOnSeekBarChangeListener(
             PortionSeekBarListener { progress ->
-                model.updatePortion(progress)
+                viewModel.updatePortion(progress)
             }
         )
 
@@ -57,7 +57,7 @@ class RecipeFragment : Fragment() {
     }
 
     private fun initUI() {
-        model.selectedRecipe.observe(viewLifecycleOwner) { state ->
+        viewModel.selectedRecipe.observe(viewLifecycleOwner) { state ->
             val recipe = state.recipe
             val portion = state.portionCount
             val isFavorite = state.isFavorite
@@ -77,7 +77,7 @@ class RecipeFragment : Fragment() {
 
             updateFavoriteIcon(isFavorite)
             binding.btnFavoriteAdd.setOnClickListener {
-                model.onFavoritesClicked()
+                viewModel.onFavoritesClicked()
             }
             binding.txTitleRecipe.text = text
         }

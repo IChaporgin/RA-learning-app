@@ -23,7 +23,7 @@ class FavoritesFragment : Fragment() {
         get() = _binding
             ?: throw IllegalStateException("Binding for FragmentFavoritesBinding must not to be null")
 
-    private val model: FavoritesViewModel by viewModels()
+    private val viewModel: FavoritesViewModel by viewModels()
     private val adapter = RecipesListAdapter()
 
     override fun onCreateView(
@@ -40,7 +40,7 @@ class FavoritesFragment : Fragment() {
 
         initRecycle()
         initUI()
-        model.loadData()
+        viewModel.loadData()
     }
 
     override fun onDestroyView() {
@@ -70,8 +70,17 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun initUI() {
-        model.selectedFavorites.observe(viewLifecycleOwner) { state ->
+        viewModel.selectedFavorites.observe(viewLifecycleOwner) { state ->
             adapter.dataSet = state.recipes
+
+            if (state.recipes.isEmpty()) {
+                binding.tvRecipesEmpty.visibility = View.VISIBLE
+                binding.rvFavorites.visibility = View.GONE
+            } else {
+                binding.tvRecipesEmpty.visibility = View.GONE
+                binding.rvFavorites.visibility = View.VISIBLE
+            }
+
             state.imageFavorite?.let {
                 binding.imgFavorites.setImageDrawable(it)
             }
