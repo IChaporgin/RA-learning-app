@@ -1,7 +1,5 @@
 package ru.ichaporgin.ralearningapp.ui.recipes.favorite
 
-import android.content.Context
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,11 +9,10 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.ichaporgin.ralearningapp.R
-import ru.ichaporgin.ralearningapp.data.Constants
 import ru.ichaporgin.ralearningapp.data.NavigationArgs
-import ru.ichaporgin.ralearningapp.data.STUB
 import ru.ichaporgin.ralearningapp.databinding.FragmentFavoritesBinding
 import ru.ichaporgin.ralearningapp.ui.recipes.recipe.RecipeFragment
 import ru.ichaporgin.ralearningapp.ui.recipes.recipesList.RecipesListAdapter
@@ -25,6 +22,9 @@ class FavoritesFragment : Fragment() {
     private val binding
         get() = _binding
             ?: throw IllegalStateException("Binding for FragmentFavoritesBinding must not to be null")
+
+    private val viewModel: FavoritesViewModel by viewModels()
+    private val adapter = RecipesListAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,20 +37,10 @@ class FavoritesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        try {
-            val assetManager = requireContext().assets
-            val inputStream = assetManager.open("bcg_favorites.png")
-            val drawable = Drawable.createFromStream(inputStream, null)
-            if (drawable != null) {
-                binding.imgFavorites.setImageDrawable(drawable)
-                Log.d("CategoriesListFragment", "Картинка успешно загружена")
-            } else {
-                Log.e("CategoriesListFragment", "Drawable == null")
-            }
-        } catch (e: Exception) {
-            Log.e("CategoriesListFragment", "Ошибка загрузки картинки", e)
-        }
+
         initRecycle()
+        initUI()
+        viewModel.loadData()
     }
 
     override fun onDestroyView() {
@@ -61,23 +51,13 @@ class FavoritesFragment : Fragment() {
     private fun initRecycle() {
         Log.d("FavoritesFragment", "initRecycler called")
         binding.rvFavorites.layoutManager = LinearLayoutManager(requireContext())
-        val favoriteRecipes = getFavorites()
-        val favoritesAdapter = RecipesListAdapter(STUB.getRecipesByIds(favoriteRecipes))
-        binding.rvFavorites.adapter = favoritesAdapter
-        favoritesAdapter.setOnItemClickListener(object :
+        binding.rvFavorites.adapter = adapter
+        adapter.setOnItemClickListener(object :
             RecipesListAdapter.OnItemClickListener {
             override fun onItemClick(recipeId: Int) {
                 openRecipeByRecipeId(recipeId)
             }
         })
-    }
-
-    private fun getFavorites(): MutableSet<String> {
-        val pref =
-            requireContext().getSharedPreferences(Constants.SHARED_PREFS_NAME, Context.MODE_PRIVATE)
-        val favoriteSet = pref.getStringSet(Constants.FAVORITES_KEY, emptySet())
-        Log.d("FavoriteFragment", "Получение данных: $favoriteSet")
-        return HashSet(favoriteSet)
     }
 
     private fun openRecipeByRecipeId(recipeId: Int) {
@@ -86,6 +66,24 @@ class FavoritesFragment : Fragment() {
             setReorderingAllowed(false)
             replace<RecipeFragment>(R.id.mainContainer, args = bundle)
             addToBackStack(null)
+        }
+    }
+
+    private fun initUI() {
+        viewModel.selectedFavorites.observe(viewLifecycleOwner) { state ->
+            adapter.dataSet = state.recipes
+
+            if (state.recipes.isEmpty()) {
+                binding.tvRecipesEmpty.visibility = View.VISIBLE
+                binding.rvFavorites.visibility = View.GONE
+            } else {
+                binding.tvRecipesEmpty.visibility = View.GONE
+                binding.rvFavorites.visibility = View.VISIBLE
+            }
+
+            state.imageFavorite?.let {
+                binding.imgFavorites.setImageDrawable(it)
+            }
         }
     }
 }
