@@ -8,13 +8,12 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.ichaporgin.ralearningapp.R
 import ru.ichaporgin.ralearningapp.data.NavigationArgs
 import ru.ichaporgin.ralearningapp.databinding.FragmentRecipesListBinding
-import ru.ichaporgin.ralearningapp.ui.recipes.recipe.RecipeFragment
 
 class RecipesListFragment : Fragment() {
     private var _binding: FragmentRecipesListBinding? = null
@@ -80,9 +79,7 @@ class RecipesListFragment : Fragment() {
     private fun openRecipeByRecipeId(recipeId: Int) {
         val bundle = bundleOf(NavigationArgs.ARG_RECIPE_ID to recipeId)
         parentFragmentManager.commit {
-            setReorderingAllowed(false)
-            replace<RecipeFragment>(R.id.mainContainer, args = bundle)
-            addToBackStack(null)
+            findNavController().navigate(R.id.recipeFragment, bundle)
         }
     }
 
