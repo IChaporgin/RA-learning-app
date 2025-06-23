@@ -3,9 +3,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import ru.ichaporgin.ralearningapp.model.Category
 import ru.ichaporgin.ralearningapp.R
 import ru.ichaporgin.ralearningapp.databinding.ItemCategoryBinding
+import ru.ichaporgin.ralearningapp.model.Category
 import java.io.InputStream
 
 class CategoriesListAdapter() :
