@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import ru.ichaporgin.ralearningapp.R
 import ru.ichaporgin.ralearningapp.data.Constants
-import ru.ichaporgin.ralearningapp.data.NavigationArgs
 import ru.ichaporgin.ralearningapp.databinding.FragmentRecipeBinding
 
 class RecipeFragment : Fragment() {
@@ -36,7 +35,6 @@ class RecipeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var recipeId = args.recipeId
-//            arguments?.getInt(NavigationArgs.ARG_RECIPE_ID)
         recipeId.let { id ->
             viewModel.loadRecipe(id)
         }
