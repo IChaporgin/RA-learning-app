@@ -52,5 +52,14 @@
         <action
             android:id="@+id/action_recipesListFragment_to_favoritesFragment"
             app:destination="@id/favoritesFragment" />
+        <argument
+            android:name="categoryId"
+            app:argType="integer" />
+        <argument
+            android:name="categoryName"
+            app:argType="string" />
+        <argument
+            android:name="categoryImageUrl"
+            app:argType="string" />
     </fragment>
 </navigation>

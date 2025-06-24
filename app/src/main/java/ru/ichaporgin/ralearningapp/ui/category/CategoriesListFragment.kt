@@ -13,7 +13,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import ru.ichaporgin.ralearningapp.R
-import ru.ichaporgin.ralearningapp.data.NavigationArgs
 import ru.ichaporgin.ralearningapp.databinding.FragmentListCategoriesBinding
 
 class CategoriesListFragment : Fragment() {
@@ -61,14 +60,20 @@ class CategoriesListFragment : Fragment() {
             Log.e("CategoriesListFragment", "Категория не найдена: id=$categoryId")
             return
         }
-        val bundle = bundleOf(
-            NavigationArgs.ARG_CATEGORY_ID to categoryId,
-            NavigationArgs.ARG_CATEGORY_NAME to category.title,
-            NavigationArgs.ARG_CATEGORY_IMAGE_URL to category.imageUrl
-        )
+//        val bundle = bundleOf(
+//            NavigationArgs.ARG_CATEGORY_ID to categoryId,
+//            NavigationArgs.ARG_CATEGORY_NAME to category.title,
+//            NavigationArgs.ARG_CATEGORY_IMAGE_URL to category.imageUrl
+//        )
+        val direction = CategoriesListFragmentDirections
+            .actionCategoriesListFragmentToRecipesListFragment(
+                categoryId = category.id,
+                categoryName = category.title,
+                categoryImageUrl = category.imageUrl
+            )
 
         parentFragmentManager.commit {
-            findNavController().navigate(R.id.recipesListFragment, bundle)
+            findNavController().navigate(direction)
         }
     }
 
