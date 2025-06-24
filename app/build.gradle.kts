@@ -58,30 +58,11 @@ dependencies {
     implementation(libs.androidx.fragment)
     implementation(libs.androidx.recyclerview)
     implementation(libs.filament.android)
+    implementation(libs.androidx.fragment)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    val fragment_version = "1.8.6"
-
-    // Java language implementation
-    implementation("androidx.fragment:fragment:$fragment_version")
-    // Kotlin
-    implementation("androidx.fragment:fragment-ktx:$fragment_version")
-    val nav_version = "2.9.0"
-
-    // Jetpack Compose integration
-    implementation("androidx.navigation:navigation-compose:$nav_version")
-
-    // Views/Fragments integration
-    implementation("androidx.navigation:navigation-fragment:$nav_version")
-    implementation("androidx.navigation:navigation-ui:$nav_version")
-
-    // Feature module support for Fragments
-    implementation("androidx.navigation:navigation-dynamic-features-fragment:$nav_version")
-
-    // Testing Navigation
-    androidTestImplementation("androidx.navigation:navigation-testing:$nav_version")
-
-    // JSON serialization library, works with the Kotlin serialization plugin
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
+    implementation(libs.navigation.runtime)
 }
