@@ -52,5 +52,8 @@
         <action
             android:id="@+id/action_recipesListFragment_to_favoritesFragment"
             app:destination="@id/favoritesFragment" />
+        <action
+            android:id="@+id/action_recipesListFragment_to_categoriesListFragment"
+            app:destination="@id/categoriesListFragment" />
     </fragment>
 </navigation>

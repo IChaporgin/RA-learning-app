@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "ru.ichaporgin.ralearningapp"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "ru.ichaporgin.ralearningapp"
