@@ -61,5 +61,8 @@
         <argument
             android:name="categoryImageUrl"
             app:argType="string" />
+        <action
+            android:id="@+id/action_recipesListFragment_to_categoriesListFragment"
+            app:destination="@id/categoriesListFragment" />
     </fragment>
 </navigation>
