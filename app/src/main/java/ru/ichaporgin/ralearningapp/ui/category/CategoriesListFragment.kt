@@ -6,13 +6,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import ru.ichaporgin.ralearningapp.R
 import ru.ichaporgin.ralearningapp.databinding.FragmentListCategoriesBinding
 
 class CategoriesListFragment : Fragment() {
@@ -60,17 +58,9 @@ class CategoriesListFragment : Fragment() {
             Log.e("CategoriesListFragment", "Категория не найдена: id=$categoryId")
             return
         }
-//        val bundle = bundleOf(
-//            NavigationArgs.ARG_CATEGORY_ID to categoryId,
-//            NavigationArgs.ARG_CATEGORY_NAME to category.title,
-//            NavigationArgs.ARG_CATEGORY_IMAGE_URL to category.imageUrl
-//        )
+
         val direction = CategoriesListFragmentDirections
-            .actionCategoriesListFragmentToRecipesListFragment(
-                categoryId = category.id,
-                categoryName = category.title,
-                categoryImageUrl = category.imageUrl
-            )
+            .actionCategoriesListFragmentToRecipesListFragment(category)
 
         parentFragmentManager.commit {
             findNavController().navigate(direction)

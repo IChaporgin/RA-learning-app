@@ -12,9 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.ichaporgin.ralearningapp.R
-import ru.ichaporgin.ralearningapp.data.NavigationArgs
 import ru.ichaporgin.ralearningapp.databinding.FragmentRecipesListBinding
-import ru.ichaporgin.ralearningapp.ui.category.CategoriesListFragmentDirections
 
 class RecipesListFragment : Fragment() {
     private var _binding: FragmentRecipesListBinding? = null
@@ -53,25 +51,11 @@ class RecipesListFragment : Fragment() {
     }
 
     private fun initBundleData() {
+        categoryId = args.category.id
+        categoryTitle = args.category.title
+        categoryImage = args.category.imageUrl
 
-//        val direction = CategoriesListFragmentDirections
-//            .actionCategoriesListFragmentToRecipesListFragment(
-//                categoryId = categ,
-//
-//            )
-//        args.let {
-//            categoryId = args.categoryId
-//            categoryTitle = args.categoryName
-//            categoryImage = args.categoryImageUrl
-        }
-//        arguments?.let { bundle ->
-//            categoryId = bundle.getInt(NavigationArgs.ARG_CATEGORY_ID)
-//            categoryTitle = bundle.getString(NavigationArgs.ARG_CATEGORY_NAME)
-//            categoryImage = bundle.getString(NavigationArgs.ARG_CATEGORY_IMAGE_URL)
-//        }
-
-        binding.txTitleRecipes.text = getString(R.string.recipes_title_text, categoryTitle)
-
+        categoryTitle?.let { binding.txTitleRecipes.text = getString(R.string.recipes_title_text, categoryTitle) }
         categoryId?.let { viewModel.loadRecipes(it) }
         categoryImage?.let { viewModel.loadImageFromAssets(it) }
 //        TODO: По кривому написано обращение к данным, пока не могу придумать, как сделать лаконичнее

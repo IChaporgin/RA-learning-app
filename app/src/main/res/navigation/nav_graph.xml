@@ -12,10 +12,18 @@
         tools:layout="@layout/fragment_list_categories">
         <action
             android:id="@+id/action_categoriesListFragment_to_recipesListFragment"
-            app:destination="@id/recipesListFragment" />
+            app:destination="@id/recipesListFragment"
+            app:enterAnim="@android:anim/slide_out_right"
+            app:exitAnim="@android:anim/slide_in_left"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_categoriesListFragment_to_favoritesFragment"
-            app:destination="@id/favoritesFragment" />
+            app:destination="@id/favoritesFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -25,10 +33,18 @@
         tools:layout="@layout/fragment_favorites">
         <action
             android:id="@+id/action_favoritesFragment_to_recipeFragment"
-            app:destination="@id/recipeFragment" />
+            app:destination="@id/recipeFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_out"
+            app:popExitAnim="@android:anim/fade_in" />
         <action
             android:id="@+id/action_favoritesFragment_to_categoriesListFragment"
-            app:destination="@id/categoriesListFragment" />
+            app:destination="@id/categoriesListFragment"
+            app:enterAnim="@android:anim/fade_out"
+            app:exitAnim="@android:anim/fade_in"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
 
     <fragment
@@ -39,6 +55,13 @@
         <argument
             android:name="recipeId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_recipeFragment_to_categoriesListFragment"
+            app:destination="@id/categoriesListFragment"
+            app:enterAnim="@android:anim/slide_out_right"
+            app:exitAnim="@android:anim/slide_in_left"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -48,21 +71,27 @@
         tools:layout="@layout/fragment_recipes_list">
         <action
             android:id="@+id/action_recipesListFragment_to_recipeFragment"
-            app:destination="@id/recipeFragment" />
+            app:destination="@id/recipeFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_out"
+            app:popExitAnim="@android:anim/fade_in" />
         <action
             android:id="@+id/action_recipesListFragment_to_favoritesFragment"
-            app:destination="@id/favoritesFragment" />
-        <argument
-            android:name="categoryId"
-            app:argType="integer" />
-        <argument
-            android:name="categoryName"
-            app:argType="string" />
-        <argument
-            android:name="categoryImageUrl"
-            app:argType="string" />
+            app:destination="@id/favoritesFragment"
+            app:enterAnim="@android:anim/slide_out_right"
+            app:exitAnim="@android:anim/slide_in_left"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_recipesListFragment_to_categoriesListFragment"
-            app:destination="@id/categoriesListFragment" />
+            app:destination="@id/categoriesListFragment"
+            app:enterAnim="@android:anim/slide_out_right"
+            app:exitAnim="@android:anim/slide_in_left"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <argument
+            android:name="category"
+            app:argType="ru.ichaporgin.ralearningapp.model.Category" />
     </fragment>
 </navigation>
