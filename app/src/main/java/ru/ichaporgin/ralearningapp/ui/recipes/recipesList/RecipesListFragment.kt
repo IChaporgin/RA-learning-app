@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
@@ -77,9 +76,10 @@ class RecipesListFragment : Fragment() {
     }
 
     private fun openRecipeByRecipeId(recipeId: Int) {
-        val bundle = bundleOf(NavigationArgs.ARG_RECIPE_ID to recipeId)
+        val direction = RecipesListFragmentDirections
+            .actionRecipesListFragmentToRecipeFragment(recipeId)
         parentFragmentManager.commit {
-            findNavController().navigate(R.id.recipeFragment, bundle)
+            findNavController().navigate(direction)
         }
     }
 

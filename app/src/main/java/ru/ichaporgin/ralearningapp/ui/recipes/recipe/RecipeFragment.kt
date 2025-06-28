@@ -8,11 +8,11 @@ import android.widget.SeekBar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import ru.ichaporgin.ralearningapp.R
 import ru.ichaporgin.ralearningapp.data.Constants
-import ru.ichaporgin.ralearningapp.data.NavigationArgs
 import ru.ichaporgin.ralearningapp.databinding.FragmentRecipeBinding
 
 class RecipeFragment : Fragment() {
@@ -23,6 +23,7 @@ class RecipeFragment : Fragment() {
         get() = _binding
             ?: throw IllegalStateException("Binding for FragmentRecipeBinding must not to be null")
     private val viewModel: RecipeViewModel by viewModels()
+    private val args: RecipeFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -33,8 +34,8 @@ class RecipeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var recipeId = arguments?.getInt(NavigationArgs.ARG_RECIPE_ID)
-        recipeId?.let { id ->
+        val recipeId = args.recipeId
+        recipeId.let { id ->
             viewModel.loadRecipe(id)
         }
 
