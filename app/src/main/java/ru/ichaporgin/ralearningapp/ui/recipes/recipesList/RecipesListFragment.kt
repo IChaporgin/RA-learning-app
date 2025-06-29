@@ -55,10 +55,11 @@ class RecipesListFragment : Fragment() {
         categoryTitle = args.category.title
         categoryImage = args.category.imageUrl
 
-        categoryTitle?.let { binding.txTitleRecipes.text = getString(R.string.recipes_title_text, categoryTitle) }
+        categoryTitle?.let {
+            binding.txTitleRecipes.text = getString(R.string.recipes_title_text, categoryTitle)
+        }
         categoryId?.let { viewModel.loadRecipes(it) }
         categoryImage?.let { viewModel.loadImageFromAssets(it) }
-//        TODO: По кривому написано обращение к данным, пока не могу придумать, как сделать лаконичнее
     }
 
     private fun initRecycler() {

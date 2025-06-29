@@ -54,10 +54,7 @@ class CategoriesListFragment : Fragment() {
 
     private fun openRecipesByCategoryId(categoryId: Int) {
         val category = model.getCategoryById(categoryId)
-        if (category == null) {
-            Log.e("CategoriesListFragment", "Категория не найдена: id=$categoryId")
-            return
-        }
+            ?: throw IllegalArgumentException("Отсутствует категория: $categoryId")
 
         val direction = CategoriesListFragmentDirections
             .actionCategoriesListFragmentToRecipesListFragment(category)
