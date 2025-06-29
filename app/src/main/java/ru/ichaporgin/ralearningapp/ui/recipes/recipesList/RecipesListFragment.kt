@@ -9,9 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.ichaporgin.ralearningapp.R
-import ru.ichaporgin.ralearningapp.data.NavigationArgs
 import ru.ichaporgin.ralearningapp.databinding.FragmentRecipesListBinding
 
 class RecipesListFragment : Fragment() {
@@ -25,6 +25,7 @@ class RecipesListFragment : Fragment() {
 
     private val adapter = RecipesListAdapter()
     private val viewModel: RecipesListViewModel by viewModels()
+    private val args: RecipesListFragmentArgs by navArgs()
 
 
     override fun onCreateView(
@@ -50,17 +51,15 @@ class RecipesListFragment : Fragment() {
     }
 
     private fun initBundleData() {
-        arguments?.let { bundle ->
-            categoryId = bundle.getInt(NavigationArgs.ARG_CATEGORY_ID)
-            categoryTitle = bundle.getString(NavigationArgs.ARG_CATEGORY_NAME)
-            categoryImage = bundle.getString(NavigationArgs.ARG_CATEGORY_IMAGE_URL)
+        categoryId = args.category.id
+        categoryTitle = args.category.title
+        categoryImage = args.category.imageUrl
+
+        categoryTitle?.let {
+            binding.txTitleRecipes.text = getString(R.string.recipes_title_text, categoryTitle)
         }
-
-        binding.txTitleRecipes.text = getString(R.string.recipes_title_text, categoryTitle)
-
         categoryId?.let { viewModel.loadRecipes(it) }
         categoryImage?.let { viewModel.loadImageFromAssets(it) }
-//        TODO: По кривому написано обращение к данным, пока не могу придумать, как сделать лаконичнее
     }
 
     private fun initRecycler() {

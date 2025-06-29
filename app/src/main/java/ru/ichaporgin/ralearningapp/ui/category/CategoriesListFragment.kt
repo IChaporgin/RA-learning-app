@@ -6,14 +6,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import ru.ichaporgin.ralearningapp.R
-import ru.ichaporgin.ralearningapp.data.NavigationArgs
 import ru.ichaporgin.ralearningapp.databinding.FragmentListCategoriesBinding
 
 class CategoriesListFragment : Fragment() {
@@ -57,18 +54,13 @@ class CategoriesListFragment : Fragment() {
 
     private fun openRecipesByCategoryId(categoryId: Int) {
         val category = model.getCategoryById(categoryId)
-        if (category == null) {
-            Log.e("CategoriesListFragment", "Категория не найдена: id=$categoryId")
-            return
-        }
-        val bundle = bundleOf(
-            NavigationArgs.ARG_CATEGORY_ID to categoryId,
-            NavigationArgs.ARG_CATEGORY_NAME to category.title,
-            NavigationArgs.ARG_CATEGORY_IMAGE_URL to category.imageUrl
-        )
+            ?: throw IllegalArgumentException("Отсутствует категория: $categoryId")
+
+        val direction = CategoriesListFragmentDirections
+            .actionCategoriesListFragmentToRecipesListFragment(category)
 
         parentFragmentManager.commit {
-            findNavController().navigate(R.id.recipesListFragment, bundle)
+            findNavController().navigate(direction)
         }
     }
 
