@@ -28,9 +28,13 @@ class MainActivity : AppCompatActivity() {
 
         val thread = Thread {
             try {
-                val url: URL = URL("${Constants.BASE_URL}category")
+                val url = URL("${Constants.BASE_URL}category")
                 val connection = url.openConnection() as HttpsURLConnection
                 connection.connect()
+                val json = connection.inputStream.bufferedReader().readText()
+                val type = object : TypeToken<List<Category>>() {}.type
+                val category: List<Category> = Gson().fromJson(json, type)
+                Log.i("!!!", "JSON Category: $category")
                 Log.i("!!!", "ResponseCode: ${connection.responseCode}")
                 Log.i("!!!", "ResponseMessage: ${connection.responseMessage}")
                 Log.i("!!!", "ResponseCode: ${connection.inputStream.bufferedReader().readText()}")
@@ -43,23 +47,6 @@ class MainActivity : AppCompatActivity() {
 
         thread.start()
         Log.i("!!!", "Метод onCreate() выполняется на потоке: ${Thread.currentThread().name}")
-
-        val thread2 = Thread {
-            try {
-                val url = URL("${Constants.BASE_URL}category")
-                val connection = url.openConnection() as HttpsURLConnection
-                connection.connect()
-                val json = connection.inputStream.bufferedReader().readText()
-                val type = object : TypeToken<List<Category>>() {}.type
-                val category: List<Category> = Gson().fromJson(json, type)
-                Log.i("!!!", "JSON Category: $category")
-
-            } catch (e: Exception) {
-                Log.e("!!!", "Ошибка данных", e)
-            }
-        }
-
-        thread2.start()
 
         binding.btnCategory.setOnClickListener {
             findNavController(R.id.nav_host_fragment).navigate(R.id.categoriesListFragment)
