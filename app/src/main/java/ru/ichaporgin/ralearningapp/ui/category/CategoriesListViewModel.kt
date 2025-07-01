@@ -19,8 +19,7 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
     val categoriesState: LiveData<CategoriesState> get() = _categoriesState
 
     fun loadData() {
-        val categories =
-//        val categories = STUB.getCategories()
+        val categories = STUB.getCategories()
         val drawable =
             try {
                 val assetManager = getApplication<Application>().assets
