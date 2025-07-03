@@ -24,15 +24,18 @@ class MainActivity : AppCompatActivity() {
     private val binding
         get() = _binding
             ?: throw IllegalStateException("Binding for ActivityMainBinding must not to be null")
+
     private val logging = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
     }
+    private val client: OkHttpClient = OkHttpClient().newBuilder()
+        .addInterceptor(logging)
+        .build()
 
     private var category: MutableList<Category> = mutableListOf()
 
     private fun fetchRecipesFromCategory(categoryId: Int) {
         try {
-            val client = OkHttpClient()
             val request: Request = Request.Builder()
                 .url("${Constants.BASE_URL}category/$categoryId/recipes")
                 .build()
@@ -58,7 +61,6 @@ class MainActivity : AppCompatActivity() {
 
         val thread = Thread {
             try {
-                val client = OkHttpClient()
                 val request: Request = Request.Builder()
                     .url("${Constants.BASE_URL}category")
                     .build()
@@ -75,11 +77,6 @@ class MainActivity : AppCompatActivity() {
                             fetchRecipesFromCategory(categoryId)
                         }
                     }
-
-                    Log.i("!!!", "ResponseCode: ${response.code}")
-                    Log.i("!!!", "ResponseMessage: ${response.message}")
-                    Log.i("!!!", "ResponseBody: $json}")
-                    Log.i("!!!", "Выполняю запрос на потоке: ${Thread.currentThread().name}")
                 }
             } catch (e: Exception) {
                 Log.e("!!!", "Ошибка соединения:", e)
@@ -87,7 +84,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         thread.start()
-        Log.i("!!!", "Метод onCreate() выполняется на потоке: ${Thread.currentThread().name}")
 
         binding.btnCategory.setOnClickListener {
             findNavController(R.id.nav_host_fragment).navigate(R.id.categoriesListFragment)
@@ -96,7 +92,6 @@ class MainActivity : AppCompatActivity() {
         binding.btnFavorite.setOnClickListener {
             findNavController(R.id.nav_host_fragment).navigate(R.id.favoritesFragment)
         }
-
 
         WindowCompat.setDecorFitsSystemWindows(window, true)
         WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
