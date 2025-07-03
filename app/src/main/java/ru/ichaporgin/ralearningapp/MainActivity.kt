@@ -11,6 +11,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.logging.HttpLoggingInterceptor
 import ru.ichaporgin.ralearningapp.data.Constants
 import ru.ichaporgin.ralearningapp.databinding.ActivityMainBinding
 import ru.ichaporgin.ralearningapp.model.Category
@@ -23,12 +24,15 @@ class MainActivity : AppCompatActivity() {
     private val binding
         get() = _binding
             ?: throw IllegalStateException("Binding for ActivityMainBinding must not to be null")
+    private val logging = HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY
+    }
 
     private var category: MutableList<Category> = mutableListOf()
 
     private fun fetchRecipesFromCategory(categoryId: Int) {
         try {
-            val client: OkHttpClient = OkHttpClient()
+            val client = OkHttpClient()
             val request: Request = Request.Builder()
                 .url("${Constants.BASE_URL}category/$categoryId/recipes")
                 .build()
@@ -54,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 
         val thread = Thread {
             try {
-                val client: OkHttpClient = OkHttpClient()
+                val client = OkHttpClient()
                 val request: Request = Request.Builder()
                     .url("${Constants.BASE_URL}category")
                     .build()
