@@ -67,4 +67,5 @@ dependencies {
     implementation(libs.navigation.ui)
     implementation(libs.navigation.runtime)
     implementation(libs.gson)
+    implementation(libs.okhttp)
 }
