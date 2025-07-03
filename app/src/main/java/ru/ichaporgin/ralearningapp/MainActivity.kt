@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
             Log.i("!!!", "Поток Recipe: ${Thread.currentThread()}")
             connection.disconnect()
         } catch (e: Exception) {
-            Log.e("!!!", "Ошибка соединения:", e)
+            Log.e("!!!", "Ошибка соединения fetchRecipes:", e)
         }
     }
 
@@ -64,9 +64,7 @@ class MainActivity : AppCompatActivity() {
                 val categoriesId = category.map { it.id }
                 categoriesId.forEach { categoryId ->
                     threadPool.execute {
-                        fetchRecipesFromCategory(
-                            categoryId
-                        )
+                        fetchRecipesFromCategory(categoryId)
                     }
                 }
                 connection.disconnect()
