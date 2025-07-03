@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
             val type = object : TypeToken<List<Recipe>>() {}.type
             val recipes: List<Recipe> = Gson().fromJson(json, type)
             Log.i("!!!", "JSON Recipe: $recipes")
+            Log.i("!!!", "Поток Recipe: ${Thread.currentThread()}")
             connection.disconnect()
         } catch (e: Exception) {
             Log.e("!!!", "Ошибка соединения:", e)
