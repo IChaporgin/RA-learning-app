@@ -1,5 +1,6 @@
 package ru.ichaporgin.ralearningapp
 
+import RecipeApiService
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -12,12 +13,14 @@ import com.google.gson.reflect.TypeToken
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
 import ru.ichaporgin.ralearningapp.data.Constants
 import ru.ichaporgin.ralearningapp.databinding.ActivityMainBinding
 import ru.ichaporgin.ralearningapp.model.Category
 import ru.ichaporgin.ralearningapp.model.Recipe
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+
 
 class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
@@ -61,23 +64,31 @@ class MainActivity : AppCompatActivity() {
 
         val thread = Thread {
             try {
-                val request: Request = Request.Builder()
-                    .url("${Constants.BASE_URL}category")
+                val retrofit = Retrofit.Builder()
+                    .baseUrl(Constants.BASE_URL)
                     .build()
-
-                client.newCall(request).execute().use { response ->
-
-                    val json = response.body?.string()
-                    val type = object : TypeToken<List<Category>>() {}.type
-                    category = Gson().fromJson(json, type)
-                    Log.i("!!!", "JSON Category: $category")
-                    val categoriesId = category.map { it.id }
-                    categoriesId.forEach { categoryId ->
-                        threadPool.execute {
-                            fetchRecipesFromCategory(categoryId)
-                        }
-                    }
-                }
+                val service: RecipeApiService = retrofit.create(RecipeApiService::class.java)
+                val categoriesCall = service.getCategories()
+                val categoriesResponse = categoriesCall.execute()
+                val categories = categoriesResponse.body()
+                Log.i("!!!", "Категории: ${categories.toString()}")
+//                val request: Request = Request.Builder()
+//                    .url("${Constants.BASE_URL}category")
+//                    .build()
+//
+//                client.newCall(request).execute().use { response ->
+//
+//                    val json = response.body?.string()
+//                    val type = object : TypeToken<List<Category>>() {}.type
+//                    category = Gson().fromJson(json, type)
+//                    Log.i("!!!", "JSON Category: $category")
+//                    val categoriesId = category.map { it.id }
+//                    categoriesId.forEach { categoryId ->
+//                        threadPool.execute {
+//                            fetchRecipesFromCategory(categoryId)
+//                        }
+//                    }
+//                }
             } catch (e: Exception) {
                 Log.e("!!!", "Ошибка соединения:", e)
             }

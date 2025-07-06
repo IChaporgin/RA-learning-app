@@ -1,10 +1,10 @@
-package ru.ichaporgin.ralearningapp.data
+import retrofit2.Call
+import retrofit2.http.GET
+import retrofit2.http.Path
+import ru.ichaporgin.ralearningapp.model.Category
+
 
 interface RecipeApiService {
-    val baseUrl: String
-    val recipeById: String
-    val recipes: String
-    val categoryById: String
-    val recipesByCategoryId: String
-    val category: String
+    @GET("category")
+    fun getCategories(): Call<List<Category>>
 }
