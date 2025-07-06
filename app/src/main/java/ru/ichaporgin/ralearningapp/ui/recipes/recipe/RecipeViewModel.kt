@@ -8,8 +8,9 @@ import androidx.core.content.edit
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import ru.ichaporgin.ralearningapp.data.AppThread
 import ru.ichaporgin.ralearningapp.data.Constants
-import ru.ichaporgin.ralearningapp.data.STUB
+import ru.ichaporgin.ralearningapp.data.RecipesRepository
 import ru.ichaporgin.ralearningapp.model.Recipe
 
 data class RecipeState(
@@ -22,32 +23,45 @@ data class RecipeState(
 class RecipeViewModel(application: Application) : AndroidViewModel(application) {
     private val _recipeState = MutableLiveData(RecipeState())
     val selectedRecipe: LiveData<RecipeState> get() = _recipeState
+    private val repository = RecipesRepository()
+    private val threadPoll = AppThread.threadPool
 
     fun loadRecipe(id: Int) {
-//        TODO("load from network")
-        Log.e("!!!", "load from network")
-        val currentState = _recipeState.value ?: RecipeState()
-        val recipe = STUB.getRecipeById(id)
-        val portion = currentState.portionCount
-        val favorites = getFavorites()
-        val isFavorite = favorites.contains(id.toString())
-        val recipeImage =
-            try {
-                val assetManager = getApplication<Application>().assets
-                val inputStream = assetManager.open(recipe.imageUrl)
-                Drawable.createFromStream(inputStream, null)
+        threadPoll.execute {
+            Log.e("!!!", "load from network")
+            val currentState = _recipeState.value ?: RecipeState()
+            val portion = currentState.portionCount
+            val recipe = repository.getRecipe(id)
+            val favorites = getFavorites()
+            val isFavorite = favorites.contains(id.toString())
 
-            } catch (e: Exception) {
-                Log.e("RecipesListFragment", "Ошибка загрузки картинки", e)
-                null
+            val recipeImage =
+                try {
+                    val assetManager = getApplication<Application>().assets
+                    val inputStream = assetManager.open(recipe?.imageUrl ?: "none.jpg")
+                    Drawable.createFromStream(inputStream, null)
+
+                } catch (e: Exception) {
+                    Log.e("RecipesListFragment", "Ошибка загрузки картинки", e)
+                    null
+                }
+            android.os.Handler(android.os.Looper.getMainLooper()).post {
+                if (recipe == null) {
+                    android.widget.Toast.makeText(
+                        getApplication(),
+                        "Ошибка получения рецепта",
+                        android.widget.Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                _recipeState.value = _recipeState.value?.copy(
+                    recipe = recipe,
+                    portionCount = portion,
+                    isFavorite = isFavorite,
+                    recipeImage = recipeImage,
+                )
             }
-
-        _recipeState.value = _recipeState.value?.copy(
-            recipe = recipe,
-            portionCount = portion,
-            isFavorite = isFavorite,
-            recipeImage = recipeImage,
-        )
+        }
     }
 
     private fun getFavorites(): MutableSet<String> {
@@ -82,6 +96,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         pref.edit {
             putStringSet(Constants.FAVORITES_KEY, ids)
         }
+        Log.d("RecipeViewModel", "Текущие избранные: ${getFavorites()}")
     }
 
     fun updatePortion(portion: Int) {

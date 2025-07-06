@@ -65,42 +65,42 @@ class MainActivity : AppCompatActivity() {
 
         val threadPool: ExecutorService = Executors.newFixedThreadPool(10)
 
-        val thread = Thread {
-            try {
-                val retrofit = Retrofit.Builder()
-                    .baseUrl(Constants.BASE_URL)
-                    .addConverterFactory(Json {
-                        ignoreUnknownKeys = true
-                    }.asConverterFactory("application/json".toMediaType()))
-                    .build()
-                val service: RecipeApiService = retrofit.create(RecipeApiService::class.java)
-                val categoriesCall = service.getCategories()
-                val categoriesResponse = categoriesCall.execute()
-                val categories = categoriesResponse.body()
-                Log.i("!!!", "Категории: ${categories.toString()}")
-//                val request: Request = Request.Builder()
-//                    .url("${Constants.BASE_URL}category")
-//                    .build()
-//
-//                client.newCall(request).execute().use { response ->
-//
-//                    val json = response.body?.string()
-//                    val type = object : TypeToken<List<Category>>() {}.type
-//                    category = Gson().fromJson(json, type)
-//                    Log.i("!!!", "JSON Category: $category")
-//                    val categoriesId = category.map { it.id }
-//                    categoriesId.forEach { categoryId ->
-//                        threadPool.execute {
-//                            fetchRecipesFromCategory(categoryId)
-//                        }
-//                    }
-//                }
-            } catch (e: Exception) {
-                Log.e("!!!", "Ошибка соединения:", e)
-            }
-        }
+//        val thread = Thread {
+//            try {
+////                val retrofit = Retrofit.Builder()
+////                    .baseUrl(Constants.BASE_URL)
+////                    .addConverterFactory(Json {
+////                        ignoreUnknownKeys = true
+////                    }.asConverterFactory("application/json".toMediaType()))
+////                    .build()
+////                val service: RecipeApiService = retrofit.create(RecipeApiService::class.java)
+////                val categoriesCall = service.getCategories()
+////                val categoriesResponse = categoriesCall.execute()
+////                val categories = categoriesResponse.body()
+////                Log.i("!!!", "Категории: ${categories.toString()}")
+////                val request: Request = Request.Builder()
+////                    .url("${Constants.BASE_URL}category")
+////                    .build()
+////
+////                client.newCall(request).execute().use { response ->
+////
+////                    val json = response.body?.string()
+////                    val type = object : TypeToken<List<Category>>() {}.type
+////                    category = Gson().fromJson(json, type)
+////                    Log.i("!!!", "JSON Category: $category")
+////                    val categoriesId = category.map { it.id }
+////                    categoriesId.forEach { categoryId ->
+////                        threadPool.execute {
+////                            fetchRecipesFromCategory(categoryId)
+////                        }
+////                    }
+////                }
+//            } catch (e: Exception) {
+//                Log.e("!!!", "Ошибка соединения:", e)
+//            }
+//        }
 
-        thread.start()
+//        thread.start()
 
         binding.btnCategory.setOnClickListener {
             findNavController(R.id.nav_host_fragment).navigate(R.id.categoriesListFragment)
