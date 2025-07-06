@@ -10,10 +10,13 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.findNavController
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import ru.ichaporgin.ralearningapp.data.Constants
 import ru.ichaporgin.ralearningapp.databinding.ActivityMainBinding
 import ru.ichaporgin.ralearningapp.model.Category
@@ -66,6 +69,9 @@ class MainActivity : AppCompatActivity() {
             try {
                 val retrofit = Retrofit.Builder()
                     .baseUrl(Constants.BASE_URL)
+                    .addConverterFactory(Json {
+                        ignoreUnknownKeys = true
+                    }.asConverterFactory("application/json".toMediaType()))
                     .build()
                 val service: RecipeApiService = retrofit.create(RecipeApiService::class.java)
                 val categoriesCall = service.getCategories()
