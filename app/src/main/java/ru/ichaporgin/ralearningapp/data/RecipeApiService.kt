@@ -8,7 +8,7 @@ import ru.ichaporgin.ralearningapp.model.Recipe
 
 interface RecipeApiService {
     @GET("recipes")
-    fun getRecipes(@Query("ids") ids: Set<String?>): Call<List<Recipe>>
+    fun getRecipes(@Query("ids") ids: String): Call<List<Recipe>>
 
     @GET("recipe/{id}")
     fun getRecipe(@Path("id") id: Int): Call<Recipe>

@@ -24,7 +24,7 @@ class RecipesRepository {
         apiService = retrofit.create(RecipeApiService::class.java)
     }
 
-    fun getRecipes(ids: Set<String?>): List<Recipe> {
+    fun getRecipes(ids: String): List<Recipe> {
         return try {
             val response = apiService.getRecipes(ids).execute()
             if (response.isSuccessful) {
