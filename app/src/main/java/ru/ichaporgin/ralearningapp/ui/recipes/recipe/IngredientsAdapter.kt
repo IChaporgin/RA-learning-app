@@ -1,5 +1,6 @@
 package ru.ichaporgin.ralearningapp.ui.recipes.recipe
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -30,7 +31,15 @@ class IngredientsAdapter() :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val ingredient = dataset[position]
-        val totalQuantity = BigDecimal(ingredient.quantity) * BigDecimal(quantity)
+        val totalQuantity = try {
+            val ingredientQty = ingredient.quantity.toBigDecimal()
+            val multiplier = quantity.toBigDecimal()
+            ingredientQty * multiplier
+            BigDecimal(ingredient.quantity) * BigDecimal(quantity)
+        } catch (e: Exception) {
+            Log.e("IngredientsAdapter", "Ошибка парсинга количества: ${ingredient.quantity}", e)
+            BigDecimal.ZERO
+        }
         val displayQuality = totalQuantity
             .setScale(1, RoundingMode.HALF_UP)
             .stripTrailingZeros()

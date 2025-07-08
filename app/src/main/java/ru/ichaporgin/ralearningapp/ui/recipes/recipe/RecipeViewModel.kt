@@ -28,7 +28,6 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
 
     fun loadRecipe(id: Int) {
         threadPoll.execute {
-            Log.e("!!!", "load from network")
             val currentState = _recipeState.value ?: RecipeState()
             val portion = currentState.portionCount
             val recipe = repository.getRecipe(id)
