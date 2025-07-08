@@ -57,7 +57,19 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
         }
     }
 
-    fun getCategoryById(categoryId: Int): Category? {
-        return _categoriesState.value?.categories?.find { it.id == categoryId }
+    fun getCategoryById(categoryId: Int, callback: (Category?) -> Unit) {
+        threadPool.execute {
+            val category = repository.getCategory(categoryId)
+            handler.post {
+               if (category == null) {
+                   Toast.makeText(
+                       getApplication(),
+                       "Ошибка получения категории",
+                       Toast.LENGTH_SHORT
+                   ).show()
+               }
+                callback(category)
+            }
+        }
     }
 }
