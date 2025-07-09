@@ -53,14 +53,19 @@ class CategoriesListFragment : Fragment() {
     }
 
     private fun openRecipesByCategoryId(categoryId: Int) {
-        val category = model.getCategoryById(categoryId)
-            ?: throw IllegalArgumentException("Отсутствует категория: $categoryId")
+        model.getCategoryById(categoryId) {
+            category ->
+            if (category != null) {
+                Log.d("CategoriesListFragment", "Категория найдена: $category")
+                val direction = CategoriesListFragmentDirections
+                    .actionCategoriesListFragmentToRecipesListFragment(category)
 
-        val direction = CategoriesListFragmentDirections
-            .actionCategoriesListFragmentToRecipesListFragment(category)
-
-        parentFragmentManager.commit {
-            findNavController().navigate(direction)
+                parentFragmentManager.commit {
+                    findNavController().navigate(direction)
+                }
+            } else {
+                Log.d("CategoriesListFragment", "Категория не найдена")
+            }
         }
     }
 

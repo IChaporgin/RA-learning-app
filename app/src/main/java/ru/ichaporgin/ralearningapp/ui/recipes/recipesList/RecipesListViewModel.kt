@@ -6,7 +6,8 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import ru.ichaporgin.ralearningapp.data.STUB
+import ru.ichaporgin.ralearningapp.data.AppThread
+import ru.ichaporgin.ralearningapp.data.RecipesRepository
 import ru.ichaporgin.ralearningapp.model.Recipe
 
 data class RecipesState(
@@ -17,11 +18,24 @@ data class RecipesState(
 class RecipesListViewModel(application: Application) : AndroidViewModel(application) {
     private val _recipesState = MutableLiveData(RecipesState())
     val recipesState: LiveData<RecipesState> get() = _recipesState
+    private val repository = RecipesRepository()
+    private val threadPool = AppThread.threadPool
 
     fun loadRecipes(id: Int) {
-        _recipesState.value = _recipesState.value?.copy(
-            recipes = STUB.getRecipesByCategoryId(id)
-        )
+        threadPool.execute {
+            val recipes = repository.getRecipesByCategory(id)
+            val handler = android.os.Handler(android.os.Looper.getMainLooper())
+            handler.post {
+                if (recipes.isEmpty()) {
+                    android.widget.Toast.makeText(
+                        getApplication(),
+                        "Ошибка получения рецептов",
+                        android.widget.Toast.LENGTH_SHORT
+                    ).show()
+                }
+                _recipesState.value = _recipesState.value?.copy(recipes = recipes)
+            }
+        }
     }
 
     fun loadImageFromAssets(fileName: String) {
