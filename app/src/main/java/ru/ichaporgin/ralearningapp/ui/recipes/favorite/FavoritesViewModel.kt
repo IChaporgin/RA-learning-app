@@ -16,7 +16,7 @@ import ru.ichaporgin.ralearningapp.model.Recipe
 
 data class FavoritesState(
     val recipes: List<Recipe> = emptyList(),
-    val imageFavorite: Drawable? = null,
+    val imageFavoriteUrl: String? = null,
 )
 
 class FavoritesViewModel(application: Application) : AndroidViewModel(application) {
@@ -46,7 +46,7 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
             Handler(Looper.getMainLooper()).post {
                 _favoritesState.value = _favoritesState.value?.copy(
                     recipes = recipes,
-                    imageFavorite = drawable
+                    imageFavoriteUrl = drawable
                 )
                 Log.d("CategoriesListFragment", "Картинка успешно загружена")
             }

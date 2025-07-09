@@ -12,7 +12,7 @@ import ru.ichaporgin.ralearningapp.model.Recipe
 
 data class RecipesState(
     val recipes: List<Recipe> = emptyList(),
-    val image: Drawable? = null
+    val recipesListImageUrl: String? = null
 )
 
 class RecipesListViewModel(application: Application) : AndroidViewModel(application) {
@@ -44,7 +44,7 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
             val inputStream = assetManager.open(fileName)
             val drawable = Drawable.createFromStream(inputStream, null)
             if (drawable != null) {
-                _recipesState.value = _recipesState.value?.copy(image = drawable)
+                _recipesState.value = _recipesState.value?.copy(recipesListImageUrl = drawable)
                 Log.d("RecipesListViewModel", "Картинка успешно загружена")
             } else {
                 Log.e("RecipesListViewModel", "Drawable == null")

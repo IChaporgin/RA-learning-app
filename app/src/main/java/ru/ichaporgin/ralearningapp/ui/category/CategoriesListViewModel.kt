@@ -15,7 +15,7 @@ import ru.ichaporgin.ralearningapp.model.Category
 
 data class CategoriesState(
     val categories: List<Category> = emptyList(),
-    val categoriesImage: Drawable? = null
+    val categoriesImageUrl: String? = null
 )
 
 class CategoriesListViewModel(application: Application) : AndroidViewModel(application) {
@@ -46,7 +46,7 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
                 }
                 _categoriesState.value = _categoriesState.value?.copy(
                     categories = categories,
-                    categoriesImage = drawable
+                    categoriesImageUrl = drawable
                 )
                 if (drawable != null) {
                     Log.d("CategoriesListFragment", "Картинка успешно загружена")

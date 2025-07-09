@@ -64,7 +64,7 @@ class RecipeFragment : Fragment() {
             val isFavorite = state.isFavorite
             val text = state.recipe?.title
 
-            state.recipeImage?.let { drawable ->
+            state.recipeImageUrl?.let { drawable ->
                 binding.imgRecipe.setImageDrawable(drawable)
                 binding.imgRecipe.contentDescription = recipe?.title
             }

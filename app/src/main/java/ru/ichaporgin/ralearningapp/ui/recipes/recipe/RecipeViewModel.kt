@@ -17,7 +17,7 @@ data class RecipeState(
     val recipe: Recipe? = null,
     val portionCount: Int = Constants.MIN_PORTIONS,
     val isFavorite: Boolean = false,
-    val recipeImage: Drawable? = null,
+    val recipeImageUrl: String? = null,
 )
 
 class RecipeViewModel(application: Application) : AndroidViewModel(application) {
@@ -57,7 +57,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
                     recipe = recipe,
                     portionCount = portion,
                     isFavorite = isFavorite,
-                    recipeImage = recipeImage,
+                    recipeImageUrl = recipeImage,
                 )
             }
         }

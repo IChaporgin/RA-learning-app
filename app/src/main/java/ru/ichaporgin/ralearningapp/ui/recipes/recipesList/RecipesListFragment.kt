@@ -85,7 +85,7 @@ class RecipesListFragment : Fragment() {
     private fun initUI() {
         viewModel.recipesState.observe(viewLifecycleOwner) { state ->
             adapter.dataSet = state.recipes
-            state.image?.let { drawable ->
+            state.recipesListImageUrl?.let { drawable ->
                 binding.imgRecipes.setImageDrawable(drawable)
             }
         }

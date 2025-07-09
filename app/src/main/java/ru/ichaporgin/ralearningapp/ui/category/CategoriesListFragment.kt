@@ -71,7 +71,7 @@ class CategoriesListFragment : Fragment() {
 
     private fun initUI() {
         model.categoriesState.observe(viewLifecycleOwner) { state ->
-            state.categoriesImage?.let {
+            state.categoriesImageUrl?.let {
                 binding.imgCategory.setImageDrawable(it)
             }
             categoriesAdapter.dataSet = state.categories
