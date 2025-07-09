@@ -16,7 +16,7 @@ import ru.ichaporgin.ralearningapp.model.Recipe
 
 data class FavoritesState(
     val recipes: List<Recipe> = emptyList(),
-    val imageFavoriteUrl: String? = null,
+    val imageFavoriteUrl: Drawable? = null,
 )
 
 class FavoritesViewModel(application: Application) : AndroidViewModel(application) {

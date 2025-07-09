@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import ru.ichaporgin.ralearningapp.R
 import ru.ichaporgin.ralearningapp.data.Constants
@@ -64,10 +65,16 @@ class RecipeFragment : Fragment() {
             val isFavorite = state.isFavorite
             val text = state.recipe?.title
 
-            state.recipeImageUrl?.let { drawable ->
-                binding.imgRecipe.setImageDrawable(drawable)
-                binding.imgRecipe.contentDescription = recipe?.title
+            state.recipeImageUrl?.let {
+                Glide.with(requireContext())
+                    .load(viewModel.selectedRecipe.value?.recipeImageUrl)
+                    .into(binding.imgRecipe)
             }
+
+//            state.recipeImageUrl?.let { drawable ->
+//                binding.imgRecipe.setImageDrawable(drawable)
+//                binding.imgRecipe.contentDescription = recipe?.title
+//            }
 
             ingredientsAdapter?.dataset = recipe?.ingredients ?: emptyList()
             ingredientsAdapter?.updateIngredients(portion)

@@ -32,10 +32,9 @@ class IngredientsAdapter() :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val ingredient = dataset[position]
         val totalQuantity = try {
-            val ingredientQty = ingredient.quantity.toBigDecimal()
-            val multiplier = quantity.toBigDecimal()
-            ingredientQty * multiplier
-            BigDecimal(ingredient.quantity) * BigDecimal(quantity)
+            ingredient.quantity.trim().toBigDecimalOrNull()?.let { qty ->
+                qty * quantity.toBigDecimal()
+            } ?: BigDecimal.ZERO
         } catch (e: Exception) {
             Log.e("IngredientsAdapter", "Ошибка парсинга количества: ${ingredient.quantity}", e)
             BigDecimal.ZERO

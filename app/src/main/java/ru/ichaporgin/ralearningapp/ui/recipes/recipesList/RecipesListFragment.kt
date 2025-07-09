@@ -11,7 +11,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import ru.ichaporgin.ralearningapp.R
+import ru.ichaporgin.ralearningapp.data.Constants
 import ru.ichaporgin.ralearningapp.databinding.FragmentRecipesListBinding
 
 class RecipesListFragment : Fragment() {
@@ -53,13 +55,16 @@ class RecipesListFragment : Fragment() {
     private fun initBundleData() {
         categoryId = args.category.id
         categoryTitle = args.category.title
-        categoryImage = args.category.imageUrl
+        categoryImage = Constants.IMG_URL + args.category.imageUrl
 
         categoryTitle?.let {
             binding.txTitleRecipes.text = getString(R.string.recipes_title_text, categoryTitle)
         }
         categoryId?.let { viewModel.loadRecipes(it) }
-        categoryImage?.let { viewModel.loadImageFromAssets(it) }
+//        categoryImage?.let { viewModel.loadImageFromAssets(it) }
+        Glide.with(this)
+            .load(categoryImage)
+            .into(binding.imgRecipes)
     }
 
     private fun initRecycler() {
@@ -85,9 +90,9 @@ class RecipesListFragment : Fragment() {
     private fun initUI() {
         viewModel.recipesState.observe(viewLifecycleOwner) { state ->
             adapter.dataSet = state.recipes
-            state.recipesListImageUrl?.let { drawable ->
-                binding.imgRecipes.setImageDrawable(drawable)
-            }
+//            state.recipesListImageUrl?.let { drawable ->
+//                binding.imgRecipes.setImageDrawable(drawable)
+//            }
         }
     }
 }
