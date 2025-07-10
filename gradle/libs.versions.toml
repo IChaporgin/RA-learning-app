@@ -17,8 +17,8 @@ gson = "2.13.1"
 okhttp = "4.12.0"
 okhttpLogging = "4.12.0"
 retrofit = "3.0.0"
-glidev = "4.14.2"
-kotlinSerializationJson = "1.8.1"
+glidev = "4.16.0"
+kotlinSerializationJson = "1.9.0"
 
 
 [libraries]
