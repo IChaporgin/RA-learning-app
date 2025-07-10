@@ -7,10 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.Glide
+import ru.ichaporgin.ralearningapp.R
 import ru.ichaporgin.ralearningapp.databinding.FragmentListCategoriesBinding
 
 class CategoriesListFragment : Fragment() {
@@ -53,26 +54,25 @@ class CategoriesListFragment : Fragment() {
     }
 
     private fun openRecipesByCategoryId(categoryId: Int) {
-        model.getCategoryById(categoryId) {
-            category ->
+        model.getCategoryById(categoryId) { category ->
             if (category != null) {
-                Log.d("CategoriesListFragment", "Категория найдена: $category")
                 val direction = CategoriesListFragmentDirections
                     .actionCategoriesListFragmentToRecipesListFragment(category)
-
-                parentFragmentManager.commit {
-                    findNavController().navigate(direction)
-                }
+                findNavController().navigate(direction)
             } else {
-                Log.d("CategoriesListFragment", "Категория не найдена")
+                Log.e("CategoriesListFragment", "Отсутствует категория:: $categoryId")
             }
         }
     }
 
     private fun initUI() {
         model.categoriesState.observe(viewLifecycleOwner) { state ->
-            state.categoriesImageUrl?.let {
-                binding.imgCategory.setImageDrawable(it)
+            state.categoriesImage?.let { assetPath ->
+                Glide.with(this)
+                    .load("file:///android_asset/$assetPath")
+                    .placeholder(R.drawable.img_placeholder)
+                    .error(R.drawable.img_error)
+                    .into(binding.imgCategory)
             }
             categoriesAdapter.dataSet = state.categories
         }

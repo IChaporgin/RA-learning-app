@@ -68,13 +68,10 @@ class RecipeFragment : Fragment() {
             state.recipeImageUrl?.let {
                 Glide.with(requireContext())
                     .load(viewModel.selectedRecipe.value?.recipeImageUrl)
+                    .placeholder(R.drawable.img_placeholder)
+                    .error(R.drawable.img_error)
                     .into(binding.imgRecipe)
             }
-
-//            state.recipeImageUrl?.let { drawable ->
-//                binding.imgRecipe.setImageDrawable(drawable)
-//                binding.imgRecipe.contentDescription = recipe?.title
-//            }
 
             ingredientsAdapter?.dataset = recipe?.ingredients ?: emptyList()
             ingredientsAdapter?.updateIngredients(portion)

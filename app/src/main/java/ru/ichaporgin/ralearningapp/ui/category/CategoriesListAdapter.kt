@@ -3,7 +3,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import ru.ichaporgin.ralearningapp.R
+import ru.ichaporgin.ralearningapp.data.Constants
 import ru.ichaporgin.ralearningapp.databinding.ItemCategoryBinding
 import ru.ichaporgin.ralearningapp.model.Category
 import java.io.InputStream
@@ -61,11 +63,12 @@ class CategoriesListAdapter() :
 
     private fun loadCategoryImage(imageUrl: String, viewHolder: ViewHolder) {
         try {
-            val inputStream: InputStream = viewHolder.itemView.context.assets.open(imageUrl)
-            val drawable = Drawable.createFromStream(inputStream, null)
-            with(viewHolder.binding) {
-                imgItemCategory.setImageDrawable(drawable)
-            }
+            Glide.with(viewHolder.itemView)
+                .load(Constants.IMG_URL+imageUrl)
+                .placeholder(R.drawable.img_placeholder)
+                .error(R.drawable.img_error)
+                .into(viewHolder.binding.imgItemCategory)
+
         } catch (e: Exception) {
             Log.e("!!!", "Load image error: $imageUrl", e)
         }

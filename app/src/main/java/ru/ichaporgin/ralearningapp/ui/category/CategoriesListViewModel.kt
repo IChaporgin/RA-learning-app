@@ -1,10 +1,8 @@
 package ru.ichaporgin.ralearningapp.ui.category
 
 import android.app.Application
-import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -15,7 +13,7 @@ import ru.ichaporgin.ralearningapp.model.Category
 
 data class CategoriesState(
     val categories: List<Category> = emptyList(),
-    val categoriesImageUrl: String? = null
+    val categoriesImage: String? = null
 )
 
 class CategoriesListViewModel(application: Application) : AndroidViewModel(application) {
@@ -26,32 +24,21 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
     private val threadPool = AppThread.threadPool
     fun loadData() {
         threadPool.execute {
-            val categories = repository.getCategories()
-            val drawable =
-                try {
-                    val assetManager = getApplication<Application>().assets
-                    val inputStream = assetManager.open("categories.png")
-                    Drawable.createFromStream(inputStream, null)
-                } catch (e: Exception) {
-                    Log.e("CategoriesViewModel", "Ошибка загрузки картинки", e)
-                    null
-                }
-            handler.post {
-                if (categories.isEmpty()) {
-                    Toast.makeText(
-                        getApplication(),
-                        "Ошибка получения данных",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                _categoriesState.value = _categoriesState.value?.copy(
-                    categories = categories,
-                    categoriesImageUrl = drawable
-                )
-                if (drawable != null) {
-                    Log.d("CategoriesListFragment", "Картинка успешно загружена")
-                } else {
-                    Log.e("CategoriesListFragment", "Drawable == null")
+            threadPool.execute {
+                val categories = repository.getCategories()
+                val assetPath = "categories.png"
+                handler.post {
+                    if (categories.isEmpty()) {
+                        Toast.makeText(
+                            getApplication(),
+                            "Ошибка получения данных",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    _categoriesState.value = CategoriesState(
+                        categories = categories,
+                        assetPath
+                    )
                 }
             }
         }
@@ -61,13 +48,13 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
         threadPool.execute {
             val category = repository.getCategory(categoryId)
             handler.post {
-               if (category == null) {
-                   Toast.makeText(
-                       getApplication(),
-                       "Ошибка получения категории",
-                       Toast.LENGTH_SHORT
-                   ).show()
-               }
+                if (category == null) {
+                    Toast.makeText(
+                        getApplication(),
+                        "Ошибка получения категории",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
                 callback(category)
             }
         }

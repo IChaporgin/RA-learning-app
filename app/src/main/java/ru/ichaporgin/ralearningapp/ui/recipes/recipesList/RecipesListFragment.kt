@@ -61,9 +61,10 @@ class RecipesListFragment : Fragment() {
             binding.txTitleRecipes.text = getString(R.string.recipes_title_text, categoryTitle)
         }
         categoryId?.let { viewModel.loadRecipes(it) }
-//        categoryImage?.let { viewModel.loadImageFromAssets(it) }
         Glide.with(this)
             .load(categoryImage)
+            .placeholder(R.drawable.img_placeholder)
+            .error(R.drawable.img_error)
             .into(binding.imgRecipes)
     }
 
@@ -90,9 +91,6 @@ class RecipesListFragment : Fragment() {
     private fun initUI() {
         viewModel.recipesState.observe(viewLifecycleOwner) { state ->
             adapter.dataSet = state.recipes
-//            state.recipesListImageUrl?.let { drawable ->
-//                binding.imgRecipes.setImageDrawable(drawable)
-//            }
         }
     }
 }
