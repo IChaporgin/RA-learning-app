@@ -1,5 +1,6 @@
 package ru.ichaporgin.ralearningapp.ui.recipes.recipe
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import java.math.RoundingMode
 class IngredientsAdapter() :
     RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() {
     var dataset: List<Ingredient> = emptyList()
+        @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -53,6 +55,7 @@ class IngredientsAdapter() :
 
     override fun getItemCount() = dataset.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateIngredients(progress: Int) {
         quantity = progress
         notifyDataSetChanged()
