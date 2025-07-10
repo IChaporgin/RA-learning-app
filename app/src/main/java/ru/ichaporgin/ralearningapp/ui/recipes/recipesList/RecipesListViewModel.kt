@@ -24,13 +24,6 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
             val recipes = repository.getRecipesByCategory(id)
             val handler = android.os.Handler(android.os.Looper.getMainLooper())
             handler.post {
-                if (recipes.isEmpty()) {
-                    android.widget.Toast.makeText(
-                        getApplication(),
-                        "Ошибка получения рецептов",
-                        android.widget.Toast.LENGTH_SHORT
-                    ).show()
-                }
                 _recipesState.value = _recipesState.value?.copy(recipes = recipes)
             }
         }

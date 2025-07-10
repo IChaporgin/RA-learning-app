@@ -48,13 +48,6 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
         threadPool.execute {
             val category = repository.getCategory(categoryId)
             handler.post {
-                if (category == null) {
-                    Toast.makeText(
-                        getApplication(),
-                        "Ошибка получения категории",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
                 callback(category)
             }
         }
