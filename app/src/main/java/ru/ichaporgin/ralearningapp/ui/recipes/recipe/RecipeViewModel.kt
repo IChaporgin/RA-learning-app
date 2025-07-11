@@ -7,7 +7,10 @@ import androidx.core.content.edit
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import ru.ichaporgin.ralearningapp.data.AppThread
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.ichaporgin.ralearningapp.data.Constants
 import ru.ichaporgin.ralearningapp.data.RecipesRepository
 import ru.ichaporgin.ralearningapp.model.Recipe
@@ -23,13 +26,12 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     private val _recipeState = MutableLiveData(RecipeState())
     val selectedRecipe: LiveData<RecipeState> get() = _recipeState
     private val repository = RecipesRepository()
-    private val threadPool = AppThread.threadPool
 
     fun loadRecipe(id: Int) {
-        threadPool.execute {
+       viewModelScope.launch {
             val currentState = _recipeState.value ?: RecipeState()
             val portion = currentState.portionCount
-            val recipe = repository.getRecipe(id)
+            val recipe = withContext(Dispatchers.IO) {repository.getRecipe(id)}
             val favorites = getFavorites()
             val isFavorite = favorites.contains(id.toString())
             val image = Constants.IMG_URL + recipe?.imageUrl

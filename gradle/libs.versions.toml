@@ -19,6 +19,7 @@ okhttpLogging = "4.12.0"
 retrofit = "3.0.0"
 glidev = "4.16.0"
 kotlinSerializationJson = "1.9.0"
+coroutines = "1.10.2"
 
 
 [libraries]
@@ -43,6 +44,8 @@ retrofit = {group = "com.squareup.retrofit2", name = "retrofit", version.ref = "
 kotlinx-serialization-json = {group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerializationJson"}
 retrofit-kotlinx-json = { group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization", version.ref = "retrofit" }
 glide = {group = "com.github.bumptech.glide", name = "glide", version.ref = "glidev"}
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

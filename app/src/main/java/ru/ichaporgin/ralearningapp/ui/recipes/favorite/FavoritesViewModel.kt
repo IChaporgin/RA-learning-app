@@ -9,7 +9,10 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import ru.ichaporgin.ralearningapp.data.AppThread
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.ichaporgin.ralearningapp.data.Constants
 import ru.ichaporgin.ralearningapp.data.RecipesRepository
 import ru.ichaporgin.ralearningapp.model.Recipe
@@ -23,19 +26,17 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
     private val _favoritesState = MutableLiveData(FavoritesState())
     val selectedFavorites: LiveData<FavoritesState> get() = _favoritesState
     private val repository = RecipesRepository()
-    private val threadPool = AppThread.threadPool
 
 
     fun loadData() {
-        threadPool.execute {
+        viewModelScope.launch {
             val context = getApplication<Application>().applicationContext
             val pref =
                 context.getSharedPreferences(Constants.SHARED_PREFS_NAME, Context.MODE_PRIVATE)
             val favoriteIds: Set<String?> =
                 pref.getStringSet(Constants.FAVORITES_KEY, emptySet()) ?: emptySet()
             val idsParam = favoriteIds.filterNotNull().joinToString(",")
-            val recipes = repository.getRecipes(idsParam)
-
+            val recipes = withContext(Dispatchers.IO) {repository.getRecipes(idsParam)}
             val drawable = try {
                 val inputStream = context.assets.open("bcg_favorites.png")
                 Drawable.createFromStream(inputStream, null)
