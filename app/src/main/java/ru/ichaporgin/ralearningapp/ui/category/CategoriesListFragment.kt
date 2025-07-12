@@ -11,8 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.bumptech.glide.Glide
-import ru.ichaporgin.ralearningapp.R
 import ru.ichaporgin.ralearningapp.databinding.FragmentListCategoriesBinding
 
 class CategoriesListFragment : Fragment() {
@@ -73,14 +71,14 @@ class CategoriesListFragment : Fragment() {
 
     private fun initUI() {
         model.categoriesState.observe(viewLifecycleOwner) { state ->
-            state.categoriesImage?.let { assetPath ->
-                Glide.with(this)
-                    .load("file:///android_asset/$assetPath")
-                    .placeholder(R.drawable.img_placeholder)
-                    .error(R.drawable.img_error)
-                    .into(binding.imgCategory)
+            state.categoriesImage?.let { drawable ->
+                binding.imgCategory.setImageDrawable(drawable)
             }
             categoriesAdapter.dataSet = state.categories
+            if (state.isError) {
+                Toast.makeText(requireContext(), "Ошибка в загрузке категорий!", Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
         model.loadData()
     }

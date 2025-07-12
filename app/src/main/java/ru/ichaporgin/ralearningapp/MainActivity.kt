@@ -6,8 +6,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.findNavController
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import ru.ichaporgin.ralearningapp.databinding.ActivityMainBinding
 
 

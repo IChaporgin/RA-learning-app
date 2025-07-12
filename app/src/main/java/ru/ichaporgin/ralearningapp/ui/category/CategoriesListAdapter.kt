@@ -64,7 +64,7 @@ class CategoriesListAdapter() :
     private fun loadCategoryImage(imageUrl: String, viewHolder: ViewHolder) {
         try {
             Glide.with(viewHolder.itemView)
-                .load(Constants.IMG_URL+imageUrl)
+                .load(Constants.IMG_URL + imageUrl)
                 .placeholder(R.drawable.img_placeholder)
                 .error(R.drawable.img_error)
                 .into(viewHolder.binding.imgItemCategory)
