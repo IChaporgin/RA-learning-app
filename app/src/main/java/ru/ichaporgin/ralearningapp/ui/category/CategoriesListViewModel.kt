@@ -1,9 +1,10 @@
 package ru.ichaporgin.ralearningapp.ui.category
 
 import android.app.Application
+import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.os.Looper
-import android.widget.Toast
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,7 +14,8 @@ import ru.ichaporgin.ralearningapp.model.Category
 
 data class CategoriesState(
     val categories: List<Category> = emptyList(),
-    val categoriesImage: String? = null
+    val categoriesImage: Drawable? = null,
+    val isError: Boolean = false
 )
 
 class CategoriesListViewModel(application: Application) : AndroidViewModel(application) {
@@ -24,23 +26,27 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
     private val threadPool = AppThread.threadPool
     fun loadData() {
         threadPool.execute {
-            threadPool.execute {
-                val categories = repository.getCategories()
-                val assetPath = "categories.png"
-                handler.post {
-                    if (categories.isEmpty()) {
-                        Toast.makeText(
-                            getApplication(),
-                            "Ошибка получения данных",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                    _categoriesState.value = CategoriesState(
-                        categories = categories,
-                        assetPath
-                    )
-                }
+            val categories = repository.getCategories()
+            val isEmpty = categories.isEmpty()
+            val context = getApplication<Application>().applicationContext
+            val drawable = try {
+                val inputStream = context.assets.open("categories.png")
+                Drawable.createFromStream(inputStream, null)
+            } catch (e: Exception) {
+                Log.e("CategoriesViewModel", "Ошибка загрузки картинки", e)
+                null
             }
+            if (isEmpty) {
+                Log.i("!!!", "Categories isEmpty!")
+
+            }
+            _categoriesState.postValue(
+                CategoriesState(
+                    categories = categories,
+                    categoriesImage = drawable,
+                    isError = isEmpty
+                )
+            )
         }
     }
 
