@@ -1,5 +1,6 @@
 package ru.ichaporgin.ralearningapp.ui.recipes.recipe
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import java.math.RoundingMode
 class IngredientsAdapter() :
     RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() {
     var dataset: List<Ingredient> = emptyList()
+        @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -32,10 +34,9 @@ class IngredientsAdapter() :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val ingredient = dataset[position]
         val totalQuantity = try {
-            val ingredientQty = ingredient.quantity.toBigDecimal()
-            val multiplier = quantity.toBigDecimal()
-            ingredientQty * multiplier
-            BigDecimal(ingredient.quantity) * BigDecimal(quantity)
+            ingredient.quantity.trim().toBigDecimalOrNull()?.let { qty ->
+                qty * quantity.toBigDecimal()
+            } ?: BigDecimal.ZERO
         } catch (e: Exception) {
             Log.e("IngredientsAdapter", "Ошибка парсинга количества: ${ingredient.quantity}", e)
             BigDecimal.ZERO
@@ -54,6 +55,7 @@ class IngredientsAdapter() :
 
     override fun getItemCount() = dataset.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateIngredients(progress: Int) {
         quantity = progress
         notifyDataSetChanged()

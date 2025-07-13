@@ -76,7 +76,7 @@ class FavoritesFragment : Fragment() {
                 binding.rvFavorites.visibility = View.VISIBLE
             }
 
-            state.imageFavorite?.let {
+            state.imageFavoriteUrl?.let {
                 binding.imgFavorites.setImageDrawable(it)
             }
         }

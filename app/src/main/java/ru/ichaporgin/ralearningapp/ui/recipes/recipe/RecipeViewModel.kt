@@ -2,7 +2,6 @@ package ru.ichaporgin.ralearningapp.ui.recipes.recipe
 
 import android.app.Application
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.util.Log
 import androidx.core.content.edit
 import androidx.lifecycle.AndroidViewModel
@@ -17,33 +16,23 @@ data class RecipeState(
     val recipe: Recipe? = null,
     val portionCount: Int = Constants.MIN_PORTIONS,
     val isFavorite: Boolean = false,
-    val recipeImage: Drawable? = null,
+    val recipeImageUrl: String? = null,
 )
 
 class RecipeViewModel(application: Application) : AndroidViewModel(application) {
     private val _recipeState = MutableLiveData(RecipeState())
     val selectedRecipe: LiveData<RecipeState> get() = _recipeState
     private val repository = RecipesRepository()
-    private val threadPoll = AppThread.threadPool
+    private val threadPool = AppThread.threadPool
 
     fun loadRecipe(id: Int) {
-        threadPoll.execute {
+        threadPool.execute {
             val currentState = _recipeState.value ?: RecipeState()
             val portion = currentState.portionCount
             val recipe = repository.getRecipe(id)
             val favorites = getFavorites()
             val isFavorite = favorites.contains(id.toString())
-
-            val recipeImage =
-                try {
-                    val assetManager = getApplication<Application>().assets
-                    val inputStream = assetManager.open(recipe?.imageUrl ?: "none.jpg")
-                    Drawable.createFromStream(inputStream, null)
-
-                } catch (e: Exception) {
-                    Log.e("RecipesListFragment", "Ошибка загрузки картинки", e)
-                    null
-                }
+            val image = Constants.IMG_URL + recipe?.imageUrl
             android.os.Handler(android.os.Looper.getMainLooper()).post {
                 if (recipe == null) {
                     android.widget.Toast.makeText(
@@ -57,7 +46,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
                     recipe = recipe,
                     portionCount = portion,
                     isFavorite = isFavorite,
-                    recipeImage = recipeImage,
+                    recipeImageUrl = image,
                 )
             }
         }

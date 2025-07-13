@@ -6,8 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -53,28 +53,32 @@ class CategoriesListFragment : Fragment() {
     }
 
     private fun openRecipesByCategoryId(categoryId: Int) {
-        model.getCategoryById(categoryId) {
-            category ->
+        model.getCategoryById(categoryId) { category ->
             if (category != null) {
-                Log.d("CategoriesListFragment", "Категория найдена: $category")
                 val direction = CategoriesListFragmentDirections
                     .actionCategoriesListFragmentToRecipesListFragment(category)
-
-                parentFragmentManager.commit {
-                    findNavController().navigate(direction)
-                }
+                findNavController().navigate(direction)
             } else {
-                Log.d("CategoriesListFragment", "Категория не найдена")
+                Log.e("CategoriesListFragment", "Отсутствует категория:: $categoryId")
+                Toast.makeText(
+                    requireContext(),
+                    "Категория не найдена",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
 
     private fun initUI() {
         model.categoriesState.observe(viewLifecycleOwner) { state ->
-            state.categoriesImage?.let {
-                binding.imgCategory.setImageDrawable(it)
+            state.categoriesImage?.let { drawable ->
+                binding.imgCategory.setImageDrawable(drawable)
             }
             categoriesAdapter.dataSet = state.categories
+            if (state.isError) {
+                Toast.makeText(requireContext(), "Ошибка в загрузке категорий!", Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
         model.loadData()
     }

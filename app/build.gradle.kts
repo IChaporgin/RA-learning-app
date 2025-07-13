@@ -72,4 +72,5 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofit.kotlinx.json)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.glide)
 }
