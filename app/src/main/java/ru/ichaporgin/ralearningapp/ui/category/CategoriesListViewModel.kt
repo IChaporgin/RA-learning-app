@@ -26,10 +26,9 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
     val categoriesState: LiveData<CategoriesState> get() = _categoriesState
     private val repository = RecipesRepository()
     private val handler = Handler(Looper.getMainLooper())
-    private val threadPool = AppThread.threadPool
     fun loadData() {
-        threadPool.execute {
-            val categories = repository.getCategories()
+        viewModelScope.launch {
+            val categories = withContext(Dispatchers.IO) { repository.getCategories() }
             val isEmpty = categories.isEmpty()
             val context = getApplication<Application>().applicationContext
             val drawable = try {
@@ -49,16 +48,6 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
                     categoriesImage = drawable,
                     isError = isEmpty
                 )
-            )
-        viewModelScope.launch {
-            val categories = withContext(Dispatchers.IO) { repository.getCategories() }
-            val assetPath = "categories.png"
-            if (categories.isEmpty()) {
-                Log.i("!!!", "Ошибка загрузки данных категорий.")
-            }
-            _categoriesState.value = CategoriesState(
-                categories = categories,
-                assetPath
             )
         }
     }
