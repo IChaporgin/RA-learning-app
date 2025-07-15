@@ -8,9 +8,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import ru.ichaporgin.ralearningapp.data.Constants
 import ru.ichaporgin.ralearningapp.data.RecipesRepository
 import ru.ichaporgin.ralearningapp.model.Recipe
@@ -28,29 +26,27 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     private val repository = RecipesRepository()
 
     fun loadRecipe(id: Int) {
-       viewModelScope.launch {
+        viewModelScope.launch {
             val currentState = _recipeState.value ?: RecipeState()
             val portion = currentState.portionCount
-            val recipe = withContext(Dispatchers.IO) {repository.getRecipe(id)}
+            val recipe = repository.getRecipe(id)
             val favorites = getFavorites()
             val isFavorite = favorites.contains(id.toString())
             val image = Constants.IMG_URL + recipe?.imageUrl
-            android.os.Handler(android.os.Looper.getMainLooper()).post {
-                if (recipe == null) {
-                    android.widget.Toast.makeText(
-                        getApplication(),
-                        "Ошибка получения рецепта",
-                        android.widget.Toast.LENGTH_SHORT
-                    ).show()
-                }
-
-                _recipeState.value = _recipeState.value?.copy(
-                    recipe = recipe,
-                    portionCount = portion,
-                    isFavorite = isFavorite,
-                    recipeImageUrl = image,
-                )
+            if (recipe == null) {
+                android.widget.Toast.makeText(
+                    getApplication(),
+                    "Ошибка получения рецепта",
+                    android.widget.Toast.LENGTH_SHORT
+                ).show()
             }
+
+            _recipeState.value = _recipeState.value?.copy(
+                recipe = recipe,
+                portionCount = portion,
+                isFavorite = isFavorite,
+                recipeImageUrl = image,
+            )
         }
     }
 

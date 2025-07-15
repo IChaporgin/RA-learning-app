@@ -2,6 +2,8 @@ package ru.ichaporgin.ralearningapp.data
 
 import RecipeApiService
 import android.util.Log
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
@@ -11,88 +13,57 @@ import ru.ichaporgin.ralearningapp.model.Recipe
 
 class RecipesRepository {
     private val apiService: RecipeApiService
+    private val json = Json { ignoreUnknownKeys = true }
 
     init {
         val retrofit = Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
             .addConverterFactory(
-                Json { ignoreUnknownKeys = true }
-                    .asConverterFactory("application/json".toMediaType())
+                json.asConverterFactory("application/json".toMediaType())
             )
             .build()
-
         apiService = retrofit.create(RecipeApiService::class.java)
     }
 
-    fun getRecipes(ids: String): List<Recipe> {
-        return try {
-            val response = apiService.getRecipes(ids).execute()
-            if (response.isSuccessful) {
-                response.body() ?: emptyList()
-            } else {
-                Log.e("RecipesRepository", "getCategories error: ${response.code()}")
-                emptyList()
-            }
+    suspend fun getRecipes(ids: String): List<Recipe> = withContext(Dispatchers.IO) {
+        try {
+            apiService.getRecipes(ids)
         } catch (e: Exception) {
             Log.e("RecipesRepository", "Exception in getCategories", e)
             emptyList()
         }
     }
 
-    fun getRecipe(id: Int): Recipe? {
-        return try {
-            val response = apiService.getRecipe(id).execute()
-            if (response.isSuccessful) {
-                response.body()
-            } else {
-                Log.e("RecipesRepository", "getRecipeById error: ${response.code()}")
-                null
-            }
+    suspend fun getRecipe(id: Int): Recipe? = withContext(Dispatchers.IO) {
+        try {
+            apiService.getRecipe(id)
         } catch (e: Exception) {
             Log.e("RecipesRepository", "Exception in getRecipeById", e)
             null
         }
     }
 
-    fun getCategory(id: Int): Category? {
-        return try {
-            val response = apiService.getCategory(id).execute()
-            if (response.isSuccessful) {
-                response.body()
-            } else {
-                Log.e("RecipesRepository", "getCategory error: ${response.code()}")
-                null
-            }
+    suspend fun getCategory(id: Int): Category? = withContext(Dispatchers.IO) {
+        try {
+            apiService.getCategory(id)
         } catch (e: Exception) {
             Log.e("RecipesRepository", "Exception in getCategory", e)
             null
         }
     }
 
-    fun getRecipesByCategory(id: Int): List<Recipe> {
-        return try {
-            val response = apiService.getRecipesByCategory(id).execute()
-            if (response.isSuccessful) {
-                response.body() ?: emptyList()
-            } else {
-                Log.e("RecipesRepository", "getRecipesByCategory error: ${response.code()}")
-                emptyList()
-            }
+    suspend fun getRecipesByCategory(id: Int): List<Recipe> = withContext(Dispatchers.IO) {
+        try {
+            apiService.getRecipesByCategory(id)
         } catch (e: Exception) {
             Log.e("RecipesRepository", "getRecipesByCategory", e)
             emptyList()
         }
     }
 
-    fun getCategories(): List<Category> {
-        return try {
-            val response = apiService.getCategories().execute()
-            if (response.isSuccessful){
-                response.body() ?: emptyList()
-            } else {
-                Log.e("RecipesRepository", "getCategories error: ${response.code()}")
-                emptyList()
-            }
+    suspend fun getCategories(): List<Category> = withContext(Dispatchers.IO) {
+        try {
+            apiService.getCategories()
         } catch (e: Exception) {
             Log.e("RecipesRepository", "getCategories", e)
             emptyList()
