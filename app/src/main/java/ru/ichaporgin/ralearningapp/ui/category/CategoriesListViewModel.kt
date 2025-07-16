@@ -2,13 +2,12 @@ package ru.ichaporgin.ralearningapp.ui.category
 
 import android.app.Application
 import android.graphics.drawable.Drawable
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import ru.ichaporgin.ralearningapp.data.AppThread
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import ru.ichaporgin.ralearningapp.data.RecipesRepository
 import ru.ichaporgin.ralearningapp.model.Category
 
@@ -22,21 +21,17 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
     private val _categoriesState = MutableLiveData(CategoriesState())
     val categoriesState: LiveData<CategoriesState> get() = _categoriesState
     private val repository = RecipesRepository()
-    private val handler = Handler(Looper.getMainLooper())
-    private val threadPool = AppThread.threadPool
     fun loadData() {
-        threadPool.execute {
+        viewModelScope.launch {
             val categories = repository.getCategories()
-            val isEmpty = categories.isEmpty()
-            val context = getApplication<Application>().applicationContext
             val drawable = try {
-                val inputStream = context.assets.open("categories.png")
+                val inputStream = getApplication<Application>().assets.open("categories.png")
                 Drawable.createFromStream(inputStream, null)
             } catch (e: Exception) {
                 Log.e("CategoriesViewModel", "Ошибка загрузки картинки", e)
                 null
             }
-            if (isEmpty) {
+            if (categories.isEmpty()) {
                 Log.i("!!!", "Categories isEmpty!")
 
             }
@@ -44,18 +39,16 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
                 CategoriesState(
                     categories = categories,
                     categoriesImage = drawable,
-                    isError = isEmpty
+                    isError = categories.isEmpty()
                 )
             )
         }
     }
 
     fun getCategoryById(categoryId: Int, callback: (Category?) -> Unit) {
-        threadPool.execute {
+        viewModelScope.launch {
             val category = repository.getCategory(categoryId)
-            handler.post {
-                callback(category)
-            }
+            callback(category)
         }
     }
 }

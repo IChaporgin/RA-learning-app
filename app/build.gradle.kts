@@ -73,4 +73,6 @@ dependencies {
     implementation(libs.retrofit.kotlinx.json)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.glide)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
 }

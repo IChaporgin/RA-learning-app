@@ -4,7 +4,8 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import ru.ichaporgin.ralearningapp.data.AppThread
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import ru.ichaporgin.ralearningapp.data.RecipesRepository
 import ru.ichaporgin.ralearningapp.model.Recipe
 
@@ -17,15 +18,11 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
     private val _recipesState = MutableLiveData(RecipesState())
     val recipesState: LiveData<RecipesState> get() = _recipesState
     private val repository = RecipesRepository()
-    private val threadPool = AppThread.threadPool
 
     fun loadRecipes(id: Int) {
-        threadPool.execute {
+        viewModelScope.launch {
             val recipes = repository.getRecipesByCategory(id)
-            val handler = android.os.Handler(android.os.Looper.getMainLooper())
-            handler.post {
-                _recipesState.value = _recipesState.value?.copy(recipes = recipes)
-            }
+            _recipesState.value = _recipesState.value?.copy(recipes = recipes)
         }
     }
 }
