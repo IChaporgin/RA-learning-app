@@ -4,6 +4,7 @@ plugins {
     kotlin("plugin.serialization") version "2.2.0"
     id("kotlin-parcelize")
     id("androidx.navigation.safeargs.kotlin")
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -75,4 +76,6 @@ dependencies {
     implementation(libs.glide)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.room.runtime)
+    implementation(libs.room.compiler)
 }
