@@ -21,7 +21,7 @@ data class FavoritesState(
 class FavoritesViewModel(application: Application) : AndroidViewModel(application) {
     private val _favoritesState = MutableLiveData(FavoritesState())
     val selectedFavorites: LiveData<FavoritesState> get() = _favoritesState
-    private val repository = RecipesRepository()
+    private val repository = RecipesRepository(application)
 
 
     fun loadData() {
