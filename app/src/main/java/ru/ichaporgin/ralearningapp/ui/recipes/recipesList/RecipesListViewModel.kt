@@ -21,8 +21,9 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
 
     fun loadRecipes(id: Int) {
         viewModelScope.launch {
-            val recipes = repository.getRecipesByCategory(id)
-            _recipesState.value = _recipesState.value?.copy(recipes = recipes)
+            val recipes = repository.getRecipesFromCache(id)
+//            val recipes = repository.getRecipesByCategory(id)
+//            _recipesState.value = _recipesState.value?.copy(recipes = recipes)
         }
     }
 }
