@@ -23,7 +23,7 @@ data class RecipeState(
 class RecipeViewModel(application: Application) : AndroidViewModel(application) {
     private val _recipeState = MutableLiveData(RecipeState())
     val selectedRecipe: LiveData<RecipeState> get() = _recipeState
-    private val repository = RecipesRepository()
+    private val repository = RecipesRepository(application)
 
     fun loadRecipe(id: Int) {
         viewModelScope.launch {

@@ -20,10 +20,9 @@ data class CategoriesState(
 class CategoriesListViewModel(application: Application) : AndroidViewModel(application) {
     private val _categoriesState = MutableLiveData(CategoriesState())
     val categoriesState: LiveData<CategoriesState> get() = _categoriesState
-    private val repository = RecipesRepository()
+    private val repository = RecipesRepository(context = application)
     fun loadData() {
         viewModelScope.launch {
-            val categories = repository.getCategories()
             val drawable = try {
                 val inputStream = getApplication<Application>().assets.open("categories.png")
                 Drawable.createFromStream(inputStream, null)
@@ -31,17 +30,36 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
                 Log.e("CategoriesViewModel", "Ошибка загрузки картинки", e)
                 null
             }
-            if (categories.isEmpty()) {
-                Log.i("!!!", "Categories isEmpty!")
 
-            }
+            val cachedCategory = repository.getCategoriesFromCache()
             _categoriesState.postValue(
                 CategoriesState(
-                    categories = categories,
+                    categories = cachedCategory,
                     categoriesImage = drawable,
-                    isError = categories.isEmpty()
+                    isError = cachedCategory.isEmpty()
                 )
             )
+            val freshCategories = repository.getCategories()
+            if (freshCategories.isNotEmpty()) {
+                repository.saveCategoriesToCache(freshCategories)
+                _categoriesState.postValue(
+                    CategoriesState(
+                        categories = cachedCategory,
+                        categoriesImage = drawable,
+                        isError = false
+                    )
+                )
+            } else {
+                if (cachedCategory.isEmpty()) {
+                    _categoriesState.postValue(
+                        CategoriesState(
+                            categories = emptyList(),
+                            categoriesImage = drawable,
+                            isError = true
+                        )
+                    )
+                }
+            }
         }
     }
 
