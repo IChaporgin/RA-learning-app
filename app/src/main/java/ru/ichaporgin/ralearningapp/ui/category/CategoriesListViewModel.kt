@@ -65,8 +65,17 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
 
     fun getCategoryById(categoryId: Int, callback: (Category?) -> Unit) {
         viewModelScope.launch {
-            val category = repository.getCategory(categoryId)
-            callback(category)
+            val cachedCategories = repository.getCategoriesFromCache()
+            val cachedCategory = cachedCategories.find { it.id == categoryId }
+            if (cachedCategory != null) {
+                callback(cachedCategory)
+            } else {
+                val categoryFromApi = repository.getCategory(categoryId)
+                if (categoryFromApi != null) {
+                    repository.saveCategoriesToCache(listOf(categoryFromApi))
+                }
+                callback(categoryFromApi)
+            }
         }
     }
 }

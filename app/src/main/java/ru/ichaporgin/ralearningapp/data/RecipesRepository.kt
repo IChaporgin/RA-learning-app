@@ -20,7 +20,7 @@ class RecipesRepository(context: Context) {
         context.applicationContext,
         AppDatabase::class.java,
         "app_database"
-    ).fallbackToDestructiveMigration()
+    )
         .build()
     private val categoryDao = db.categoryDao()
     private val recipeDao = db.recipeDao()
@@ -64,9 +64,11 @@ class RecipesRepository(context: Context) {
 
     suspend fun getRecipesByCategory(id: Int): List<Recipe> = withContext(Dispatchers.IO) {
         try {
-            apiService.getRecipesByCategory(id)
+            val result = apiService.getRecipesByCategory(id)
+            Log.i("RecipesRepository", "API returned recipes size=${result.size} for category id=$id")
+            result
         } catch (e: Exception) {
-            Log.e("RecipesRepository", "getRecipesByCategory", e)
+            Log.e("RecipesRepository", "getRecipesByCategory failed", e)
             emptyList()
         }
     }
@@ -89,6 +91,10 @@ class RecipesRepository(context: Context) {
     }
 
     suspend fun getRecipesFromCache(categoryId: Int): List<Recipe> = withContext(Dispatchers.IO) {
-        recipeDao.getAllRecipes()
+        recipeDao.getAllRecipes(categoryId)
+    }
+
+    suspend fun saveRecipesToCache(freshRecipes: List<Recipe>) = withContext(Dispatchers.IO) {
+        recipeDao.insertRecipes(freshRecipes)
     }
 }

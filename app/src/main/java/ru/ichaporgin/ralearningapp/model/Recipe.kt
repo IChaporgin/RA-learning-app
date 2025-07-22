@@ -11,6 +11,7 @@ data class Recipe(
     @PrimaryKey var id: Int,
     var title: String,
     var imageUrl: String,
+    val categoryId: Int? = null,
 ) {
     @Ignore
     var ingredients: List<Ingredient> = emptyList()

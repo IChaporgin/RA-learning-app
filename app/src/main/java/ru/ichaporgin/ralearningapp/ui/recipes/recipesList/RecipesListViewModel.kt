@@ -1,6 +1,7 @@
 package ru.ichaporgin.ralearningapp.ui.recipes.recipesList
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -21,9 +22,30 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
 
     fun loadRecipes(id: Int) {
         viewModelScope.launch {
-            val recipes = repository.getRecipesFromCache(id)
-//            val recipes = repository.getRecipesByCategory(id)
-//            _recipesState.value = _recipesState.value?.copy(recipes = recipes)
+            val cachedRecipes = repository.getRecipesFromCache(id)
+            Log.i("RecipesVM", "Cached recipes before loading from network: ${cachedRecipes.size}")
+            _recipesState.value = RecipesState(cachedRecipes)
+
+            val freshRecipesApi = repository.getRecipesByCategory(id)
+            val freshRecipes = freshRecipesApi.map {it.copy(categoryId = id)}
+            Log.i("RecipesVM", "freshRecipes from network size = ${freshRecipes.size}")
+            freshRecipes.forEach {
+                Log.i("RecipesVM", "Recipe from network: id=${it.id}, title=${it.title}")
+            }
+            if (freshRecipes.isNotEmpty()) {
+                repository.saveRecipesToCache(freshRecipes)
+                Log.i("RecipesVM", "Cached recipes be after saving: ${freshRecipes.size}")
+                _recipesState.value = _recipesState.value?.copy(recipes = freshRecipes)
+            } else {
+                if (cachedRecipes.isEmpty()) {
+                    _recipesState.postValue(
+                        RecipesState(
+                            recipes = emptyList(),
+                            recipesListImageUrl = null
+                        )
+                    )
+                }
+            }
         }
     }
 }

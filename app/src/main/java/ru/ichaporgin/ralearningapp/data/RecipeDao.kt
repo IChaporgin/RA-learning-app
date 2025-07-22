@@ -8,8 +8,8 @@ import ru.ichaporgin.ralearningapp.model.Recipe
 
 @Dao
 interface RecipeDao {
-    @Query("SELECT * FROM recipe")
-    suspend fun getAllRecipes(): List<Recipe>
+    @Query("SELECT * FROM Recipe WHERE categoryId = :categoryId")
+    suspend fun getAllRecipes(categoryId: Int): List<Recipe>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRecipes(recipes: List<Recipe>)
