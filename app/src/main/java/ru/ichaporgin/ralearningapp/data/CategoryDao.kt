@@ -9,7 +9,7 @@ import ru.ichaporgin.ralearningapp.model.Category
 @Dao
 interface CategoryDao {
     @Query("SELECT * FROM category")
-    fun getAllCategory(): List<Category>
+    suspend fun getAllCategory(): List<Category>
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertCategory(category: List<Category>)
+    suspend fun insertCategory(category: List<Category>)
 }
