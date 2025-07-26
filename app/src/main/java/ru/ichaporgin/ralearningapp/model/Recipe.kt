@@ -1,21 +1,18 @@
 package ru.ichaporgin.ralearningapp.model
 
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import kotlinx.serialization.Serializable
 
 @Serializable
 @Entity
 data class Recipe(
-    @PrimaryKey var id: Int,
-    var title: String,
-    var imageUrl: String,
-    val categoryId: Int? = null,
-) {
-    @Ignore
-    var ingredients: List<Ingredient> = emptyList()
-
-    @Ignore
-    var method: List<String> = emptyList()
-}
+    @PrimaryKey var id: Int = 0,
+    var title: String = "",
+    var imageUrl: String = "",
+    @Transient
+    var categoryId: Int? = null,
+    var isFavorite: Boolean = false,
+    var ingredients: List<Ingredient> = emptyList(),
+    var method: List<String> = emptyList(),
+)

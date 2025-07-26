@@ -29,10 +29,16 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         viewModelScope.launch {
             val currentState = _recipeState.value ?: RecipeState()
             val portion = currentState.portionCount
-            val recipe = repository.getRecipe(id)
+            var recipe = repository.getRecipeFromCache(id)
+            if (recipe == null) {
+                recipe = repository.getRecipe(id)
+                if (recipe != null) {
+                    repository.saveRecipeToCache(recipe)
+                }
+            }
             val favorites = getFavorites()
             val isFavorite = favorites.contains(id.toString())
-            val image = Constants.IMG_URL + recipe?.imageUrl
+            val image = recipe?.let { Constants.IMG_URL + it.imageUrl }
             if (recipe == null) {
                 android.widget.Toast.makeText(
                     getApplication(),
@@ -83,6 +89,14 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
             putStringSet(Constants.FAVORITES_KEY, ids)
         }
         Log.d("RecipeViewModel", "Текущие избранные: ${getFavorites()}")
+        val currentState = _recipeState.value
+        val recipeId = currentState?.recipe?.id
+        if (recipeId != null) {
+            viewModelScope.launch {
+                val isFavorite = ids.contains(recipeId.toString())
+                repository.updateFavorite(isFavorite, recipeId)
+            }
+        }
     }
 
     fun updatePortion(portion: Int) {

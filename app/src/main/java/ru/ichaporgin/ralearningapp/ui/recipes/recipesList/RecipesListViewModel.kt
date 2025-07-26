@@ -22,9 +22,10 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
 
     fun loadRecipes(id: Int) {
         viewModelScope.launch {
-            val cachedRecipes = repository.getRecipesFromCache(id)
+            val cachedRecipes = repository.getRecipesFromCache()
+            val recipes = cachedRecipes.filter { it.categoryId == id }
             Log.i("RecipesVM", "Cached recipes before loading from network: ${cachedRecipes.size}")
-            _recipesState.value = RecipesState(cachedRecipes)
+            _recipesState.value = RecipesState(recipes)
 
             val freshRecipesApi = repository.getRecipesByCategory(id)
             val freshRecipes = freshRecipesApi.map {it.copy(categoryId = id)}
