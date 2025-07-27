@@ -29,10 +29,9 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
             val context = getApplication<Application>().applicationContext
             val pref =
                 context.getSharedPreferences(Constants.SHARED_PREFS_NAME, Context.MODE_PRIVATE)
-            val favoriteIds: Set<String?> =
-                pref.getStringSet(Constants.FAVORITES_KEY, emptySet()) ?: emptySet()
-            val idsParam = favoriteIds.filterNotNull().joinToString(",")
-            val recipes = repository.getRecipes(idsParam)
+//            val favoriteIds: Set<String?> =
+//                pref.getStringSet(Constants.FAVORITES_KEY, emptySet()) ?: emptySet()
+            val recipes = repository.getFavoriteFromCache()
             val drawable = try {
                 val inputStream = context.assets.open("bcg_favorites.png")
                 Drawable.createFromStream(inputStream, null)

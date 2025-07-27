@@ -21,6 +21,7 @@ class RecipesRepository(context: Context) {
         AppDatabase::class.java,
         "app_database"
     )
+        .fallbackToDestructiveMigration()
         .build()
     private val categoryDao = db.categoryDao()
     private val recipeDao = db.recipeDao()
@@ -90,11 +91,27 @@ class RecipesRepository(context: Context) {
         categoryDao.insertCategory(freshCategories)
     }
 
-    suspend fun getRecipesFromCache(categoryId: Int): List<Recipe> = withContext(Dispatchers.IO) {
-        recipeDao.getAllRecipes(categoryId)
+    suspend fun getRecipesFromCache(): List<Recipe> = withContext(Dispatchers.IO) {
+        recipeDao.getAllRecipes()
     }
 
     suspend fun saveRecipesToCache(freshRecipes: List<Recipe>) = withContext(Dispatchers.IO) {
         recipeDao.insertRecipes(freshRecipes)
+    }
+
+    suspend fun getFavoriteFromCache() = withContext(Dispatchers.IO) {
+        recipeDao.getFavoriteRecipes()
+    }
+
+    suspend fun updateFavorite(isFavorite: Boolean, id: Int) = withContext(Dispatchers.IO) {
+        recipeDao.updateFavorite(isFavorite, id)
+    }
+
+    suspend fun getRecipeFromCache(id: Int): Recipe? = withContext(Dispatchers.IO) {
+        recipeDao.getRecipe(id)
+    }
+
+    suspend fun saveRecipeToCache(recipe: Recipe) = withContext(Dispatchers.IO) {
+        recipeDao.insertRecipe(recipe)
     }
 }
