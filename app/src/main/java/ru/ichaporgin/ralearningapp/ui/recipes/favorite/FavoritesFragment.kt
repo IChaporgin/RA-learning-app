@@ -1,5 +1,6 @@
 package ru.ichaporgin.ralearningapp.ui.recipes.favorite
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,9 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import ru.ichaporgin.ralearningapp.RecipesApplication
 import ru.ichaporgin.ralearningapp.databinding.FragmentFavoritesBinding
 import ru.ichaporgin.ralearningapp.ui.recipes.recipesList.RecipesListAdapter
 
@@ -19,8 +20,14 @@ class FavoritesFragment : Fragment() {
         get() = _binding
             ?: throw IllegalStateException("Binding for FragmentFavoritesBinding must not to be null")
 
-    private val viewModel: FavoritesViewModel by viewModels()
+    private lateinit var model: FavoritesViewModel
     private val adapter = RecipesListAdapter()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val appContainer = (requireActivity().application as RecipesApplication).appContainer
+        model = appContainer.favoritesViewModelFactory.create()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,10 +40,10 @@ class FavoritesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        loadImageFromAssets()
         initRecycle()
         initUI()
-        viewModel.loadData()
+        model.loadData()
     }
 
     override fun onDestroyView() {
@@ -65,7 +72,7 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun initUI() {
-        viewModel.selectedFavorites.observe(viewLifecycleOwner) { state ->
+        model.selectedFavorites.observe(viewLifecycleOwner) { state ->
             adapter.dataSet = state.recipes
 
             if (state.recipes.isEmpty()) {
@@ -75,10 +82,16 @@ class FavoritesFragment : Fragment() {
                 binding.tvRecipesEmpty.visibility = View.GONE
                 binding.rvFavorites.visibility = View.VISIBLE
             }
+        }
+    }
 
-            state.imageFavoriteUrl?.let {
-                binding.imgFavorites.setImageDrawable(it)
-            }
+    private fun loadImageFromAssets() {
+        try {
+            val inputStream = requireContext().assets.open("bcg_favorites.png")
+            val drawable = Drawable.createFromStream(inputStream, null)
+            binding.imgFavorites.setImageDrawable(drawable)
+        } catch (e: Exception) {
+            Log.e("FavoritesListFragment", "Ошибка загрузки картинки из assets", e)
         }
     }
 }

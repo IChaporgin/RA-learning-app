@@ -1,6 +1,7 @@
 package ru.ichaporgin.ralearningapp.ui.category
 
 import CategoriesListAdapter
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,9 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import ru.ichaporgin.ralearningapp.RecipesApplication
 import ru.ichaporgin.ralearningapp.databinding.FragmentListCategoriesBinding
 
 class CategoriesListFragment : Fragment() {
@@ -19,8 +20,14 @@ class CategoriesListFragment : Fragment() {
         get() = _binding
             ?: throw IllegalStateException("Binding for FragmentListCategoriesBinding must not to be null")
 
-    private val model: CategoriesListViewModel by viewModels()
+    private lateinit var model: CategoriesListViewModel
     private val categoriesAdapter = CategoriesListAdapter()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val appContainer = (requireActivity().application as RecipesApplication).appContainer
+        model = appContainer.categoriesListViewModelFactory.create()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -31,6 +38,7 @@ class CategoriesListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        loadImageFromAssets()
         initRecycler()
         initUI()
     }
@@ -71,9 +79,7 @@ class CategoriesListFragment : Fragment() {
 
     private fun initUI() {
         model.categoriesState.observe(viewLifecycleOwner) { state ->
-            state.categoriesImage?.let { drawable ->
-                binding.imgCategory.setImageDrawable(drawable)
-            }
+            loadImageFromAssets()
             categoriesAdapter.dataSet = state.categories
             if (state.isError) {
                 Toast.makeText(requireContext(), "Ошибка в загрузке категорий!", Toast.LENGTH_SHORT)
@@ -81,5 +87,15 @@ class CategoriesListFragment : Fragment() {
             }
         }
         model.loadData()
+    }
+
+    private fun loadImageFromAssets() {
+        try {
+            val inputStream = requireContext().assets.open("categories.png")
+            val drawable = Drawable.createFromStream(inputStream, null)
+            binding.imgCategory.setImageDrawable(drawable)
+        } catch (e: Exception) {
+            Log.e("CategoriesListFragment", "Ошибка загрузки картинки из assets", e)
+        }
     }
 }
