@@ -11,11 +11,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import dagger.hilt.android.AndroidEntryPoint
 import ru.ichaporgin.ralearningapp.R
 import ru.ichaporgin.ralearningapp.RecipesApplication
 import ru.ichaporgin.ralearningapp.data.Constants
 import ru.ichaporgin.ralearningapp.databinding.FragmentRecipesListBinding
 
+@AndroidEntryPoint
 class RecipesListFragment : Fragment() {
     private var _binding: FragmentRecipesListBinding? = null
     private val binding
@@ -28,11 +30,11 @@ class RecipesListFragment : Fragment() {
     private val adapter = RecipesListAdapter()
     private val args: RecipesListFragmentArgs by navArgs()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val appContainer = (requireActivity().application as RecipesApplication).appContainer
-        model = appContainer.recipesListViewModelFactory.create()
-    }
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        val appContainer = (requireActivity().application as RecipesApplication).appContainer
+//        model = appContainer.recipesListViewModelFactory.create()
+//    }
 
 
     override fun onCreateView(

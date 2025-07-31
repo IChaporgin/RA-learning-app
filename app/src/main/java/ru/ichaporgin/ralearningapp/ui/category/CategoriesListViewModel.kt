@@ -4,11 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ru.ichaporgin.ralearningapp.data.RecipesRepository
 import ru.ichaporgin.ralearningapp.model.Category
+import javax.inject.Inject
 
-data class CategoriesState(
+@HiltViewModel
+data class CategoriesState @Inject constructor(
     val categories: List<Category> = emptyList(),
     val isError: Boolean = false
 )

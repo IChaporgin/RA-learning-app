@@ -6,9 +6,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import ru.ichaporgin.ralearningapp.databinding.ActivityMainBinding
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding

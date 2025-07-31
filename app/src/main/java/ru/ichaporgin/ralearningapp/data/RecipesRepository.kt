@@ -7,15 +7,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.ichaporgin.ralearningapp.model.Category
 import ru.ichaporgin.ralearningapp.model.Recipe
+import javax.inject.Inject
 
-class RecipesRepository(
+class RecipesRepository @Inject constructor(
     private val recipeDao: RecipeDao,
     private val categoryDao: CategoryDao,
     private val recipeApiService: RecipeApiService,
-    private val ioDispatcher: CoroutineDispatcher
 ) {
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 
-    suspend fun getRecipes(ids: String): List<Recipe> = withContext(Dispatchers.IO) {
+    suspend fun getRecipes(ids: String): List<Recipe> = withContext(ioDispatcher) {
         try {
             recipeApiService.getRecipes(ids)
         } catch (e: Exception) {

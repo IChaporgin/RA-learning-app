@@ -5,16 +5,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ru.ichaporgin.ralearningapp.data.RecipesRepository
 import ru.ichaporgin.ralearningapp.model.Recipe
+import javax.inject.Inject
 
 data class RecipesState(
     val recipes: List<Recipe> = emptyList(),
     val recipesListImageUrl: String? = null
 )
 
-class RecipesListViewModel(
+@HiltViewModel
+class RecipesListViewModel @Inject constructor(
     private val repository: RecipesRepository
 ) : ViewModel() {
     private val _recipesState = MutableLiveData(RecipesState())
@@ -28,7 +31,7 @@ class RecipesListViewModel(
             _recipesState.value = RecipesState(recipes)
 
             val freshRecipesApi = repository.getRecipesByCategory(id)
-            val freshRecipes = freshRecipesApi.map {it.copy(categoryId = id)}
+            val freshRecipes = freshRecipesApi.map { it.copy(categoryId = id) }
             Log.i("RecipesVM", "freshRecipes from network size = ${freshRecipes.size}")
             freshRecipes.forEach {
                 Log.i("RecipesVM", "Recipe from network: id=${it.id}, title=${it.title}")

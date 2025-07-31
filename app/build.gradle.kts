@@ -5,6 +5,7 @@ plugins {
     id("kotlin-parcelize")
     id("androidx.navigation.safeargs.kotlin")
     alias(libs.plugins.ksp)
+    alias(libs.plugins.dagger.hilt)
 }
 
 android {
@@ -78,4 +79,6 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)
+    ksp(libs.hilt.compiler)
+    implementation(libs.hilt.android)
 }
