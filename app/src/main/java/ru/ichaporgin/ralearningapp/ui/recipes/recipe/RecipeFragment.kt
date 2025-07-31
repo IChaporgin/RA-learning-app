@@ -14,7 +14,6 @@ import com.bumptech.glide.Glide
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import ru.ichaporgin.ralearningapp.R
-import ru.ichaporgin.ralearningapp.RecipesApplication
 import ru.ichaporgin.ralearningapp.data.Constants
 import ru.ichaporgin.ralearningapp.databinding.FragmentRecipeBinding
 

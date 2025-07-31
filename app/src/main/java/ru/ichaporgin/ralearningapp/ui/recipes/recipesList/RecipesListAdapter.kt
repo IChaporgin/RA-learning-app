@@ -13,7 +13,7 @@ import ru.ichaporgin.ralearningapp.model.Recipe
 class RecipesListAdapter() :
     RecyclerView.Adapter<RecipesListAdapter.ViewHolder>() {
     interface OnItemClickListener {
-        fun onItemClick(categoryId: Int)
+        fun onItemClick(recipeId: Int)
     }
 
     var dataSet: List<Recipe> = emptyList()
