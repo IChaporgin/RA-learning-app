@@ -15,15 +15,6 @@ class RecipesRepository @Inject constructor(
 ) {
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 
-    suspend fun getRecipes(ids: String): List<Recipe> = withContext(ioDispatcher) {
-        try {
-            recipeApiService.getRecipes(ids)
-        } catch (e: Exception) {
-            Log.e("RecipesRepository", "Exception in getCategories", e)
-            emptyList()
-        }
-    }
-
     suspend fun getRecipe(id: Int): Recipe? {
         return try {
             withContext(ioDispatcher) {
