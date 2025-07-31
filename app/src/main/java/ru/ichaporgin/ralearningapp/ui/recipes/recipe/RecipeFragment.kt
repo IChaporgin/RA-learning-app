@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -25,14 +26,8 @@ class RecipeFragment : Fragment() {
     private val binding
         get() = _binding
             ?: throw IllegalStateException("Binding for FragmentRecipeBinding must not to be null")
-    private lateinit var model: RecipeViewModel
+    private val model: RecipeViewModel by viewModels()
     private val args: RecipeFragmentArgs by navArgs()
-
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        val appContainer = (requireActivity().application as RecipesApplication).appContainer
-//        model = appContainer.recipeViewModelFactory.create()
-//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,14 +23,8 @@ class FavoritesFragment : Fragment() {
         get() = _binding
             ?: throw IllegalStateException("Binding for FragmentFavoritesBinding must not to be null")
 
-    private lateinit var model: FavoritesViewModel
+    private val model: FavoritesViewModel by viewModels()
     private val adapter = RecipesListAdapter()
-
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        val appContainer = (requireActivity().application as RecipesApplication).appContainer
-//        model = appContainer.favoritesViewModelFactory.create()
-//    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

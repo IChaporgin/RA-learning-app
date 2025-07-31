@@ -1,6 +1,6 @@
 package ru.ichaporgin.ralearningapp.di
 
-import RecipeApiService
+import ru.ichaporgin.ralearningapp.data.RecipeApiService
 import android.content.Context
 import androidx.room.Room
 import dagger.Module

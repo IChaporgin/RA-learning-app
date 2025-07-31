@@ -1,6 +1,6 @@
 package ru.ichaporgin.ralearningapp.data
 
-import RecipeApiService
+import ru.ichaporgin.ralearningapp.data.RecipeApiService
 import android.util.Log
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
