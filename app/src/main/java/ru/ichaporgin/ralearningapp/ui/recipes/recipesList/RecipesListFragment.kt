@@ -7,12 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import ru.ichaporgin.ralearningapp.R
+import ru.ichaporgin.ralearningapp.RecipesApplication
 import ru.ichaporgin.ralearningapp.data.Constants
 import ru.ichaporgin.ralearningapp.databinding.FragmentRecipesListBinding
 
@@ -24,10 +24,15 @@ class RecipesListFragment : Fragment() {
     private var categoryId: Int? = null
     private var categoryTitle: String? = null
     private var categoryImage: String? = null
-
+    private lateinit var model: RecipesListViewModel
     private val adapter = RecipesListAdapter()
-    private val viewModel: RecipesListViewModel by viewModels()
     private val args: RecipesListFragmentArgs by navArgs()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val appContainer = (requireActivity().application as RecipesApplication).appContainer
+        model = appContainer.recipesListViewModelFactory.create()
+    }
 
 
     override fun onCreateView(
@@ -60,7 +65,7 @@ class RecipesListFragment : Fragment() {
         categoryTitle?.let {
             binding.txTitleRecipes.text = getString(R.string.recipes_title_text, categoryTitle)
         }
-        categoryId?.let { viewModel.loadRecipes(it) }
+        categoryId?.let { model.loadRecipes(it) }
         Glide.with(this)
             .load(categoryImage)
             .placeholder(R.drawable.img_placeholder)
@@ -89,7 +94,7 @@ class RecipesListFragment : Fragment() {
     }
 
     private fun initUI() {
-        viewModel.recipesState.observe(viewLifecycleOwner) { state ->
+        model.recipesState.observe(viewLifecycleOwner) { state ->
             adapter.dataSet = state.recipes
         }
     }

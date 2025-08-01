@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import ru.ichaporgin.ralearningapp.R
+import ru.ichaporgin.ralearningapp.RecipesApplication
 import ru.ichaporgin.ralearningapp.data.Constants
 import ru.ichaporgin.ralearningapp.databinding.FragmentRecipeBinding
 
@@ -23,8 +23,14 @@ class RecipeFragment : Fragment() {
     private val binding
         get() = _binding
             ?: throw IllegalStateException("Binding for FragmentRecipeBinding must not to be null")
-    private val viewModel: RecipeViewModel by viewModels()
+    private lateinit var model: RecipeViewModel
     private val args: RecipeFragmentArgs by navArgs()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val appContainer = (requireActivity().application as RecipesApplication).appContainer
+        model = appContainer.recipeViewModelFactory.create()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -37,7 +43,7 @@ class RecipeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val recipeId = args.recipeId
         recipeId.let { id ->
-            viewModel.loadRecipe(id)
+            model.loadRecipe(id)
         }
 
         binding.seekBar.min = Constants.MIN_PORTIONS
@@ -45,7 +51,7 @@ class RecipeFragment : Fragment() {
 
         binding.seekBar.setOnSeekBarChangeListener(
             PortionSeekBarListener { progress ->
-                viewModel.updatePortion(progress)
+                model.updatePortion(progress)
             }
         )
 
@@ -59,7 +65,7 @@ class RecipeFragment : Fragment() {
     }
 
     private fun initUI() {
-        viewModel.selectedRecipe.observe(viewLifecycleOwner) { state ->
+        model.selectedRecipe.observe(viewLifecycleOwner) { state ->
             val recipe = state.recipe
             val portion = state.portionCount
             val isFavorite = state.isFavorite
@@ -67,7 +73,7 @@ class RecipeFragment : Fragment() {
 
             state.recipeImageUrl?.let {
                 Glide.with(requireContext())
-                    .load(viewModel.selectedRecipe.value?.recipeImageUrl)
+                    .load(model.selectedRecipe.value?.recipeImageUrl)
                     .placeholder(R.drawable.img_placeholder)
                     .error(R.drawable.img_error)
                     .into(binding.imgRecipe)
@@ -82,7 +88,7 @@ class RecipeFragment : Fragment() {
 
             updateFavoriteIcon(isFavorite)
             binding.btnFavoriteAdd.setOnClickListener {
-                viewModel.onFavoritesClicked()
+                model.onFavoritesClicked()
             }
             binding.txTitleRecipe.text = text
         }
