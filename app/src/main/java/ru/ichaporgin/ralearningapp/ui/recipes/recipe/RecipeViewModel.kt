@@ -4,10 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ru.ichaporgin.ralearningapp.data.Constants
 import ru.ichaporgin.ralearningapp.data.RecipesRepository
 import ru.ichaporgin.ralearningapp.model.Recipe
+import javax.inject.Inject
 
 data class RecipeState(
     val recipe: Recipe? = null,
@@ -16,7 +18,8 @@ data class RecipeState(
     val recipeImageUrl: String? = null,
 )
 
-class RecipeViewModel(
+@HiltViewModel
+class RecipeViewModel @Inject constructor(
     private val repository: RecipesRepository
 ) : ViewModel() {
     private val _recipeState = MutableLiveData(RecipeState())

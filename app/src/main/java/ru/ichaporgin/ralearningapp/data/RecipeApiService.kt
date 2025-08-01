@@ -1,13 +1,11 @@
+package ru.ichaporgin.ralearningapp.data
 import retrofit2.http.GET
 import retrofit2.http.Path
-import retrofit2.http.Query
 import ru.ichaporgin.ralearningapp.model.Category
 import ru.ichaporgin.ralearningapp.model.Recipe
 
 
 interface RecipeApiService {
-    @GET("recipes")
-    suspend fun getRecipes(@Query("ids") ids: String): List<Recipe>
 
     @GET("recipe/{id}")
     suspend fun getRecipe(@Path("id") id: Int): Recipe

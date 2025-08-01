@@ -1,12 +1,8 @@
 package ru.ichaporgin.ralearningapp
 
 import android.app.Application
-import ru.ichaporgin.ralearningapp.di.AppContainer
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class RecipesApplication: Application() {
-    lateinit var appContainer: AppContainer
-    override fun onCreate() {
-        super.onCreate()
-        appContainer = AppContainer(this)
-    }
 }

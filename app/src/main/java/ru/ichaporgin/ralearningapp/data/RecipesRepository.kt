@@ -1,28 +1,19 @@
 package ru.ichaporgin.ralearningapp.data
 
-import RecipeApiService
 import android.util.Log
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.ichaporgin.ralearningapp.model.Category
 import ru.ichaporgin.ralearningapp.model.Recipe
+import javax.inject.Inject
 
-class RecipesRepository(
+class RecipesRepository @Inject constructor(
     private val recipeDao: RecipeDao,
     private val categoryDao: CategoryDao,
     private val recipeApiService: RecipeApiService,
-    private val ioDispatcher: CoroutineDispatcher
 ) {
-
-    suspend fun getRecipes(ids: String): List<Recipe> = withContext(Dispatchers.IO) {
-        try {
-            recipeApiService.getRecipes(ids)
-        } catch (e: Exception) {
-            Log.e("RecipesRepository", "Exception in getCategories", e)
-            emptyList()
-        }
-    }
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 
     suspend fun getRecipe(id: Int): Recipe? {
         return try {
